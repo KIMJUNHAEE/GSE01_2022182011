@@ -21,16 +21,21 @@ void Renderer::Initialize(int windowSizeX, int windowSizeY)
 	//Load shaders
 	m_SolidRectShader = CompileShaders("./Shaders/SolidRect.vs", "./Shaders/SolidRect.fs");
 	m_SpriteShader = CompileShaders("./Shaders/Sprite.vs", "./Shaders/Sprite.fs");
+	m_BlurShader = CompileShaders("./Shaders/PostProcess.vs", "./Shaders/Blur.fs");
+	m_CompositeShader = CompileShaders("./Shaders/PostProcess.vs", "./Shaders/Composite.fs");
 
 	//Create VBOs
 	CreateVertexBufferObjects();
 	CreateSpriteVertexBufferObjects();
+	CreateFullscreenQuad();
+	CreateFramebuffers();
 
 	//Allow textures with transparent/semi-transparent pixels (sprites) to blend with what's already drawn
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	if (m_SolidRectShader > 0 && m_VBORect > 0 && m_SpriteShader > 0 && m_VBOSprite > 0)
+	if (m_SolidRectShader > 0 && m_VBORect > 0 && m_SpriteShader > 0 && m_VBOSprite > 0
+		&& m_BlurShader > 0 && m_CompositeShader > 0 && m_SceneFBO > 0)
 	{
 		m_Initialized = true;
 	}
@@ -74,6 +79,163 @@ void Renderer::CreateSpriteVertexBufferObjects()
 	glGenBuffers(1, &m_VBOSprite);
 	glBindBuffer(GL_ARRAY_BUFFER, m_VBOSprite);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
+}
+
+void Renderer::CreateFullscreenQuad()
+{
+	// A quad spanning the full NDC range (-1..1), used by post-process passes
+	// that don't need per-draw position/scale - just the whole screen.
+	float quad[]
+		=
+	{
+		-1.f, -1.f, 0.f, 0.f, 0.f,
+		-1.f,  1.f, 0.f, 0.f, 1.f,
+		 1.f,  1.f, 0.f, 1.f, 1.f,
+
+		-1.f, -1.f, 0.f, 0.f, 0.f,
+		 1.f,  1.f, 0.f, 1.f, 1.f,
+		 1.f, -1.f, 0.f, 1.f, 0.f,
+	};
+
+	glGenBuffers(1, &m_VBOFullscreenQuad);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOFullscreenQuad);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
+}
+
+GLuint Renderer::CreateRenderTexture(int width, int height)
+{
+	GLuint tex;
+	glGenTextures(1, &tex);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	return tex;
+}
+
+void Renderer::CreateFramebuffers()
+{
+	// Full-resolution target the normal scene gets drawn into.
+	m_SceneColorTex = CreateRenderTexture(m_WindowSizeX, m_WindowSizeY);
+	glGenFramebuffers(1, &m_SceneFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_SceneFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_SceneColorTex, 0);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cout << "Scene framebuffer is incomplete.. \n";
+	}
+
+	// Small ping-pong targets for the separable blur (downsampled - the blur
+	// doesn't need full resolution and this keeps it cheap).
+	for (int i = 0; i < 2; i++)
+	{
+		m_BlurTex[i] = CreateRenderTexture(BLUR_TEX_SIZE, BLUR_TEX_SIZE);
+		glGenFramebuffers(1, &m_BlurFBO[i]);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_BlurFBO[i]);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_BlurTex[i], 0);
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			std::cout << "Blur framebuffer " << i << " is incomplete.. \n";
+		}
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void Renderer::DrawFullscreenQuad(GLuint shader)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBOFullscreenQuad);
+
+	int attribPosition = glGetAttribLocation(shader, "a_Position");
+	int attribTexCoord = glGetAttribLocation(shader, "a_TexCoord");
+
+	glEnableVertexAttribArray(attribPosition);
+	glVertexAttribPointer(attribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, 0);
+
+	glEnableVertexAttribArray(attribTexCoord);
+	glVertexAttribPointer(attribTexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	glDisableVertexAttribArray(attribPosition);
+	glDisableVertexAttribArray(attribTexCoord);
+}
+
+void Renderer::BeginSceneCapture()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, m_SceneFBO);
+	glViewport(0, 0, m_WindowSizeX, m_WindowSizeY);
+}
+
+void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteStrength, float vignetteBlur)
+{
+	// Separable Gaussian blur of the captured scene, ping-ponged a few times
+	// between two small offscreen targets for a soft, wide result. The final
+	// blurred image does double duty: it's used both as a cheap bloom/glow
+	// source (added back in additively, weighted by its own brightness so it
+	// concentrates around bright lights) and as the "blurry edges" vignette.
+	glUseProgram(m_BlurShader);
+	glUniform1i(glGetUniformLocation(m_BlurShader, "u_Texture"), 0);
+	glActiveTexture(GL_TEXTURE0);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, m_BlurFBO[0]);
+	glViewport(0, 0, BLUR_TEX_SIZE, BLUR_TEX_SIZE);
+	glBindTexture(GL_TEXTURE_2D, m_SceneColorTex);
+	glUniform2f(glGetUniformLocation(m_BlurShader, "u_TexelSize"), 1.f / m_WindowSizeX, 1.f / m_WindowSizeY);
+	glUniform2f(glGetUniformLocation(m_BlurShader, "u_Direction"), 1.f, 0.f);
+	DrawFullscreenQuad(m_BlurShader);
+
+	GLuint texelUniform = glGetUniformLocation(m_BlurShader, "u_TexelSize");
+	GLuint dirUniform = glGetUniformLocation(m_BlurShader, "u_Direction");
+	glUniform2f(texelUniform, 1.f / BLUR_TEX_SIZE, 1.f / BLUR_TEX_SIZE);
+
+	const int EXTRA_PASSES = 2;
+	int srcIndex = 0;
+	for (int i = 0; i < 1 + EXTRA_PASSES; i++)
+	{
+		int dstIndex = 1 - srcIndex;
+
+		glBindFramebuffer(GL_FRAMEBUFFER, m_BlurFBO[dstIndex]);
+		glBindTexture(GL_TEXTURE_2D, m_BlurTex[srcIndex]);
+		glUniform2f(dirUniform, 0.f, 1.f);
+		DrawFullscreenQuad(m_BlurShader);
+
+		srcIndex = dstIndex;
+		dstIndex = 1 - srcIndex;
+
+		glBindFramebuffer(GL_FRAMEBUFFER, m_BlurFBO[dstIndex]);
+		glBindTexture(GL_TEXTURE_2D, m_BlurTex[srcIndex]);
+		glUniform2f(dirUniform, 1.f, 0.f);
+		DrawFullscreenQuad(m_BlurShader);
+
+		srcIndex = dstIndex;
+	}
+
+	// Composite scene + blurred pass onto the real backbuffer.
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, m_WindowSizeX, m_WindowSizeY);
+
+	glUseProgram(m_CompositeShader);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_SceneColorTex);
+	glUniform1i(glGetUniformLocation(m_CompositeShader, "u_Scene"), 0);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_BlurTex[srcIndex]);
+	glUniform1i(glGetUniformLocation(m_CompositeShader, "u_Blurred"), 1);
+
+	glUniform1f(glGetUniformLocation(m_CompositeShader, "u_BloomIntensity"), bloomIntensity);
+	glUniform1f(glGetUniformLocation(m_CompositeShader, "u_VignetteStrength"), vignetteStrength);
+	glUniform1f(glGetUniformLocation(m_CompositeShader, "u_VignetteBlur"), vignetteBlur);
+
+	DrawFullscreenQuad(m_CompositeShader);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
@@ -213,8 +375,6 @@ void Renderer::DrawSolidRect(float x, float y, float z, float size, float r, flo
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	glDisableVertexAttribArray(attribPosition);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void Renderer::GetGLPosition(float x, float y, float *newX, float *newY)
@@ -251,8 +411,10 @@ GLuint Renderer::LoadTexture(const char* filename)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	// Nearest filtering keeps the pixel-art sprites and bitmap font crisp
+	// instead of blurring them when scaled.
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
@@ -262,7 +424,14 @@ GLuint Renderer::LoadTexture(const char* filename)
 	return textureId;
 }
 
-void Renderer::DrawSprite(float x, float y, float z, float width, float height, GLuint textureId, float alpha)
+void Renderer::DrawSprite(float x, float y, float z, float width, float height, GLuint textureId,
+	float alpha, float r, float g, float b)
+{
+	DrawSpriteRegion(x, y, z, width, height, textureId, 0.f, 0.f, 1.f, 1.f, alpha, r, g, b);
+}
+
+void Renderer::DrawSpriteRegion(float x, float y, float z, float width, float height, GLuint textureId,
+	float u0, float v0, float u1, float v1, float alpha, float r, float g, float b)
 {
 	float newX, newY;
 
@@ -271,7 +440,9 @@ void Renderer::DrawSprite(float x, float y, float z, float width, float height, 
 	glUseProgram(m_SpriteShader);
 
 	glUniform4f(glGetUniformLocation(m_SpriteShader, "u_Trans"), newX, newY, width, height);
+	glUniform4f(glGetUniformLocation(m_SpriteShader, "u_UVRect"), u0, v0, u1 - u0, v1 - v0);
 	glUniform1f(glGetUniformLocation(m_SpriteShader, "u_Alpha"), alpha);
+	glUniform3f(glGetUniformLocation(m_SpriteShader, "u_ColorTint"), r, g, b);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId);
@@ -294,5 +465,4 @@ void Renderer::DrawSprite(float x, float y, float z, float width, float height, 
 	glDisableVertexAttribArray(attribTexCoord);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

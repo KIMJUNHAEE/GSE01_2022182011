@@ -67,8 +67,53 @@
     <None Include="Shaders\Sprite.vs">
       <Filter>소스 파일\Shaders</Filter>
     </None>
-    <None Include="Resources\Textures\test_sprite.png">
+    <None Include="Resources\Textures\floor_facility.png">
       <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\floor_facility_b.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\player.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\player_walk1.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\player_walk2.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\companion.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\companion_walk1.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\companion_walk2.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\pillar.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\crate.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\glow.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\white_pixel.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\font_atlas.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Shaders\PostProcess.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Blur.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Composite.fs">
+      <Filter>소스 파일\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

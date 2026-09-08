@@ -4,6 +4,7 @@ in vec3 a_Position;
 in vec2 a_TexCoord;
 
 uniform vec4 u_Trans; // xy = position offset, zw = width/height scale
+uniform vec4 u_UVRect; // xy = UV offset, zw = UV scale (defaults to full texture: 0,0,1,1)
 
 out vec2 v_TexCoord;
 
@@ -16,5 +17,5 @@ void main()
 	newPosition.w = 1;
 	gl_Position = newPosition;
 
-	v_TexCoord = a_TexCoord;
+	v_TexCoord = u_UVRect.xy + a_TexCoord * u_UVRect.zw;
 }
