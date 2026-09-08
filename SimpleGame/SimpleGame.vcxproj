@@ -178,7 +178,22 @@
     <None Include="Shaders\SolidRect.vs" />
     <None Include="Shaders\Sprite.fs" />
     <None Include="Shaders\Sprite.vs" />
-    <None Include="Resources\Textures\test_sprite.png" />
+    <None Include="Resources\Textures\floor_facility.png" />
+    <None Include="Resources\Textures\floor_facility_b.png" />
+    <None Include="Resources\Textures\player.png" />
+    <None Include="Resources\Textures\player_walk1.png" />
+    <None Include="Resources\Textures\player_walk2.png" />
+    <None Include="Resources\Textures\companion.png" />
+    <None Include="Resources\Textures\companion_walk1.png" />
+    <None Include="Resources\Textures\companion_walk2.png" />
+    <None Include="Resources\Textures\pillar.png" />
+    <None Include="Resources\Textures\crate.png" />
+    <None Include="Resources\Textures\glow.png" />
+    <None Include="Resources\Textures\white_pixel.png" />
+    <None Include="Resources\Textures\font_atlas.png" />
+    <None Include="Shaders\PostProcess.vs" />
+    <None Include="Shaders\Blur.fs" />
+    <None Include="Shaders\Composite.fs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
