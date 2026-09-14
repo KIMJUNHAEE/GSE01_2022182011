@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 #include "Dependencies\glew.h"
 
@@ -32,6 +33,7 @@ public:
 	// subtracted before converting to screen space, so setting the camera to the
 	// player's world position keeps the player centered as the world scrolls.
 	void SetCameraPosition(float x, float y);
+	void SetOutputSize(int width, int height);
 
 	// Post-processing: redirects DrawSolidRect/DrawSprite calls into an offscreen
 	// scene texture instead of the screen. Call this, do the frame's normal world
@@ -44,9 +46,9 @@ public:
 
 private:
 	void Initialize(int windowSizeX, int windowSizeY);
-	bool ReadFile(char* filename, std::string *target);
-	void AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
-	GLuint CompileShaders(char* filenameVS, char* filenameFS);
+	bool ReadFile(const char* filename, std::string *target);
+	bool AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType);
+	GLuint CompileShaders(const char* filenameVS, const char* filenameFS);
 	void CreateVertexBufferObjects();
 	void CreateSpriteVertexBufferObjects();
 	void GetGLPosition(float x, float y, float *newX, float *newY);
@@ -81,5 +83,7 @@ private:
 	static const int BLUR_TEX_SIZE = 128;
 	GLuint m_BlurFBO[2] = { 0, 0 };
 	GLuint m_BlurTex[2] = { 0, 0 };
+	int m_OutputX = 1440, m_OutputY = 900;
+	std::vector<GLuint> m_LoadedTextures;
 };
 

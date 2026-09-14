@@ -36,6 +36,9 @@
     <ClInclude Include="Renderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Canvas.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="Game.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="GameWorld.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Dependencies\stb_image.h">
       <Filter>헤더 파일\Dependencies</Filter>
     </ClInclude>
@@ -44,7 +47,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleGame.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
@@ -53,6 +56,10 @@
     <ClCompile Include="stb_image_impl.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Canvas.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="Game.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="GameWorld.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="PrototypeVerification.cpp"><Filter>소스 파일</Filter></ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidRect.fs">
@@ -106,6 +113,9 @@
     <None Include="Resources\Textures\font_atlas.png">
       <Filter>리소스 파일\Textures</Filter>
     </None>
+    <None Include="Resources\Textures\elysium_sky.png"><Filter>리소스 파일\Textures</Filter></None>
+    <None Include="Resources\Textures\crew_portraits.png"><Filter>리소스 파일\Textures</Filter></None>
+    <None Include="Resources\ArtNotes.txt"><Filter>리소스 파일</Filter></None>
     <None Include="Shaders\PostProcess.vs">
       <Filter>소스 파일\Shaders</Filter>
     </None>

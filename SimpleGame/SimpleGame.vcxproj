@@ -70,6 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link><AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies></Link>
+  </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
@@ -156,12 +164,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Canvas.h" />
+    <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="SimpleGame.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="PrototypeVerification.cpp" />
     <ClCompile Include="stb_image_impl.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -191,11 +206,31 @@
     <None Include="Resources\Textures\glow.png" />
     <None Include="Resources\Textures\white_pixel.png" />
     <None Include="Resources\Textures\font_atlas.png" />
+    <None Include="Resources\Textures\elysium_sky.png" />
+    <None Include="Resources\Textures\crew_portraits.png" />
+    <None Include="Resources\ArtNotes.txt" />
     <None Include="Shaders\PostProcess.vs" />
     <None Include="Shaders\Blur.fs" />
     <None Include="Shaders\Composite.fs" />
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+    </Link>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <Target Name="CopyGameResources" AfterTargets="Build">
+    <ItemGroup>
+      <RuntimeShaders Include="$(ProjectDir)Shaders\**\*" />
+      <RuntimeResources Include="$(ProjectDir)Resources\**\*" />
+      <RuntimeDlls Include="$(SolutionDir)x64\$(Configuration)\*.dll" Condition="'$(Platform)'=='x64'" />
+      <RuntimeDlls Include="$(SolutionDir)$(Configuration)\*.dll" Condition="'$(Platform)'=='Win32'" />
+    </ItemGroup>
+    <Copy SourceFiles="@(RuntimeShaders)" DestinationFiles="@(RuntimeShaders->'$(TargetDir)Shaders\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(RuntimeResources)" DestinationFiles="@(RuntimeResources->'$(TargetDir)Resources\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(RuntimeDlls)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
 </Project>

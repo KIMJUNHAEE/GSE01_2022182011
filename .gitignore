@@ -22,3 +22,4 @@
 *.VC.db
 debug_render_log.txt
 debug_readpixels.txt
+/output/

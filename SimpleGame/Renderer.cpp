@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Renderer.h"
 #include "Dependencies\stb_image.h"
+#include <algorithm>
+#include <stdexcept>
 
 Renderer::Renderer(int windowSizeX, int windowSizeY)
 {
@@ -10,6 +12,18 @@ Renderer::Renderer(int windowSizeX, int windowSizeY)
 
 Renderer::~Renderer()
 {
+	glDeleteBuffers(1, &m_VBORect);
+	glDeleteBuffers(1, &m_VBOSprite);
+	glDeleteBuffers(1, &m_VBOFullscreenQuad);
+	glDeleteProgram(m_SolidRectShader);
+	glDeleteProgram(m_SpriteShader);
+	glDeleteProgram(m_BlurShader);
+	glDeleteProgram(m_CompositeShader);
+	glDeleteFramebuffers(1, &m_SceneFBO);
+	glDeleteFramebuffers(2, m_BlurFBO);
+	glDeleteTextures(1, &m_SceneColorTex);
+	glDeleteTextures(2, m_BlurTex);
+	if (!m_LoadedTextures.empty()) glDeleteTextures((GLsizei)m_LoadedTextures.size(), m_LoadedTextures.data());
 }
 
 void Renderer::Initialize(int windowSizeX, int windowSizeY)
@@ -126,6 +140,7 @@ void Renderer::CreateFramebuffers()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		std::cout << "Scene framebuffer is incomplete.. \n";
+		throw std::runtime_error("Scene framebuffer is incomplete");
 	}
 
 	// Small ping-pong targets for the separable blur (downsampled - the blur
@@ -139,6 +154,7 @@ void Renderer::CreateFramebuffers()
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		{
 			std::cout << "Blur framebuffer " << i << " is incomplete.. \n";
+			throw std::runtime_error("Blur framebuffer is incomplete");
 		}
 	}
 
@@ -172,6 +188,7 @@ void Renderer::BeginSceneCapture()
 
 void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteStrength, float vignetteBlur)
 {
+	glDisable(GL_BLEND);
 	// Separable Gaussian blur of the captured scene, ping-ponged a few times
 	// between two small offscreen targets for a soft, wide result. The final
 	// blurred image does double duty: it's used both as a cheap bloom/glow
@@ -216,7 +233,12 @@ void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteS
 
 	// Composite scene + blurred pass onto the real backbuffer.
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, m_WindowSizeX, m_WindowSizeY);
+	glViewport(0, 0, m_OutputX, m_OutputY);
+	glClearColor(0.012f, 0.02f, 0.025f, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
+	float scale = (std::min)((float)m_OutputX / m_WindowSizeX, (float)m_OutputY / m_WindowSizeY);
+	int vw = (int)(m_WindowSizeX * scale), vh = (int)(m_WindowSizeY * scale);
+	glViewport((m_OutputX - vw) / 2, (m_OutputY - vh) / 2, vw, vh);
 
 	glUseProgram(m_CompositeShader);
 	glActiveTexture(GL_TEXTURE0);
@@ -236,15 +258,22 @@ void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteS
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glEnable(GL_BLEND);
 }
 
-void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
+void Renderer::SetOutputSize(int width, int height)
+{
+	m_OutputX = (std::max)(1, width); m_OutputY = (std::max)(1, height);
+}
+
+bool Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum ShaderType)
 {
 	//���̴� ������Ʈ ����
 	GLuint ShaderObj = glCreateShader(ShaderType);
 
 	if (ShaderObj == 0) {
 		fprintf(stderr, "Error creating shader type %d\n", ShaderType);
+		return false;
 	}
 
 	const GLchar* p[1];
@@ -253,7 +282,7 @@ void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum S
 
 	size_t slen = strlen(pShaderText);
 	if (slen > INT_MAX) {
-		// Handle error
+		glDeleteShader(ShaderObj); return false;
 	}
 	GLint len = (GLint)slen;
 
@@ -274,13 +303,16 @@ void Renderer::AddShader(GLuint ShaderProgram, const char* pShaderText, GLenum S
 		glGetShaderInfoLog(ShaderObj, 1024, NULL, InfoLog);
 		fprintf(stderr, "Error compiling shader type %d: '%s'\n", ShaderType, InfoLog);
 		printf("%s \n", pShaderText);
+		glDeleteShader(ShaderObj); return false;
 	}
 
 	// ShaderProgram �� attach!!
 	glAttachShader(ShaderProgram, ShaderObj);
+	glDeleteShader(ShaderObj);
+	return true;
 }
 
-bool Renderer::ReadFile(char* filename, std::string *target)
+bool Renderer::ReadFile(const char* filename, std::string *target)
 {
 	std::ifstream file(filename);
 	if (file.fail())
@@ -297,12 +329,13 @@ bool Renderer::ReadFile(char* filename, std::string *target)
 	return true;
 }
 
-GLuint Renderer::CompileShaders(char* filenameVS, char* filenameFS)
+GLuint Renderer::CompileShaders(const char* filenameVS, const char* filenameFS)
 {
 	GLuint ShaderProgram = glCreateProgram(); //�� ���̴� ���α׷� ����
 
 	if (ShaderProgram == 0) { //���̴� ���α׷��� ����������� Ȯ��
 		fprintf(stderr, "Error creating shader program\n");
+		return 0;
 	}
 
 	std::string vs, fs;
@@ -310,20 +343,20 @@ GLuint Renderer::CompileShaders(char* filenameVS, char* filenameFS)
 	//shader.vs �� vs ������ �ε���
 	if (!ReadFile(filenameVS, &vs)) {
 		printf("Error compiling vertex shader\n");
-		return -1;
+		glDeleteProgram(ShaderProgram); return 0;
 	};
 
 	//shader.fs �� fs ������ �ε���
 	if (!ReadFile(filenameFS, &fs)) {
 		printf("Error compiling fragment shader\n");
-		return -1;
+		glDeleteProgram(ShaderProgram); return 0;
 	};
 
 	// ShaderProgram �� vs.c_str() ���ؽ� ���̴��� �������� ����� attach��
-	AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER);
+	if (!AddShader(ShaderProgram, vs.c_str(), GL_VERTEX_SHADER)) { glDeleteProgram(ShaderProgram); return 0; }
 
 	// ShaderProgram �� fs.c_str() �����׸�Ʈ ���̴��� �������� ����� attach��
-	AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER);
+	if (!AddShader(ShaderProgram, fs.c_str(), GL_FRAGMENT_SHADER)) { glDeleteProgram(ShaderProgram); return 0; }
 
 	GLint Success = 0;
 	GLchar ErrorLog[1024] = { 0 };
@@ -338,15 +371,7 @@ GLuint Renderer::CompileShaders(char* filenameVS, char* filenameFS)
 		// shader program �α׸� �޾ƿ�
 		glGetProgramInfoLog(ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
 		std::cout << filenameVS << ", " << filenameFS << " Error linking shader program\n" << ErrorLog;
-		return -1;
-	}
-
-	glValidateProgram(ShaderProgram);
-	glGetProgramiv(ShaderProgram, GL_VALIDATE_STATUS, &Success);
-	if (!Success) {
-		glGetProgramInfoLog(ShaderProgram, sizeof(ErrorLog), NULL, ErrorLog);
-		std::cout << filenameVS << ", " << filenameFS << " Error validating shader program\n" << ErrorLog;
-		return -1;
+		glDeleteProgram(ShaderProgram); return 0;
 	}
 
 	glUseProgram(ShaderProgram);
@@ -421,6 +446,7 @@ GLuint Renderer::LoadTexture(const char* filename)
 	stbi_image_free(data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	m_LoadedTextures.push_back(textureId);
 	return textureId;
 }
 
