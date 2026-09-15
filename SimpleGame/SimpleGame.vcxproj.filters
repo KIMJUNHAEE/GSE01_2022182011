@@ -37,8 +37,10 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Canvas.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="ShaderLoader.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Game.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="GameWorld.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="CombatTypes.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Dependencies\stb_image.h">
       <Filter>헤더 파일\Dependencies</Filter>
     </ClInclude>
@@ -57,8 +59,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Canvas.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="ShaderLoader.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="Game.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="GameWorld.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="LevelOne.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="Combat.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="GameCombat.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="PrototypeVerification.cpp"><Filter>소스 파일</Filter></ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,6 +119,8 @@
     <None Include="Resources\Textures\font_atlas.png">
       <Filter>리소스 파일\Textures</Filter>
     </None>
+    <None Include="Shaders\Canvas.vs"><Filter>소스 파일\Shaders</Filter></None>
+    <None Include="Shaders\Canvas.fs"><Filter>소스 파일\Shaders</Filter></None>
     <None Include="Resources\Textures\elysium_sky.png"><Filter>리소스 파일\Textures</Filter></None>
     <None Include="Resources\Textures\crew_portraits.png"><Filter>리소스 파일\Textures</Filter></None>
     <None Include="Resources\ArtNotes.txt"><Filter>리소스 파일</Filter></None>

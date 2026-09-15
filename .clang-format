@@ -1,0 +1,33 @@
+BasedOnStyle: Microsoft
+Language: Cpp
+Standard: c++17
+
+IndentWidth: 4
+AccessModifierOffset: -4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+LineEnding: LF
+
+BreakBeforeBraces: Allman
+InsertBraces: true
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: None
+AllowShortLoopsOnASingleLine: false
+
+SeparateDefinitionBlocks: Always
+EmptyLineAfterAccessModifier: Always
+EmptyLineBeforeAccessModifier: Always
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: All
+IndentCaseLabels: true
+
+PointerAlignment: Left
+ReferenceAlignment: Left
+DerivePointerAlignment: false
+SortIncludes: Never
+ReflowComments: false
