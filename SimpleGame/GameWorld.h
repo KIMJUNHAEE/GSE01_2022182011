@@ -1,33 +1,11 @@
 #pragma once
-#include "Canvas.h"
-#include "CombatTypes.h"
+#include "WorldActors.h"
+#include "SceneGraph.h"
+#include "NavigationGrid.h"
 #include <array>
 #include <deque>
 #include <cstdint>
 #include <random>
-
-enum class PropKind
-{
-    Habitat,
-    Archive,
-    Tree,
-    Crate,
-    Lamp,
-    Relay,
-    Core,
-    Ship,
-    Citizen,
-    Memory
-};
-
-struct Prop
-{
-    PropKind kind;
-    Vec2 p;
-    float w, d, h;
-    int variant = 0;
-    bool solid = true;
-};
 
 struct District
 {
@@ -56,32 +34,85 @@ public:
 
     explicit GameWorld(uint32_t seed = 0);
     View view = View::Title;
-    Vec2 player = {-5, 1}, captain = {-5.7f, 2.2f}, facing = {1, 0};
+    SceneGraph scene;
+    Vec2 facing = {1, 0};
     std::vector<District> districts;
-    std::vector<Prop> props;
-    std::array<Vec2, 3> relays = {Vec2{5, -11}, Vec2{15, 1}, Vec2{5, 3}};
+    std::array<ActorId, 3> relays = {};
     std::array<bool, 3> restored = {false, false, false};
-    std::array<Vec2, 3> memories = {Vec2{-8, -3}, Vec2{1, -12}, Vec2{18, -3}};
+    std::array<ActorId, 3> memories = {};
     std::array<bool, 3> found = {false, false, false};
     std::deque<DialogueLine> dialogue;
     std::deque<Vec2> trail;
-    int quest = 0, choice = -1, nearby = -1;
+    int quest = 0, choice = -1;
+    ActorId nearby = InvalidActor;
     bool choicePending = false, walking = false, captainWalking = false;
     float time = 0, scanCooldown = 0, scanWave = -1, toastTime = 0;
     std::wstring toast;
-    Vec2 scanOrigin;
     PlayerStats stats;
-    std::vector<Enemy> enemies;
-    std::vector<Projectile> projectiles;
-    std::vector<Loot> loot;
-    std::vector<CombatText> combatText;
     std::array<Vec2, 5> rooms;
-    Vec2 shipPosition, corePosition, residentPosition, bossHome;
+    Vec2 bossHome;
     Vec2 aim = {1, 0};
     uint32_t mapSeed = 0;
     int kills = 0, itemsCollected = 0, shotsFired = 0;
     bool firing = false, bossActive = false, bossDefeated = false;
     float shotCooldown = 0, invulnerability = 0, magnetTime = 0, muzzleFlash = 0;
+
+    struct SceneRoots
+    {
+        ActorId terrain = 0, environment = 0, characters = 0, enemies = 0;
+        ActorId projectiles = 0, loot = 0, effects = 0;
+    } roots;
+
+    Vec2 PlayerPosition() const;
+    bool PlayerActive() const;
+    Vec2 CaptainPosition() const;
+    void SetPlayerPosition(Vec2 position);
+    void SetCaptainPosition(Vec2 position);
+    Vec2 RelayPosition(int index) const;
+    Vec2 MemoryPosition(int index) const;
+    Vec2 ShipPosition() const;
+    Vec2 CorePosition() const;
+    Vec2 ResidentPosition() const;
+
+    template <typename T> T& Spawn(const T& prototype)
+    {
+        ActorId parent = roots.effects;
+        if constexpr (std::is_same_v<T, Prop>)
+        {
+            parent = roots.environment;
+        }
+        else if constexpr (std::is_same_v<T, Terrain>)
+        {
+            parent = roots.terrain;
+        }
+        else if constexpr (std::is_same_v<T, Enemy>)
+        {
+            parent = roots.enemies;
+        }
+        else if constexpr (std::is_same_v<T, Projectile>)
+        {
+            parent = roots.projectiles;
+        }
+        else if constexpr (std::is_same_v<T, Loot>)
+        {
+            parent = roots.loot;
+        }
+        else if constexpr (std::is_same_v<T, Character>)
+        {
+            parent = roots.characters;
+        }
+        T& actor = scene.Add(prototype, parent);
+        actor.SetPosition(prototype.Position());
+        if constexpr (std::is_same_v<T, Prop>)
+        {
+            scene.Add(SceneEffect(EffectKind::PropGround), actor.Id());
+        }
+        if constexpr (std::is_same_v<T, Enemy>)
+        {
+            scene.Add(SceneEffect(EffectKind::EnemyWarning), actor.Id());
+        }
+        return actor;
+    }
 
     void GainExperience(int amount);
     void AddLoot(LootKind kind, Vec2 position, int amount = 1);
@@ -124,7 +155,8 @@ private:
     void Say(std::initializer_list<DialogueLine> lines);
     void UpdateNearby();
     void GenerateLevel();
-    void BuildNavigation();
+    void BuildNavigation() const;
+    void EnsureNavigation() const;
     void BuildFlow();
     void UpdateCombat(float dt);
     void UpdateEnemies(float dt);
@@ -135,24 +167,27 @@ private:
               bool critical = false);
     void DefeatEnemy(const Enemy& enemy);
     void Collect(const Loot& item);
-    void MoveActor(Vec2& position, Vec2 target, float speed, float dt);
+    void MoveActor(Actor& actor, Vec2 target, float speed, float dt);
     Vec2 FlowTarget(Vec2 position) const;
     int NearestNode(Vec2 position) const;
     bool CampClear(int camp) const;
 
-    static constexpr int NavWidth = 61;
-    static constexpr int NavHeight = 45;
-    static constexpr int NavCount = NavWidth * NavHeight;
-    std::array<unsigned char, NavCount> navigation = {};
-    std::array<unsigned char, NavCount> edges = {};
-    std::array<int, NavCount> flow = {};
+    mutable NavigationGrid navigation;
+    mutable uint64_t navigationRevision = 0;
+    mutable uint64_t collisionRevision = 0;
+    mutable std::map<std::pair<int, int>, int> floorTiles;
+
+    struct Obstacle
+    {
+        Vec2 position;
+        float width, depth;
+    };
+
+    mutable std::vector<Obstacle> obstacles;
+    void EnsureCollision() const;
+    ActorId playerId = 0, captainId = 0, shipId = 0, coreId = 0, residentId = 0;
+    ActorId scanEffectId = 0;
     std::array<float, 3> respawn = {25, 25, 25};
     std::mt19937 random;
-    int flowSource = -1;
     bool runStarted = false, metResident = false;
-
-    static Vec2 NodePosition(int index)
-    {
-        return {-10.f + (index % NavWidth) * .5f, -17.f + (index / NavWidth) * .5f};
-    }
 };

@@ -19,6 +19,173 @@ namespace
         }
     }
 
+    class RecordingActorRenderer : public ActorRenderer
+    {
+    public:
+
+        std::vector<ActorId> order;
+
+        void Draw(const Prop& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const Character& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const Terrain& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const SceneEffect& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const Enemy& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const Projectile& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const Loot& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+
+        void Draw(const CombatText& actor) override
+        {
+            order.push_back(actor.Id());
+        }
+    };
+
+    void VerifySceneGraph()
+    {
+        SceneGraph scene;
+        auto& parent = scene.Add(Actor("Parent", {10, 20}));
+        auto& child = scene.Add(Prop(PropKind::Crate, {1, 2}, 1, 1, 20), parent.Id());
+        ActorId childId = child.Id(), parentId = parent.Id();
+        auto same = [](Vec2 a, Vec2 b)
+        {
+            return GameWorld::Distance(a, b) < .001f;
+        };
+        Require(same(child.Position(), {11, 22}), "Parent translation was not inherited");
+        uint64_t revision = scene.NavigationRevision();
+        parent.SetPosition({12, 23});
+        Require(same(child.Position(), {13, 25}) && scene.NavigationRevision() > revision,
+                "Moving a collider group did not update position/navigation");
+        child.SetPosition({20, 30});
+        Require(same(child.LocalPosition(), {8, 7}), "World position was stored as local position");
+        auto& other = scene.Add(Actor("Other", {-2, 1}));
+        Require(scene.Reparent(childId, other.Id()) && same(child.Position(), {20, 30}),
+                "Reparenting failed to preserve world position");
+        Require(!scene.Reparent(other.Id(), childId), "Scene graph accepted a cycle");
+        Require(!scene.Reparent(childId, childId) && !scene.Reparent(childId, 999999),
+                "Scene graph accepted a self or missing parent");
+        Vec2 local = child.LocalPosition();
+        Require(scene.Reparent(childId, parentId, false) && same(child.LocalPosition(), local),
+                "Local-preserving reparent changed the local transform");
+
+        auto& text = scene.Add(CombatText({}, L"lifetime", 0xffffff, 1), childId);
+        ActorId textId = text.Id();
+        parent.SetVisible(false);
+        Require(!child.IsVisible() && child.IsActive(), "Visibility incorrectly disabled logic");
+        parent.SetVisible(true);
+        parent.SetActive(false);
+        scene.Update(.25f);
+        Require(!child.IsActive() && !child.IsVisible() && text.life == 1 &&
+                    scene.Actors<Prop>().empty() && scene.Actors<Prop>(true).size() == 1,
+                "Inactive ancestors did not suppress traversal/update");
+        parent.SetActive(true);
+        scene.Update(.25f);
+        Require(text.life == .75f, "Actor virtual Update was not dispatched");
+
+        SceneGraph copy = scene;
+        copy.Find(parentId)->SetPosition({0, 0});
+        Require(!same(copy.Find(childId)->Position(), child.Position()) &&
+                    copy.Find<CombatText>(textId)->life == .75f,
+                "Scene graph copy shares nodes or loses derived state");
+        SceneGraph moved = std::move(copy);
+        Require(moved.Find(childId)->ParentId() == parentId, "Scene move broke parent links");
+        auto retained = scene.Actors<Prop>();
+        scene.Destroy(parentId);
+        Require(!scene.Find(childId) && !scene.Find(textId), "Destroy did not mark descendants");
+        scene.CollectDestroyed();
+        Require(scene.Actors<Prop>(true).empty() && retained[0].IsPendingDestroy(),
+                "Deferred destruction invalidated a live snapshot");
+        scene.Update(.1f);
+
+        SceneGraph renderScene;
+        ActorId front = renderScene.Add(Prop(PropKind::Crate, {3, 3}, 1, 1, 10)).Id();
+        ActorId back = renderScene.Add(Prop(PropKind::Crate, {1, 1}, 1, 1, 10)).Id();
+        ActorId shot = renderScene.Add(Projectile({-20, -20})).Id();
+        ActorId overlay = renderScene.Add(CombatText({}, L"text")).Id();
+        RecordingActorRenderer renderer;
+        renderScene.Draw(renderer);
+        Require(renderer.order == std::vector<ActorId>{back, front, shot, overlay},
+                "Scene renderer did not respect layer/depth order");
+        renderScene.Find(back)->SetVisible(false);
+        renderer.order.clear();
+        renderScene.Draw(renderer);
+        Require(renderer.order == std::vector<ActorId>{front, shot, overlay},
+                "Hidden actor was drawn");
+        renderScene.Update(2);
+        Require(!renderScene.Find(overlay), "Expired actor was not collected");
+    }
+
+    void VerifyActorWorld()
+    {
+        GameWorld world(42);
+        world.Start();
+        world.bossDefeated = true;
+        world.scene.Clear<Enemy>();
+        Vec2 player = world.PlayerPosition();
+        Require(world.Walkable(player), "Actor collision test starts on blocked floor");
+        auto& prop = world.Spawn(Prop(PropKind::Crate, player, .5f, .5f, 10));
+        ActorId propId = prop.Id();
+        Require(!world.Walkable(player), "Spawned collider did not invalidate the collision cache");
+        prop.SetSolid(false);
+        Require(world.Walkable(player), "Disabling solidity retained a cached collider");
+        prop.SetSolid(true);
+        Require(!world.Walkable(player), "Enabling solidity failed to restore the collider");
+        world.scene.Find(world.roots.environment)->SetPosition({50, 50});
+        Require(world.Walkable(player), "Parent movement did not move descendant colliders");
+        world.scene.Find(world.roots.environment)->SetPosition({});
+        world.scene.Destroy(propId);
+        Require(world.Walkable(player), "Destroyed actor still blocked movement");
+        world.scene.Find(world.roots.terrain)->SetActive(false);
+        Require(!world.Walkable(player), "Inactive terrain still supplied a walkable floor");
+        world.scene.Find(world.roots.terrain)->SetActive(true);
+
+        world.scene.Find(world.roots.projectiles)->SetPosition({4, 5});
+        auto& bullet = world.Spawn(Projectile(player, {1, 0}));
+        ActorId bulletId = bullet.Id();
+        Require(GameWorld::Distance(bullet.Position(), player) < .001f,
+                "World Spawn double-applied the parent transform");
+        world.scene.Find(world.roots.projectiles)->SetActive(false);
+        world.scene.Find(world.roots.characters)->SetActive(false);
+        world.firing = true;
+        world.Move({1, 0}, .1f, false);
+        world.DamagePlayer(20);
+        world.Update(.1f);
+        Require(GameWorld::Distance(world.PlayerPosition(), player) < .001f &&
+                    GameWorld::Distance(world.scene.Find(bulletId)->Position(), player) < .001f &&
+                    world.shotsFired == 0 && world.stats.health == 100,
+                "Inactive graph branches still moved, fired, or took damage");
+        world.scene.Find(world.roots.characters)->SetActive(true);
+        GameWorld clone = world;
+        clone.SetPlayerPosition(player + Vec2{1, 0});
+        Require(GameWorld::Distance(world.PlayerPosition(), player) < .001f,
+                "GameWorld copy still shares character nodes");
+    }
+
     void Capture(Game& game, int width, int height, const std::filesystem::path& file)
     {
         game.Render();
@@ -123,7 +290,7 @@ namespace
         };
         std::vector<int> parent(nx * ny, -1);
         std::queue<int> q;
-        int start = index(w.player), end = -1;
+        int start = index(w.PlayerPosition()), end = -1;
         Require(start >= 0 && start < nx * ny, "Invalid route start");
         q.push(start);
         parent[start] = start;
@@ -167,30 +334,31 @@ namespace
         {
             Vec2 goal = point(n);
             int guard = 0;
-            while (GameWorld::Distance(w.player, goal) > .025f && guard++ < 100)
+            while (GameWorld::Distance(w.PlayerPosition(), goal) > .025f && guard++ < 100)
             {
-                Vec2 d = GameWorld::Project(goal) - GameWorld::Project(w.player);
+                Vec2 d = GameWorld::Project(goal) - GameWorld::Project(w.PlayerPosition());
                 float remaining = GameWorld::Distance(d, {});
                 float dt = (std::min)(1 / 120.f, remaining / w.stats.MoveSpeed());
                 w.Move(d, dt, false);
                 w.Update(dt);
-                Require(w.Walkable(w.player), "Player penetrated a collider");
+                Require(w.Walkable(w.PlayerPosition()), "Player penetrated a collider");
             }
             if (guard >= 100)
             {
                 throw std::runtime_error("Movement stalled near target " +
                                          std::to_string(target.x) + "," + std::to_string(target.y) +
-                                         " at " + std::to_string(w.player.x) + "," +
-                                         std::to_string(w.player.y));
+                                         " at " + std::to_string(w.PlayerPosition().x) + "," +
+                                         std::to_string(w.PlayerPosition().y));
             }
         }
         w.Move({}, 0, false);
         w.Update(.016f);
-        for (int i = 0; i < 180 && GameWorld::Distance(w.player, w.captain) > 1.4f; ++i)
+        for (int i = 0;
+             i < 180 && GameWorld::Distance(w.PlayerPosition(), w.CaptainPosition()) > 1.4f; ++i)
         {
             w.Update(1 / 60.f);
         }
-        Require(GameWorld::Distance(w.player, w.captain) < 2.f,
+        Require(GameWorld::Distance(w.PlayerPosition(), w.CaptainPosition()) < 2.f,
                 "Companion failed to follow the collision-tested route");
     }
 } // namespace
@@ -203,6 +371,10 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
     try
     {
         // Opt-in only: this suite is run by the user with --verify, never at normal startup.
+        VerifySceneGraph();
+        VerifyActorWorld();
+        report << "PASS actor hierarchy, reparenting, activity, lifetime, copy, render order, "
+                  "collision\n";
         VerifyMeshCache(renderer);
         report
             << "PASS lazy GPU mesh cache, reuse across transforms, alpha order, instance batches\n";
@@ -210,12 +382,12 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         {
             GameWorld generated(seed);
             Require(generated.ValidateNavigation(), "Generated navigation is disconnected");
-            Require(generated.enemies.size() >= 12, "A farming camp failed to spawn");
-            for (const auto& enemy : generated.enemies)
+            Require(generated.scene.Actors<Enemy>().size() >= 12, "A farming camp failed to spawn");
+            for (const auto& enemy : generated.scene.Actors<Enemy>())
             {
-                Require(generated.Walkable(enemy.p), "Enemy spawned inside a collider");
-                Require(GameWorld::Distance(GameWorld::Project(enemy.p),
-                                            GameWorld::Project(generated.player)) > 240,
+                Require(generated.Walkable(enemy.Position()), "Enemy spawned inside a collider");
+                Require(GameWorld::Distance(GameWorld::Project(enemy.Position()),
+                                            GameWorld::Project(generated.PlayerPosition())) > 240,
                         "Enemy spawned in the landing safety zone");
             }
         }
@@ -255,45 +427,47 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
 
         GameWorld combat(42);
         combat.Start();
-        combat.enemies.clear();
+        combat.scene.Clear<Enemy>();
         combat.bossDefeated = true; // Isolate projectile and pickup checks from reinforcements.
-        combat.projectiles.push_back({combat.player, {1, 0}, 400, 40, 12, false, false});
+        combat.Spawn(Projectile{combat.PlayerPosition(), {1, 0}, 400, 40, 12, false, false});
         combat.Update(.05f);
-        Require(combat.projectiles.size() == 1 && combat.projectiles[0].remaining <= 20.1f,
+        Require(combat.scene.Actors<Projectile>().size() == 1 &&
+                    combat.scene.Actors<Projectile>()[0].remaining <= 20.1f,
                 "Projectile range is not consumed by distance");
         combat.Update(.05f);
-        Require(combat.projectiles.empty(), "Projectile exceeded maximum range");
+        Require(combat.scene.Actors<Projectile>().empty(), "Projectile exceeded maximum range");
         combat.firing = true;
         combat.Update(.01f);
         int shots = combat.shotsFired;
         combat.Update(.01f);
         Require(shots == 1 && combat.shotsFired == shots, "Shot cooldown was bypassed");
         combat.firing = false;
-        combat.projectiles.clear();
+        combat.scene.Clear<Projectile>();
         combat.DamagePlayer(20);
         float damaged = combat.stats.health;
         combat.DamagePlayer(20);
         Require(combat.stats.health == damaged, "Damage immunity was bypassed");
-        combat.AddLoot(LootKind::Health, combat.player);
-        combat.AddLoot(LootKind::Weapon, combat.player);
-        combat.AddLoot(LootKind::Soul, combat.player, 60);
-        combat.AddLoot(LootKind::Magnet, combat.player);
+        combat.AddLoot(LootKind::Health, combat.PlayerPosition());
+        combat.AddLoot(LootKind::Weapon, combat.PlayerPosition());
+        combat.AddLoot(LootKind::Soul, combat.PlayerPosition(), 60);
+        combat.AddLoot(LootKind::Magnet, combat.PlayerPosition());
         combat.Update(.016f);
         Require(combat.stats.health > damaged && combat.stats.weaponTier == 1 &&
                     combat.stats.level == 2 && combat.magnetTime > 0 && combat.itemsCollected == 4,
                 "One or more pickup effects failed");
-        combat.AddLoot(LootKind::Weapon, combat.player, 30);
+        combat.AddLoot(LootKind::Weapon, combat.PlayerPosition(), 30);
         combat.Update(.016f);
         Require(combat.stats.weaponTier == 20, "Weapon enhancement cap failed");
-        Vec2 farLoot = combat.player + Vec2{1, -1};
+        Vec2 farLoot = combat.PlayerPosition() + Vec2{1, -1};
         combat.AddLoot(LootKind::Soul, farLoot, 5);
-        float previousDistance =
-            GameWorld::Distance(GameWorld::Project(farLoot), GameWorld::Project(combat.player));
+        float previousDistance = GameWorld::Distance(GameWorld::Project(farLoot),
+                                                     GameWorld::Project(combat.PlayerPosition()));
         combat.Update(.05f);
-        Require(!combat.loot.empty() && combat.loot[0].attracted &&
-                    GameWorld::Distance(GameWorld::Project(combat.loot[0].p),
-                                        GameWorld::Project(combat.player)) < previousDistance,
-                "Magnet did not attract a distant item");
+        Require(
+            !combat.scene.Actors<Loot>().empty() && combat.scene.Actors<Loot>()[0].attracted &&
+                GameWorld::Distance(GameWorld::Project(combat.scene.Actors<Loot>()[0].Position()),
+                                    GameWorld::Project(combat.PlayerPosition())) < previousDistance,
+            "Magnet did not attract a distant item");
         combat.view = View::Map;
         float pausedTime = combat.time, pausedMagnet = combat.magnetTime;
         combat.Update(1);
@@ -305,13 +479,14 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         // A direct collision regression: solid scenery stops shots before they reach an enemy.
         GameWorld wall(42);
         wall.Start();
-        wall.enemies.clear();
-        wall.player = {-5, 1};
-        wall.props.push_back({PropKind::Crate, {-4.5f, .5f}, .2f, .2f, 20});
-        wall.projectiles.push_back({wall.player, {1, 0}, 660, 350, 12, false, false});
+        wall.scene.Clear<Enemy>();
+        wall.SetPlayerPosition({-5, 1});
+        wall.Spawn(Prop{PropKind::Crate, {-4.5f, .5f}, .2f, .2f, 20});
+        wall.Spawn(Projectile{wall.PlayerPosition(), {1, 0}, 660, 350, 12, false, false});
         wall.Update(.05f);
         wall.Update(.05f);
-        Require(wall.projectiles.empty(), "Projectile tunneled through solid scenery");
+        Require(wall.scene.Actors<Projectile>().empty(),
+                "Projectile tunneled through solid scenery");
 
         game.world = GameWorld(42);
         auto& w = game.world;
@@ -346,30 +521,30 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
                   "rejection\n";
 
         // Navigation/story checks intentionally isolate combat; boss damage is tested separately below.
-        w.enemies.clear();
-        w.projectiles.clear();
+        w.scene.Clear<Enemy>();
+        w.scene.Clear<Projectile>();
         w.bossDefeated = true;
         for (int i = 0; i < 3; ++i)
         {
-            WalkTo(w, w.memories[i]);
+            WalkTo(w, w.MemoryPosition(i));
             w.Interact();
             FinishDialogue(w);
             Require(w.found[i], "Memory is not interactable on the random map");
-            WalkTo(w, w.relays[i]);
+            WalkTo(w, w.RelayPosition(i));
             w.Interact();
             FinishDialogue(w);
             Require(w.restored[i], "Relay is not interactable on the random map");
         }
         Require(w.quest == 2, "Three relays did not unlock the boss objective");
         w.bossDefeated = false;
-        WalkTo(w, w.corePosition, 1.2f);
+        WalkTo(w, w.CorePosition(), 1.2f);
         w.Interact();
         Require(w.bossActive && !w.choicePending, "Boss did not gate the final story choice");
-        size_t count = w.enemies.size();
+        size_t count = w.scene.Actors<Enemy>().size();
         w.BeginBoss();
-        Require(w.enemies.size() == count, "Boss was spawned twice");
-        w.player = w.bossHome + GameWorld::Unproject({-110, 0});
-        Require(w.Walkable(w.player), "Boss test firing position is obstructed");
+        Require(w.scene.Actors<Enemy>().size() == count, "Boss was spawned twice");
+        w.SetPlayerPosition(w.bossHome + GameWorld::Unproject({-110, 0}));
+        Require(w.Walkable(w.PlayerPosition()), "Boss test firing position is obstructed");
         w.invulnerability = 100;
         w.stats.weaponTier = 20;
         w.aim = {1, 0};
@@ -383,12 +558,12 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         w.firing = false;
         Require(w.bossDefeated && !w.bossActive && w.kills > 0,
                 "Actual projectiles did not defeat boss");
-        Require(!w.loot.empty(), "Boss did not drop rewards");
+        Require(!w.scene.Actors<Loot>().empty(), "Boss did not drop rewards");
         w.BeginBoss();
-        Require(w.enemies.empty(), "Defeated boss respawned");
-        w.player = w.corePosition + Vec2{1, 0};
+        Require(w.scene.Actors<Enemy>().empty(), "Defeated boss respawned");
+        w.SetPlayerPosition(w.CorePosition() + Vec2{1, 0});
         w.trail.clear();
-        w.captain = w.player + Vec2{.5f, .5f};
+        w.SetCaptainPosition(w.PlayerPosition() + Vec2{.5f, .5f});
         w.Interact();
         FinishDialogue(w);
         Require(w.choicePending && w.view == View::Dialogue, "Post-boss choice did not open");
@@ -399,7 +574,7 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         Require(alternate.quest == 3 && alternate.choice == 1, "Gradual opening branch failed");
         w.Choose(0);
         FinishDialogue(w);
-        WalkTo(w, w.shipPosition, 2.4f);
+        WalkTo(w, w.ShipPosition(), 2.4f);
         w.Interact();
         Require(w.view == View::Ending, "Return to ship did not finish level one");
         Capture(game, width, height, output / "06-ending.bmp");
@@ -416,7 +591,7 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         game.Key('r', true);
         Require(w.view == View::Explore && w.mapSeed == seed && w.stats.level == 1 &&
                     w.stats.weaponTier == 0 && w.kills == 0 && !w.bossActive && !w.bossDefeated &&
-                    w.loot.empty() && w.projectiles.empty(),
+                    w.scene.Actors<Loot>().empty() && w.scene.Actors<Projectile>().empty(),
                 "Retry leaked state or changed the requested seed");
         glutReshapeWindow(1000, 740);
         glutMainLoopEvent();

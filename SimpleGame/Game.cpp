@@ -42,7 +42,7 @@ Game::Game(Renderer& r) : renderer(r)
 
 void Game::SnapCamera()
 {
-    camera = GameWorld::Project(world.player) + Vec2{65, -30};
+    camera = GameWorld::Project(world.PlayerPosition()) + Vec2{65, -30};
 }
 
 Vec2 Game::P(Vec2 grid, float z) const
@@ -77,14 +77,14 @@ void Game::Tick(float dt)
     zoom += (desiredZoom - zoom) * (1 - std::exp(-dt * 8));
     if (world.view != View::Title)
     {
-        Vec2 target = GameWorld::Project(world.player) + Vec2{65, -30};
+        Vec2 target = GameWorld::Project(world.PlayerPosition()) + Vec2{65, -30};
         camera = camera + (target - camera) * (1 - std::exp(-dt * 5));
         if (world.view == View::Explore)
         {
             arrival += dt;
         }
     }
-    Vec2 aimDirection = mouse - P(world.player, 24);
+    Vec2 aimDirection = mouse - P(world.PlayerPosition(), 24);
     float aimLength = GameWorld::Distance(aimDirection, {});
     if (aimLength > 1 && mouseInside && world.view == View::Explore)
     {
@@ -332,168 +332,123 @@ void Game::Box(Vec2 p, float w, float d, float z, float h, Color top, Color left
     canvas.Line(c + up, e + up, Color(0xaec7c6, .12f * objectAlpha), .7f);
 }
 
-void Game::Ground()
+void Game::Draw(const Terrain& actor)
 {
-    for (int sum = -28; sum <= 29; ++sum)
+    int x = (int)std::round(actor.Position().x), y = (int)std::round(actor.Position().y);
+    int tile = actor.kind;
+    Vec2 p = actor.Position(), s = P(p);
+    if (s.x < -160 || s.x > 1600 || s.y < -180 || s.y > 1080)
     {
-        for (int x = -10; x <= 20; ++x)
+        return;
+    }
+    const unsigned hash = Hash(x, y);
+    Color floor = tile == 2   ? Color((hash % 4 == 0) ? 0x344f49 : 0x2b423f)
+                  : tile == 0 ? Color((hash % 5 == 0) ? 0x46535a : 0x3d4a51)
+                  : tile == 4 ? Color((hash % 4 == 0) ? 0x394650 : 0x303e48)
+                              : Color((hash % 5 == 0) ? 0x3e5055 : 0x34474b);
+    if (tile == 5)
+    {
+        floor = Color(0x435056);
+    }
+    Vec2 a = P(p + Vec2{-.5f, -.5f}), b = P(p + Vec2{.5f, -.5f}), c = P(p + Vec2{.5f, .5f}),
+         d = P(p + Vec2{-.5f, .5f});
+    Vec2 drop = {0, 42 * zoom};
+    if (world.Tile(x + 1, y) < 0)
+    {
+        canvas.Quad(b, c, c + drop, b + drop, Color(0x162a32));
+        canvas.Line(b + drop, c + drop, Color(0x06171f), 3 * zoom);
+    }
+    if (world.Tile(x, y + 1) < 0)
+    {
+        canvas.Quad(c, d, d + drop, c + drop, Color(0x20353e));
+        canvas.Line(c + drop, d + drop, Color(0x06171f), 3 * zoom);
+    }
+    if ((world.Tile(x + 1, y) < 0 || world.Tile(x, y + 1) < 0) && hash % 3 == 0)
+    {
+        Vec2 low = s + Vec2{0, 48 * zoom};
+        canvas.Quad(low + Vec2{-9 * zoom, 0}, low + Vec2{9 * zoom, 0},
+                    low + Vec2{5 * zoom, 48 * zoom}, low + Vec2{-5 * zoom, 48 * zoom},
+                    Color(0x1a3039));
+        canvas.Line(low + Vec2{0, 10 * zoom}, low + Vec2{0, 35 * zoom}, Teal.Fade(.24f), 2 * zoom);
+    }
+    canvas.Quad(a, b, c, d, floor);
+    canvas.Line(a, b, Color(0xa8b4b0, .09f), .65f * zoom);
+    canvas.Line(a, d, Color(0x111f26, .55f), .8f * zoom);
+    if (tile != 2 && hash % 3 == 0)
+    {
+        canvas.Line(P(p + Vec2{-.32f, -.32f}), P(p + Vec2{.30f, -.32f}), Color(0x71858a, .25f),
+                    .6f * zoom);
+        canvas.Line(P(p + Vec2{.30f, -.32f}), P(p + Vec2{.30f, .3f}), Color(0x172c33, .6f),
+                    .7f * zoom);
+    }
+    if (tile != 2 && hash % 7 == 0)
+    {
+        for (int i = 0; i < 5; ++i)
         {
-            int y = sum - x, tile = world.Tile(x, y);
-            if (tile < 0)
-            {
-                continue;
-            }
-            Vec2 p = {(float)x, (float)y}, s = P(p);
-            if (s.x < -160 || s.x > 1600 || s.y < -180 || s.y > 1080)
-            {
-                continue;
-            }
-            const unsigned hash = Hash(x, y);
-            Color floor = tile == 2   ? Color((hash % 4 == 0) ? 0x344f49 : 0x2b423f)
-                          : tile == 0 ? Color((hash % 5 == 0) ? 0x46535a : 0x3d4a51)
-                          : tile == 4 ? Color((hash % 4 == 0) ? 0x394650 : 0x303e48)
-                                      : Color((hash % 5 == 0) ? 0x3e5055 : 0x34474b);
-            if (tile == 5)
-            {
-                floor = Color(0x435056);
-            }
-            Vec2 a = P(p + Vec2{-.5f, -.5f}), b = P(p + Vec2{.5f, -.5f}), c = P(p + Vec2{.5f, .5f}),
-                 d = P(p + Vec2{-.5f, .5f});
-            Vec2 drop = {0, 42 * zoom};
-            if (world.Tile(x + 1, y) < 0)
-            {
-                canvas.Quad(b, c, c + drop, b + drop, Color(0x162a32));
-                canvas.Line(b + drop, c + drop, Color(0x06171f), 3 * zoom);
-            }
-            if (world.Tile(x, y + 1) < 0)
-            {
-                canvas.Quad(c, d, d + drop, c + drop, Color(0x20353e));
-                canvas.Line(c + drop, d + drop, Color(0x06171f), 3 * zoom);
-            }
-            if ((world.Tile(x + 1, y) < 0 || world.Tile(x, y + 1) < 0) && hash % 3 == 0)
-            {
-                Vec2 low = s + Vec2{0, 48 * zoom};
-                canvas.Quad(low + Vec2{-9 * zoom, 0}, low + Vec2{9 * zoom, 0},
-                            low + Vec2{5 * zoom, 48 * zoom}, low + Vec2{-5 * zoom, 48 * zoom},
-                            Color(0x1a3039));
-                canvas.Line(low + Vec2{0, 10 * zoom}, low + Vec2{0, 35 * zoom}, Teal.Fade(.24f),
-                            2 * zoom);
-            }
-            canvas.Quad(a, b, c, d, floor);
-            canvas.Line(a, b, Color(0xa8b4b0, .09f), .65f * zoom);
-            canvas.Line(a, d, Color(0x111f26, .55f), .8f * zoom);
-            if (tile != 2 && hash % 3 == 0)
-            {
-                canvas.Line(P(p + Vec2{-.32f, -.32f}), P(p + Vec2{.30f, -.32f}),
-                            Color(0x71858a, .25f), .6f * zoom);
-                canvas.Line(P(p + Vec2{.30f, -.32f}), P(p + Vec2{.30f, .3f}), Color(0x172c33, .6f),
-                            .7f * zoom);
-            }
-            if (tile != 2 && hash % 7 == 0)
-            {
-                for (int i = 0; i < 5; ++i)
-                {
-                    canvas.Line(P(p + Vec2{-.23f + i * .08f, -.2f}),
-                                P(p + Vec2{-.23f + i * .08f, .2f}), Color(0x0b2630, .6f), 2 * zoom);
-                }
-                canvas.Ellipse(P(p + Vec2{.32f, .3f}), 1.1f * zoom, .7f * zoom,
-                               Color(0xa4b9b3, .5f));
-            }
-            if (tile == 5 && ((x + y) % 2 == 0))
-            {
-                canvas.Line(P(p + Vec2{-.28f, -.1f}), P(p + Vec2{.26f, -.1f}), Gold.Fade(.55f),
-                            2 * zoom);
-                canvas.Line(P(p + Vec2{-.28f, .08f}), P(p + Vec2{.26f, .08f}), Gold.Fade(.3f),
-                            1.5f * zoom);
-            }
-            if (tile == 2)
-            {
-                for (int i = 0; i < 5; ++i)
-                {
-                    float dx = ((hash >> (i * 3)) & 15) / 20.f - .35f,
-                          dy = ((hash >> (i * 3 + 2)) & 15) / 20.f - .35f;
-                    Vec2 v = P(p + Vec2{dx, dy});
-                    canvas.Line(v, v + Vec2{2 * zoom, -(3 + i % 3) * zoom},
-                                Color(i % 2 ? 0x789477 : 0x456e5e, .7f), zoom);
-                }
-                if (hash % 5 == 0)
-                {
-                    canvas.Ellipse(s + Vec2{12, -7}, 1.5f * zoom, 1.5f * zoom, Gold.Fade(.7f));
-                }
-            }
-            Color edge = world.quest >= 3 ? Gold.Fade(.65f) : Teal.Fade(.40f);
-            if (world.Tile(x + 1, y) < 0)
-            {
-                canvas.Line(b, c, edge, 1.7f * zoom);
-            }
-            if (world.Tile(x, y + 1) < 0)
-            {
-                canvas.Line(c, d, edge, 1.7f * zoom);
-            }
-            if (world.Tile(x - 1, y) < 0)
-            {
-                canvas.Line(a, d, Color(0x90adaf, .22f), 1.2f * zoom);
-            }
-            if (world.Tile(x, y - 1) < 0)
-            {
-                canvas.Line(a, b, Color(0x90adaf, .22f), 1.2f * zoom);
-            }
-            // Low perimeter rails and their posts make the elevated colony read as architecture.
-            if (tile != 5)
-            {
-                Vec2 up = {0, -17 * zoom};
-                Color rail(0x8aa3a4, .46f);
-                if (world.Tile(x + 1, y) < 0)
-                {
-                    canvas.Line(b + up, c + up, rail, 1.4f * zoom);
-                    canvas.Line(b, b + up, rail, 1.4f * zoom);
-                }
-                if (world.Tile(x, y + 1) < 0)
-                {
-                    canvas.Line(c + up, d + up, rail, 1.4f * zoom);
-                    canvas.Line(d, d + up, rail, 1.4f * zoom);
-                }
-            }
+            canvas.Line(P(p + Vec2{-.23f + i * .08f, -.2f}), P(p + Vec2{-.23f + i * .08f, .2f}),
+                        Color(0x0b2630, .6f), 2 * zoom);
+        }
+        canvas.Ellipse(P(p + Vec2{.32f, .3f}), 1.1f * zoom, .7f * zoom, Color(0xa4b9b3, .5f));
+    }
+    if (tile == 5 && ((x + y) % 2 == 0))
+    {
+        canvas.Line(P(p + Vec2{-.28f, -.1f}), P(p + Vec2{.26f, -.1f}), Gold.Fade(.55f), 2 * zoom);
+        canvas.Line(P(p + Vec2{-.28f, .08f}), P(p + Vec2{.26f, .08f}), Gold.Fade(.3f), 1.5f * zoom);
+    }
+    if (tile == 2)
+    {
+        for (int i = 0; i < 5; ++i)
+        {
+            float dx = ((hash >> (i * 3)) & 15) / 20.f - .35f,
+                  dy = ((hash >> (i * 3 + 2)) & 15) / 20.f - .35f;
+            Vec2 v = P(p + Vec2{dx, dy});
+            canvas.Line(v, v + Vec2{2 * zoom, -(3 + i % 3) * zoom},
+                        Color(i % 2 ? 0x789477 : 0x456e5e, .7f), zoom);
+        }
+        if (hash % 5 == 0)
+        {
+            canvas.Ellipse(s + Vec2{12, -7}, 1.5f * zoom, 1.5f * zoom, Gold.Fade(.7f));
         }
     }
-    // Landing pad rings and inset guide lights provide a readable arrival landmark.
-    Vec2 pad = P(world.shipPosition);
-    canvas.Ellipse(pad, 152 * zoom, 76 * zoom, Gold.Fade(.4f), false, 1.4f * zoom);
-    canvas.Ellipse(pad, 145 * zoom, 72.5f * zoom, Color(0xadc2c6, .18f), false, zoom);
-    for (int i = 0; i < 12; ++i)
+    Color edge = world.quest >= 3 ? Gold.Fade(.65f) : Teal.Fade(.40f);
+    if (world.Tile(x + 1, y) < 0)
     {
-        float angle = i * 6.283185f / 12;
-        Vec2 v = pad + Vec2{std::cos(angle) * 152 * zoom, std::sin(angle) * 76 * zoom};
-        canvas.Ellipse(v, 2 * zoom, 2 * zoom, Gold);
+        canvas.Line(b, c, edge, 1.7f * zoom);
     }
-    // Ground light pools are drawn below depth-sorted people and structures.
-    for (const auto& o : world.props)
+    if (world.Tile(x, y + 1) < 0)
     {
-        if (o.kind == PropKind::Lamp || o.kind == PropKind::Relay)
-        {
-            Color c = o.kind == PropKind::Relay && !world.restored[o.variant] ? Gold : Teal;
-            canvas.Glow(P(o.p), 70 * zoom, 35 * zoom, c.Fade(.14f));
-        }
-        if (o.kind == PropKind::Core)
-        {
-            canvas.Glow(P(o.p), 190 * zoom, 95 * zoom, Teal.Fade(.18f));
-        }
+        canvas.Line(c, d, edge, 1.7f * zoom);
     }
-    for (const auto& o : world.props)
+    if (world.Tile(x - 1, y) < 0)
     {
-        if (o.kind != PropKind::Memory && o.kind != PropKind::Citizen)
+        canvas.Line(a, d, Color(0x90adaf, .22f), 1.2f * zoom);
+    }
+    if (world.Tile(x, y - 1) < 0)
+    {
+        canvas.Line(a, b, Color(0x90adaf, .22f), 1.2f * zoom);
+    }
+    // Low perimeter rails and their posts make the elevated colony read as architecture.
+    if (tile != 5)
+    {
+        Vec2 up = {0, -17 * zoom};
+        Color rail(0x8aa3a4, .46f);
+        if (world.Tile(x + 1, y) < 0)
         {
-            Vec2 s = P(o.p);
-            canvas.Ellipse(s + Vec2{o.h * .24f * zoom, 7 * zoom}, (o.w * 26 + o.h * .22f) * zoom,
-                           (o.d * 13 + 10) * zoom, Color(0x061216, .27f));
+            canvas.Line(b + up, c + up, rail, 1.4f * zoom);
+            canvas.Line(b, b + up, rail, 1.4f * zoom);
+        }
+        if (world.Tile(x, y + 1) < 0)
+        {
+            canvas.Line(c + up, d + up, rail, 1.4f * zoom);
+            canvas.Line(d, d + up, rail, 1.4f * zoom);
         }
     }
 }
 
 void Game::Building(const Prop& o)
 {
-    Vec2 p = o.p;
-    float w = o.w, d = o.d, h = o.h;
+    Vec2 p = o.Position();
+    float w = o.Width(), d = o.Depth(), h = o.h;
     Color trim = o.variant == 1 ? Color(0xd19b62) : Color(0x6d9fa0);
     Box(p, w + .2f, d + .2f, 0, 9, Color(0x526164), Color(0x263a42), Color(0x1e3039));
     Box(p, w, d, 9, h, Color(0x596970), Color(0x31464d), Color(0x23363e));
@@ -603,17 +558,17 @@ void Game::Portrait(float x, float y, float w, float h, int kind)
 
 void Game::DrawProp(const Prop& o)
 {
-    Vec2 s = P(o.p);
+    Vec2 s = P(o.Position());
     if (s.x < -350 || s.x > 1800 || s.y < -300 || s.y > 1300)
     {
         return;
     }
     objectAlpha = 1;
     if ((o.kind == PropKind::Habitat || o.kind == PropKind::Archive) &&
-        GameWorld::Project(o.p).y > GameWorld::Project(world.player).y)
+        GameWorld::Project(o.Position()).y > GameWorld::Project(world.PlayerPosition()).y)
     {
-        Vec2 player = P(world.player, 35);
-        if (std::abs(player.x - s.x) < (o.w + o.d) * 23 * zoom &&
+        Vec2 player = P(world.PlayerPosition(), 35);
+        if (std::abs(player.x - s.x) < (o.Width() + o.Depth()) * 23 * zoom &&
             player.y > s.y - (o.h + 50) * zoom && player.y < s.y + 20 * zoom)
         {
             objectAlpha = .35f;
@@ -625,59 +580,64 @@ void Game::DrawProp(const Prop& o)
     }
     else if (o.kind == PropKind::Crate)
     {
-        Box(o.p, o.w, o.d, 0, o.h, Color(0x84918d), Color(0x52666b), Color(0x344950));
-        Box(o.p, o.w + .06f, o.d + .06f, o.h - 5, 5, Color(0x748b88), Color(0x465d61),
-            Color(0x30454f));
-        canvas.Line(P(o.p + Vec2{-.2f, .33f}, 5), P(o.p + Vec2{-.2f, .33f}, 22), Gold.Fade(.6f),
-                    2 * zoom);
+        Box(o.Position(), o.Width(), o.Depth(), 0, o.h, Color(0x84918d), Color(0x52666b),
+            Color(0x344950));
+        Box(o.Position(), o.Width() + .06f, o.Depth() + .06f, o.h - 5, 5, Color(0x748b88),
+            Color(0x465d61), Color(0x30454f));
+        canvas.Line(P(o.Position() + Vec2{-.2f, .33f}, 5), P(o.Position() + Vec2{-.2f, .33f}, 22),
+                    Gold.Fade(.6f), 2 * zoom);
     }
     else if (o.kind == PropKind::Lamp)
     {
-        Box(o.p, .3f, .3f, 0, 5, Color(0x687e7b), Color(0x293c44), Color(0x1a3039));
-        canvas.Line(s, P(o.p, o.h), Color(0x8a9e9b), 3.5f * zoom);
-        canvas.Line(P(o.p, o.h), P(o.p + Vec2{.21f, .21f}, o.h), Color(0x96aaa6), 3 * zoom);
-        Vec2 light = P(o.p + Vec2{.21f, .21f}, o.h);
+        Box(o.Position(), .3f, .3f, 0, 5, Color(0x687e7b), Color(0x293c44), Color(0x1a3039));
+        canvas.Line(s, P(o.Position(), o.h), Color(0x8a9e9b), 3.5f * zoom);
+        canvas.Line(P(o.Position(), o.h), P(o.Position() + Vec2{.21f, .21f}, o.h), Color(0x96aaa6),
+                    3 * zoom);
+        Vec2 light = P(o.Position() + Vec2{.21f, .21f}, o.h);
         Color color = o.variant == 0 ? Gold : Teal;
         canvas.Glow(light, 27 * zoom, 27 * zoom, color.Fade(.36f));
         canvas.Ellipse(light, 3 * zoom, 2 * zoom, White);
     }
     else if (o.kind == PropKind::Tree)
     {
-        Box(o.p, .85f, .85f, 0, 12, Color(0x425952), Color(0x324347), Color(0x22383d));
-        canvas.Line(P(o.p, 12), P(o.p, o.h * .83f), Color(0x697a66), 4 * zoom);
+        Box(o.Position(), .85f, .85f, 0, 12, Color(0x425952), Color(0x324347), Color(0x22383d));
+        canvas.Line(P(o.Position(), 12), P(o.Position(), o.h * .83f), Color(0x697a66), 4 * zoom);
         for (int i = 0; i < 9; ++i)
         {
             float a = i * 2.399f, radius = 10 + (i % 3) * 6.f;
-            Vec2 p = P(o.p, o.h * .66f) + Vec2{std::cos(a) * radius * zoom,
-                                               std::sin(a) * radius * zoom * .65f - i * 2 * zoom};
+            Vec2 p = P(o.Position(), o.h * .66f) +
+                     Vec2{std::cos(a) * radius * zoom,
+                          std::sin(a) * radius * zoom * .65f - i * 2 * zoom};
             Color c = i % 2 ? Color(0x58786c) : Color(0x365c52);
             canvas.Quad(p + Vec2{-16 * zoom, 0}, p + Vec2{-3 * zoom, -17 * zoom},
                         p + Vec2{19 * zoom, -3 * zoom}, p + Vec2{6 * zoom, 12 * zoom}, c);
             canvas.Line(p + Vec2{-9 * zoom, 0}, p + Vec2{5 * zoom, -5 * zoom},
                         Color(0xa0ae86, .24f), zoom);
         }
-        canvas.Ellipse(P(o.p, o.h * .78f) + Vec2{6 * zoom, -2 * zoom}, 2 * zoom, 2 * zoom, Gold);
+        canvas.Ellipse(P(o.Position(), o.h * .78f) + Vec2{6 * zoom, -2 * zoom}, 2 * zoom, 2 * zoom,
+                       Gold);
     }
     else if (o.kind == PropKind::Relay)
     {
         Color light = world.restored[o.variant] ? Teal : Gold;
-        Box(o.p, .85f, .85f, 0, 9, Color(0x5c7478), Color(0x344a53), Color(0x1e3944));
-        Box(o.p, .42f, .42f, 9, 51, Color(0x698289), Color(0x49626b), Color(0x2c4956));
-        Box(o.p, .7f, .65f, 60, 6, Color(0x88a3a6), Color(0x587982), Color(0x39596a));
-        Vec2 top = P(o.p, 81 + std::sin(world.time * 2 + o.variant) * 3);
+        Box(o.Position(), .85f, .85f, 0, 9, Color(0x5c7478), Color(0x344a53), Color(0x1e3944));
+        Box(o.Position(), .42f, .42f, 9, 51, Color(0x698289), Color(0x49626b), Color(0x2c4956));
+        Box(o.Position(), .7f, .65f, 60, 6, Color(0x88a3a6), Color(0x587982), Color(0x39596a));
+        Vec2 top = P(o.Position(), 81 + std::sin(world.time * 2 + o.variant) * 3);
         canvas.Glow(top, 38 * zoom, 40 * zoom, light.Fade(.3f));
         Marker(top, light, 9 * zoom);
-        canvas.Line(P(o.p, 18), P(o.p, 48), light, 2 * zoom);
-        canvas.Ellipse(P(o.p, 1), 33 * zoom, 16.5f * zoom, light.Fade(.6f), false, zoom);
+        canvas.Line(P(o.Position(), 18), P(o.Position(), 48), light, 2 * zoom);
+        canvas.Ellipse(P(o.Position(), 1), 33 * zoom, 16.5f * zoom, light.Fade(.6f), false, zoom);
     }
     else if (o.kind == PropKind::Core)
     {
         Color light = world.bossDefeated ? Teal : Color(0xf17d7c);
-        Box(o.p, o.w, o.d, 0, 8, Color(0x58717c), Color(0x324f5b), Color(0x203b48));
-        Box(o.p, .55f, .55f, 8, 38, Color(0x789291), Color(0x324f5b), Color(0x203b48));
-        Box(o.p, .8f, .8f, 46, 8, Color(0xadc6bb), Color(0x54767d), Color(0x385965));
-        canvas.Ellipse(P(o.p), 33 * zoom, 16.5f * zoom, light.Fade(.55f), false, zoom);
-        Vec2 hologram = P(o.p, 79 + std::sin(world.time * 2) * 3);
+        Box(o.Position(), o.Width(), o.Depth(), 0, 8, Color(0x58717c), Color(0x324f5b),
+            Color(0x203b48));
+        Box(o.Position(), .55f, .55f, 8, 38, Color(0x789291), Color(0x324f5b), Color(0x203b48));
+        Box(o.Position(), .8f, .8f, 46, 8, Color(0xadc6bb), Color(0x54767d), Color(0x385965));
+        canvas.Ellipse(P(o.Position()), 33 * zoom, 16.5f * zoom, light.Fade(.55f), false, zoom);
+        Vec2 hologram = P(o.Position(), 79 + std::sin(world.time * 2) * 3);
         canvas.Glow(hologram, 32 * zoom, 40 * zoom, light.Fade(.25f));
         Marker(hologram, light, 12 * zoom);
         CenterText(hologram.x, hologram.y - 28 * zoom, L"ORACLE", 11, light);
@@ -687,36 +647,37 @@ void Game::DrawProp(const Prop& o)
         // Angled hull, inset canopy, paired engine nacelles and landing struts.
         for (float side : {-1.f, 1.f})
         {
-            Box(o.p + Vec2{-.2f, side * .9f}, 1.7f, .48f, 11, 22, Color(0x727d80), Color(0x354b56),
-                Color(0x263d4a));
-            Vec2 engine = P(o.p + Vec2{-.95f, side * .9f}, 24);
+            Box(o.Position() + Vec2{-.2f, side * .9f}, 1.7f, .48f, 11, 22, Color(0x727d80),
+                Color(0x354b56), Color(0x263d4a));
+            Vec2 engine = P(o.Position() + Vec2{-.95f, side * .9f}, 24);
             canvas.Glow(engine, 40 * zoom, 22 * zoom, Teal.Fade(.5f));
             canvas.Ellipse(engine, 7 * zoom, 5 * zoom, Teal);
-            canvas.Line(P(o.p + Vec2{.4f, side * .8f}, 0), P(o.p + Vec2{.4f, side * .8f}, 24),
-                        Color(0xa1aaa8), 4 * zoom);
+            canvas.Line(P(o.Position() + Vec2{.4f, side * .8f}, 0),
+                        P(o.Position() + Vec2{.4f, side * .8f}, 24), Color(0xa1aaa8), 4 * zoom);
         }
-        Box(o.p, 2.5f, 1.3f, 25, 28, Color(0x8c9796), Color(0x526771), Color(0x314955));
-        Vec2 a = P(o.p + Vec2{1.9f, 0}, 31), b = P(o.p + Vec2{.5f, -.67f}, 53),
-             d = P(o.p + Vec2{.5f, .67f}, 53);
+        Box(o.Position(), 2.5f, 1.3f, 25, 28, Color(0x8c9796), Color(0x526771), Color(0x314955));
+        Vec2 a = P(o.Position() + Vec2{1.9f, 0}, 31), b = P(o.Position() + Vec2{.5f, -.67f}, 53),
+             d = P(o.Position() + Vec2{.5f, .67f}, 53);
         canvas.Triangle(a, b, d, Color(0x9ea8a2));
-        canvas.Triangle(a, d, P(o.p + Vec2{.5f, .67f}, 25), Color(0x566d76));
-        Box(o.p + Vec2{.18f, 0}, 1.05f, .8f, 53, 18, Color(0x739d9e), Color(0x315867),
+        canvas.Triangle(a, d, P(o.Position() + Vec2{.5f, .67f}, 25), Color(0x566d76));
+        Box(o.Position() + Vec2{.18f, 0}, 1.05f, .8f, 53, 18, Color(0x739d9e), Color(0x315867),
             Color(0x1c404f));
-        canvas.Line(P(o.p + Vec2{-.25f, .41f}, 68), P(o.p + Vec2{.55f, .41f}, 68), Teal.Fade(.8f),
-                    2 * zoom);
-        canvas.Line(P(o.p + Vec2{-.8f, .7f}, 43), P(o.p + Vec2{-.2f, .7f}, 43), Gold, 3 * zoom);
+        canvas.Line(P(o.Position() + Vec2{-.25f, .41f}, 68), P(o.Position() + Vec2{.55f, .41f}, 68),
+                    Teal.Fade(.8f), 2 * zoom);
+        canvas.Line(P(o.Position() + Vec2{-.8f, .7f}, 43), P(o.Position() + Vec2{-.2f, .7f}, 43),
+                    Gold, 3 * zoom);
     }
     else if (o.kind == PropKind::Citizen)
     {
         Person(s, 2, zoom * .92f, false, (float)o.variant);
         if (world.quest == 0 && o.variant == 0)
         {
-            Marker(P(o.p, 85 + std::sin(world.time * 2) * 4), Gold, 6 * zoom);
+            Marker(P(o.Position(), 85 + std::sin(world.time * 2) * 4), Gold, 6 * zoom);
         }
     }
     else if (o.kind == PropKind::Memory && !world.found[o.variant])
     {
-        Vec2 p = P(o.p, 19 + std::sin(world.time * 2 + o.variant) * 4);
+        Vec2 p = P(o.Position(), 19 + std::sin(world.time * 2 + o.variant) * 4);
         canvas.Glow(p, 22 * zoom, 26 * zoom, Gold.Fade(.3f));
         Marker(p, Gold, 4 * zoom);
         canvas.Ellipse(s, 13 * zoom, 6 * zoom, Gold.Fade(.35f), false);
@@ -726,75 +687,8 @@ void Game::DrawProp(const Prop& o)
 
 void Game::WorldScene()
 {
-    Ground();
-    CombatGround();
-
-    struct Item
-    {
-        float depth;
-        int index;
-    };
-
-    std::vector<Item> items;
-    for (int i = 0; i < (int)world.props.size(); ++i)
-    {
-        items.push_back({world.props[i].p.x + world.props[i].p.y, i});
-    }
-    items.push_back({world.player.x + world.player.y, -1});
-    items.push_back({world.captain.x + world.captain.y, -2});
-    for (int i = 0; i < (int)world.enemies.size(); ++i)
-    {
-        items.push_back({world.enemies[i].p.x + world.enemies[i].p.y, -3 - i});
-    }
-    std::stable_sort(items.begin(), items.end(),
-                     [](const Item& a, const Item& b)
-                     {
-                         return a.depth < b.depth;
-                     });
-    for (auto item : items)
-    {
-        if (item.index >= 0)
-        {
-            DrawProp(world.props[item.index]);
-        }
-        else if (item.index == -1)
-        {
-            Person(P(world.player), 0, zoom, world.walking);
-            DrawWeapon();
-        }
-        else if (item.index == -2)
-        {
-            Person(P(world.captain), 1, zoom, world.captainWalking, 1.2f);
-        }
-        else
-        {
-            DrawEnemy(world.enemies[-3 - item.index]);
-        }
-    }
-    CombatEffects();
-    canvas.Ellipse(P(world.player), 20 * zoom, 9 * zoom, Teal.Fade(.7f), false, 1.1f * zoom);
-    // Floating ambient dust is deterministic and does not change the playable map.
-    for (int i = 0; i < 64; ++i)
-    {
-        float x = std::fmod(i * 197.3f + world.time * (3 + i % 4), 1500.f) - 30;
-        float y = std::fmod(i * 137.7f - world.time * (6 + i % 3) + 10000, 960.f) - 30;
-        float alpha = .15f + .22f * (.5f + .5f * std::sin(world.time + i));
-        canvas.Ellipse({x, y}, i % 3 == 0 ? 1.8f : 1.f, i % 3 == 0 ? 1.8f : 1.f,
-                       Color(i % 4 == 0 ? 0xe5bc80 : 0x90c6bf, alpha));
-    }
-    if (world.scanWave >= 0)
-    {
-        float radius = world.scanWave * 230 * zoom;
-        canvas.Ellipse(P(world.scanOrigin), radius, radius * .5f,
-                       Teal.Fade(Clamp(1 - world.scanWave / 2.3f, 0, 1) * .8f), false, 2 * zoom);
-        for (int i = 0; i < 3; ++i)
-        {
-            if (!world.found[i])
-            {
-                canvas.Glow(P(world.memories[i], 20), 30, 40, Gold.Fade(.3f));
-            }
-        }
-    }
+    world.scene.Draw(*this);
+    DrawAimGuide();
 }
 
 void Game::Panel(float x, float y, float w, float h, float alpha)
@@ -898,24 +792,25 @@ void Game::Map(float x, float y, float w, float h, bool full)
     }
     for (int i = 0; i < 3; ++i)
     {
-        Marker(point(world.relays[i]), world.restored[i] ? Teal : Gold, full ? 7.f : 3.f);
+        Marker(point(world.RelayPosition(i)), world.restored[i] ? Teal : Gold, full ? 7.f : 3.f);
     }
     for (int i = 0; i < 3; ++i)
     {
         if (!world.found[i])
         {
-            canvas.Ellipse(point(world.memories[i]), full ? 3.f : 1.5f, full ? 3.f : 1.5f,
+            canvas.Ellipse(point(world.MemoryPosition(i)), full ? 3.f : 1.5f, full ? 3.f : 1.5f,
                            White.Fade(.6f));
         }
     }
-    Marker(point(world.corePosition), world.bossDefeated ? Teal : Color(0xf17d7c),
+    Marker(point(world.CorePosition()), world.bossDefeated ? Teal : Color(0xf17d7c),
            full ? 9.f : 4.f);
-    for (const auto& enemy : world.enemies)
+    for (const auto& enemy : world.scene.Actors<Enemy>())
     {
-        canvas.Ellipse(point(enemy.p), full ? 3.f : 1.5f, full ? 3.f : 1.5f, Color(0xf17d7c));
+        canvas.Ellipse(point(enemy.Position()), full ? 3.f : 1.5f, full ? 3.f : 1.5f,
+                       Color(0xf17d7c));
     }
-    canvas.Ellipse(point(world.captain), full ? 4.f : 2.f, full ? 4.f : 2.f, Gold);
-    Vec2 p = point(world.player);
+    canvas.Ellipse(point(world.CaptainPosition()), full ? 4.f : 2.f, full ? 4.f : 2.f, Gold);
+    Vec2 p = point(world.PlayerPosition());
     canvas.Glow(p, full ? 21.f : 9.f, full ? 21.f : 9.f, Teal.Fade(.5f));
     canvas.Triangle(p + Vec2{0, -6}, p + Vec2{4, 4}, p + Vec2{-4, 4}, White);
     if (full)
@@ -963,11 +858,11 @@ void Game::HUD()
     Vec2 target = P(world.Objective(), 92), screen = target;
     screen.x = Clamp(screen.x, 385, 1135);
     screen.y = Clamp(screen.y, 165, 714);
-    if (GameWorld::Distance(world.player, world.Objective()) > 2)
+    if (GameWorld::Distance(world.PlayerPosition(), world.Objective()) > 2)
     {
         canvas.Glow(screen, 22, 22, Gold.Fade(.15f));
         Marker(screen, Gold, 7);
-        int distance = (int)(GameWorld::Distance(world.player, world.Objective()) * 10);
+        int distance = (int)(GameWorld::Distance(world.PlayerPosition(), world.Objective()) * 10);
         CenterText(screen.x, screen.y + 13, std::to_wstring(distance) + L" m", 12, Gold);
         if (GameWorld::Distance(screen, target) > 10)
         {
@@ -1002,7 +897,7 @@ void Game::HUD()
     canvas.Rect(600, 853, 233 * (1 - world.scanCooldown / 5), 2, Teal);
     canvas.Text(1070, 804, L"WASD  이동   /   SHIFT  달리기", 12, White.Fade(.85f));
     canvas.Text(1000, 829, L"좌클릭  사격   /   휠  확대   /   ESC  일시정지", 11, Muted);
-    if (world.nearby >= 0 && world.view == View::Explore)
+    if (world.nearby != InvalidActor && world.view == View::Explore)
     {
         const auto label = world.NearbyText();
         float width = canvas.Measure(label, 15) + 66;

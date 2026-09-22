@@ -25,9 +25,9 @@ namespace
     }
 } // namespace
 
-void Game::DrawWeapon()
+void Game::DrawWeapon(const SceneEffect& effect)
 {
-    Vec2 origin = P(world.player, 24);
+    Vec2 origin = P(effect.Position(), 24);
     Vec2 direction = world.aim;
     Vec2 grip = origin + direction * (9 * zoom);
     Vec2 muzzle = origin + direction * (26 * zoom);
@@ -42,7 +42,7 @@ void Game::DrawWeapon()
     }
     if (world.invulnerability > 0)
     {
-        canvas.Ellipse(P(world.player, 25), 23 * zoom, 34 * zoom,
+        canvas.Ellipse(P(effect.Position(), 25), 23 * zoom, 34 * zoom,
                        Red.Fade(.35f + .3f * std::sin(world.time * 35)), false, 2 * zoom);
     }
 }
@@ -51,9 +51,9 @@ void Game::DrawEnemy(const Enemy& enemy)
 {
     bool boss = enemy.kind == EnemyKind::Boss;
     float size = boss ? 2.f : 1.f;
-    Vec2 foot = P(enemy.p);
+    Vec2 foot = P(enemy.Position());
     float hover = std::sin(world.time * 3 + enemy.home.x) * 3;
-    Vec2 body = P(enemy.p, (boss ? 42.f : 27.f) + hover);
+    Vec2 body = P(enemy.Position(), (boss ? 42.f : 27.f) + hover);
     Color shell = enemy.flash > 0 ? White : Color(boss ? 0x4a3d55 : 0x425362);
     Color energy = boss && enemy.health < enemy.maxHealth * .5f ? Gold : Red;
     canvas.Ellipse(foot, 23 * size * zoom, 10 * size * zoom, Ink.Fade(.68f));
@@ -99,119 +99,109 @@ void Game::DrawEnemy(const Enemy& enemy)
     }
     else
     {
-        Vec2 hp = P(enemy.p, 62);
+        Vec2 hp = P(enemy.Position(), 62);
         canvas.Rect(hp.x - 22 * zoom, hp.y, 44 * zoom, 4 * zoom, Ink);
         canvas.Rect(hp.x - 22 * zoom, hp.y,
                     44 * zoom * (std::max)(0.f, enemy.health / enemy.maxHealth), 4 * zoom, energy);
     }
 }
 
-void Game::CombatGround()
+void Game::DrawEnemyWarning(const Enemy& enemy)
 {
-    for (const auto& enemy : world.enemies)
+    if (enemy.windup <= 0)
     {
-        if (enemy.windup <= 0)
-        {
-            continue;
-        }
-        bool boss = enemy.kind == EnemyKind::Boss;
-        Color warning = Red.Fade(.55f + .2f * std::sin(world.time * 17));
-        if (boss && enemy.attack % 3 == 2)
-        {
-            Vec2 target = P(enemy.target);
-            canvas.Ellipse(target, 78 * zoom, 78 * zoom, Red.Fade(.13f));
-            canvas.Ellipse(target, 78 * zoom, 78 * zoom, warning, false, 2 * zoom);
-            float duration = enemy.health <= enemy.maxHealth * .5f ? .85f : 1.15f;
-            float progress = (std::max)(0.f, 1 - enemy.windup / duration);
-            canvas.Ellipse(target, 78 * zoom * progress, 78 * zoom * progress, warning, false);
-            canvas.Line(target + Vec2{-12, 0}, target + Vec2{12, 0}, warning, 2);
-            canvas.Line(target + Vec2{0, -12}, target + Vec2{0, 12}, warning, 2);
-        }
-        else if (boss && enemy.attack % 3 == 1)
-        {
-            canvas.Ellipse(P(enemy.p), 92 * zoom, 92 * zoom, Red.Fade(.1f));
-            canvas.Ellipse(P(enemy.p), 92 * zoom, 92 * zoom, warning, false, 2 * zoom);
-            CenterText(P(enemy.p).x, P(enemy.p).y + 45 * zoom, L"방사 탄막", 12, Red);
-        }
-        else
-        {
-            Vec2 source = P(enemy.p, 24);
-            Vec2 direction = P(enemy.target, 24) - source;
-            float length = GameWorld::Distance(direction, {});
-            direction = length > 1 ? direction * (1 / length) : Vec2{1, 0};
-            int spread = boss ? (enemy.health <= enemy.maxHealth * .5f ? 2 : 1) : 0;
-            for (int i = -spread; i <= spread; ++i)
-            {
-                float angle = i * .22f;
-                Vec2 ray = {direction.x * std::cos(angle) - direction.y * std::sin(angle),
-                            direction.x * std::sin(angle) + direction.y * std::cos(angle)};
-                canvas.Line(source, source + ray * (boss ? 360.f : 290.f) * zoom, warning, 1.5f);
-            }
-        }
+        return;
     }
-    for (const auto& item : world.loot)
+    bool boss = enemy.kind == EnemyKind::Boss;
+    Color warning = Red.Fade(.55f + .2f * std::sin(world.time * 17));
+    if (boss && enemy.attack % 3 == 2)
     {
-        Vec2 p = P(item.p, 9 + std::sin(world.time * 4 + item.p.x) * 3);
-        Color color = LootColor(item.kind);
-        canvas.Ellipse(P(item.p), 10 * zoom, 5 * zoom, color.Fade(.2f));
-        canvas.Glow(p, 18 * zoom, 21 * zoom, color.Fade(.24f));
-        canvas.Ellipse(p, 10 * zoom, 10 * zoom, Ink.Fade(.9f));
-        if (item.kind == LootKind::Soul)
-        {
-            Marker(p, color, 7 * zoom);
-        }
-        else if (item.kind == LootKind::Health)
-        {
-            canvas.Line(p + Vec2{-6 * zoom, 0}, p + Vec2{6 * zoom, 0}, color, 4 * zoom);
-            canvas.Line(p + Vec2{0, -6 * zoom}, p + Vec2{0, 6 * zoom}, color, 4 * zoom);
-        }
-        else if (item.kind == LootKind::Weapon)
-        {
-            canvas.Line(p + Vec2{-6 * zoom, 4 * zoom}, p + Vec2{6 * zoom, -4 * zoom}, color,
-                        4 * zoom);
-            canvas.Line(p + Vec2{0, -6 * zoom}, p + Vec2{0, 6 * zoom}, White, 1.5f * zoom);
-        }
-        else
-        {
-            canvas.Line(p + Vec2{-5 * zoom, -5 * zoom}, p + Vec2{-5 * zoom, 5 * zoom}, color,
-                        3 * zoom);
-            canvas.Line(p + Vec2{5 * zoom, -5 * zoom}, p + Vec2{5 * zoom, 5 * zoom}, color,
-                        3 * zoom);
-            canvas.Line(p + Vec2{-5 * zoom, 5 * zoom}, p + Vec2{5 * zoom, 5 * zoom}, color,
-                        3 * zoom);
-        }
+        Vec2 target = P(enemy.target);
+        canvas.Ellipse(target, 78 * zoom, 78 * zoom, Red.Fade(.13f));
+        canvas.Ellipse(target, 78 * zoom, 78 * zoom, warning, false, 2 * zoom);
+        float duration = enemy.health <= enemy.maxHealth * .5f ? .85f : 1.15f;
+        float progress = (std::max)(0.f, 1 - enemy.windup / duration);
+        canvas.Ellipse(target, 78 * zoom * progress, 78 * zoom * progress, warning, false);
+        canvas.Line(target + Vec2{-12, 0}, target + Vec2{12, 0}, warning, 2);
+        canvas.Line(target + Vec2{0, -12}, target + Vec2{0, 12}, warning, 2);
     }
-    if (world.magnetTime > 0)
+    else if (boss && enemy.attack % 3 == 1)
     {
-        float radius = 35 + std::fmod(world.time * 90, 90.f);
-        canvas.Ellipse(P(world.player), radius * zoom, radius * .5f * zoom,
-                       Teal.Fade(.4f * (1 - (radius - 35) / 90)), false, 2);
+        canvas.Ellipse(P(enemy.Position()), 92 * zoom, 92 * zoom, Red.Fade(.1f));
+        canvas.Ellipse(P(enemy.Position()), 92 * zoom, 92 * zoom, warning, false, 2 * zoom);
+        CenterText(P(enemy.Position()).x, P(enemy.Position()).y + 45 * zoom, L"방사 탄막", 12, Red);
+    }
+    else
+    {
+        Vec2 source = P(enemy.Position(), 24);
+        Vec2 direction = P(enemy.target, 24) - source;
+        float length = GameWorld::Distance(direction, {});
+        direction = length > 1 ? direction * (1 / length) : Vec2{1, 0};
+        int spread = boss ? (enemy.health <= enemy.maxHealth * .5f ? 2 : 1) : 0;
+        for (int i = -spread; i <= spread; ++i)
+        {
+            float angle = i * .22f;
+            Vec2 ray = {direction.x * std::cos(angle) - direction.y * std::sin(angle),
+                        direction.x * std::sin(angle) + direction.y * std::cos(angle)};
+            canvas.Line(source, source + ray * (boss ? 360.f : 290.f) * zoom, warning, 1.5f);
+        }
     }
 }
 
-void Game::CombatEffects()
+void Game::Draw(const Loot& item)
 {
-    for (const auto& bullet : world.projectiles)
+    Vec2 p = P(item.Position(), 9 + std::sin(world.time * 4 + item.Position().x) * 3);
+    Color color = LootColor(item.kind);
+    canvas.Ellipse(P(item.Position()), 10 * zoom, 5 * zoom, color.Fade(.2f));
+    canvas.Glow(p, 18 * zoom, 21 * zoom, color.Fade(.24f));
+    canvas.Ellipse(p, 10 * zoom, 10 * zoom, Ink.Fade(.9f));
+    if (item.kind == LootKind::Soul)
     {
-        Vec2 p = P(bullet.p, 24);
-        Color color = bullet.hostile ? Red : (bullet.critical ? Gold : Teal);
-        canvas.Glow(p, 10 * zoom, 10 * zoom, color.Fade(.45f));
-        canvas.Line(p - bullet.direction * (bullet.hostile ? 10.f : 18.f) * zoom, p, color,
-                    (bullet.hostile ? 4.f : 3.f) * zoom);
-        canvas.Ellipse(p, 2 * zoom, 2 * zoom, White);
+        Marker(p, color, 7 * zoom);
     }
-    for (const auto& text : world.combatText)
+    else if (item.kind == LootKind::Health)
     {
-        Vec2 p = P(text.p, 65 + (1.5f - text.life) * 24);
-        CenterText(p.x, p.y, text.text, 16, Color(text.color, (std::min)(1.f, text.life * 2)),
-                   true);
+        canvas.Line(p + Vec2{-6 * zoom, 0}, p + Vec2{6 * zoom, 0}, color, 4 * zoom);
+        canvas.Line(p + Vec2{0, -6 * zoom}, p + Vec2{0, 6 * zoom}, color, 4 * zoom);
     }
-    if (mouseInside && world.view == View::Explore && !(mouse.x > 1180 && mouse.y < 226))
+    else if (item.kind == LootKind::Weapon)
     {
-        Vec2 origin = P(world.player, 24);
+        canvas.Line(p + Vec2{-6 * zoom, 4 * zoom}, p + Vec2{6 * zoom, -4 * zoom}, color, 4 * zoom);
+        canvas.Line(p + Vec2{0, -6 * zoom}, p + Vec2{0, 6 * zoom}, White, 1.5f * zoom);
+    }
+    else
+    {
+        canvas.Line(p + Vec2{-5 * zoom, -5 * zoom}, p + Vec2{-5 * zoom, 5 * zoom}, color, 3 * zoom);
+        canvas.Line(p + Vec2{5 * zoom, -5 * zoom}, p + Vec2{5 * zoom, 5 * zoom}, color, 3 * zoom);
+        canvas.Line(p + Vec2{-5 * zoom, 5 * zoom}, p + Vec2{5 * zoom, 5 * zoom}, color, 3 * zoom);
+    }
+}
+
+void Game::Draw(const Projectile& bullet)
+{
+    Vec2 p = P(bullet.Position(), 24);
+    Color color = bullet.hostile ? Red : (bullet.critical ? Gold : Teal);
+    canvas.Glow(p, 10 * zoom, 10 * zoom, color.Fade(.45f));
+    canvas.Line(p - bullet.direction * (bullet.hostile ? 10.f : 18.f) * zoom, p, color,
+                (bullet.hostile ? 4.f : 3.f) * zoom);
+    canvas.Ellipse(p, 2 * zoom, 2 * zoom, White);
+}
+
+void Game::Draw(const CombatText& text)
+{
+    Vec2 p = P(text.Position(), 65 + (1.5f - text.life) * 24);
+    CenterText(p.x, p.y, text.text, 16, Color(text.color, (std::min)(1.f, text.life * 2)), true);
+}
+
+void Game::DrawAimGuide()
+{
+    if (world.PlayerActive() && mouseInside && world.view == View::Explore &&
+        !(mouse.x > 1180 && mouse.y < 226))
+    {
+        Vec2 origin = P(world.PlayerPosition(), 24);
         for (float distance = 38; distance < world.stats.Range(); distance += 20)
         {
-            Vec2 grid = world.player + GameWorld::Unproject(world.aim * distance);
+            Vec2 grid = world.PlayerPosition() + GameWorld::Unproject(world.aim * distance);
             if (!world.Walkable(grid, .035f))
             {
                 break;
@@ -266,7 +256,7 @@ void Game::CombatHUD()
     {
         CenterText(720, 759, world.TutorialText(), 13, Gold);
     }
-    for (const auto& enemy : world.enemies)
+    for (const auto& enemy : world.scene.Actors<Enemy>())
     {
         if (enemy.kind != EnemyKind::Boss)
         {
@@ -282,7 +272,8 @@ void Game::CombatHUD()
     if (mouseInside && world.view == View::Explore && !(mouse.x > 1180 && mouse.y < 226))
     {
         Color color =
-            GameWorld::Distance(mouse, P(world.player, 24)) > stats.Range() * zoom ? Muted : Teal;
+            GameWorld::Distance(mouse, P(world.PlayerPosition(), 24)) > stats.Range() * zoom ? Muted
+                                                                                             : Teal;
         canvas.Ellipse(mouse, 8, 8, Ink.Fade(.7f), false, 4);
         canvas.Ellipse(mouse, 8, 8, color, false, 1);
         canvas.Line(mouse + Vec2{-14, 0}, mouse + Vec2{-5, 0}, color, 1.3f);

@@ -17,49 +17,27 @@ GameWorld::GameWorld(uint32_t seed)
         mapSeed = 1;
     }
     random.seed(mapSeed);
+    roots.terrain = scene.Add(Actor("Terrain")).Id();
+    roots.environment = scene.Add(Actor("Environment")).Id();
+    roots.characters = scene.Add(Actor("Characters")).Id();
+    roots.enemies = scene.Add(Actor("Enemies")).Id();
+    roots.projectiles = scene.Add(Actor("Projectiles")).Id();
+    roots.loot = scene.Add(Actor("Loot")).Id();
+    roots.effects = scene.Add(Actor("Effects")).Id();
+    playerId = Spawn(Character({-5, 1})).Id();
+    captainId = Spawn(Character({-5.5f, 2}, true)).Id();
+    scene.Add(SceneEffect(EffectKind::Weapon), playerId);
+    scene.Add(SceneEffect(EffectKind::Magnet), playerId);
+    scene.Add(SceneEffect(EffectKind::PlayerRing), playerId);
+    Spawn(SceneEffect(EffectKind::AmbientDust));
+    scanEffectId = Spawn(SceneEffect(EffectKind::Scan)).Id();
     GenerateLevel();
-}
-
-int GameWorld::Tile(int x, int y) const
-{
-    int result = -1;
-    for (const auto& d : districts)
-    {
-        if (x >= d.x0 && x <= d.x1 && y >= d.y0 && y <= d.y1)
-        {
-            result = d.kind;
-        }
-    }
-    return result;
-}
-
-bool GameWorld::Walkable(Vec2 p, float radius) const
-{
-    for (float dx : {-radius, radius})
-    {
-        for (float dy : {-radius, radius})
-        {
-            if (Tile((int)std::floor(p.x + dx + .5f), (int)std::floor(p.y + dy + .5f)) < 0)
-            {
-                return false;
-            }
-        }
-    }
-    for (const auto& o : props)
-    {
-        if (o.solid && std::abs(p.x - o.p.x) < o.w * .5f + radius &&
-            std::abs(p.y - o.p.y) < o.d * .5f + radius)
-        {
-            return false;
-        }
-    }
-    return true;
 }
 
 void GameWorld::Move(Vec2 direction, float dt, bool running)
 {
     walking = false;
-    if (view != View::Explore)
+    if (view != View::Explore || !PlayerActive())
     {
         return;
     }
@@ -78,16 +56,16 @@ void GameWorld::Move(Vec2 direction, float dt, bool running)
     delta = delta * (1.f / steps);
     for (int i = 0; i < steps; ++i)
     {
-        Vec2 next = player + Vec2{delta.x, 0};
+        Vec2 next = PlayerPosition() + Vec2{delta.x, 0};
         if (Walkable(next))
         {
-            player = next;
+            SetPlayerPosition(next);
             walking = true;
         }
-        next = player + Vec2{0, delta.y};
+        next = PlayerPosition() + Vec2{0, delta.y};
         if (Walkable(next))
         {
-            player = next;
+            SetPlayerPosition(next);
             walking = true;
         }
     }
@@ -102,8 +80,8 @@ void GameWorld::Start()
         quest = 1;
         Notify(L"첫 행성 · 마우스로 조준하고 좌클릭을 누르세요. 주변 드론을 처치해 성장하세요.");
         trail.clear();
-        trail.push_back(captain);
-        trail.push_back(player);
+        trail.push_back(CaptainPosition());
+        trail.push_back(PlayerPosition());
     }
 }
 
@@ -132,27 +110,29 @@ void GameWorld::Update(float dt)
             scanWave = -1;
         }
     }
-    if (trail.empty() || Distance(trail.back(), player) > .15f)
+    if (trail.empty() || Distance(trail.back(), PlayerPosition()) > .15f)
     {
-        trail.push_back(player);
+        trail.push_back(PlayerPosition());
     }
     captainWalking = false;
-    if (Distance(captain, player) > .9f && !trail.empty())
+    if (PlayerActive() && scene.Find(captainId) && scene.Find(captainId)->IsActive() &&
+        Distance(CaptainPosition(), PlayerPosition()) > .9f && !trail.empty())
     {
         Vec2 target = trail.front();
-        float distance = Distance(target, captain);
+        float distance = Distance(target, CaptainPosition());
         if (distance < .15f)
         {
             trail.pop_front();
         }
         else
         {
-            float speed = Distance(captain, player) > 3.f ? 10.f : 6.f;
-            Vec2 delta = (target - captain) * ((std::min)(distance, dt * speed) / distance);
-            Vec2 next = captain + delta;
+            float speed = Distance(CaptainPosition(), PlayerPosition()) > 3.f ? 10.f : 6.f;
+            Vec2 delta =
+                (target - CaptainPosition()) * ((std::min)(distance, dt * speed) / distance);
+            Vec2 next = CaptainPosition() + delta;
             if (Walkable(next, .15f))
             {
-                captain = next;
+                SetCaptainPosition(next);
                 captainWalking = true;
             }
         }
@@ -162,18 +142,23 @@ void GameWorld::Update(float dt)
     {
         trail.pop_front();
     }
+    scene.Update(dt);
     UpdateCombat(dt);
+    scene.CollectDestroyed();
     UpdateNearby();
 }
 
 void GameWorld::UpdateNearby()
 {
-    nearby = -1;
-    float best = 1.8f;
-    int ship = -1;
-    for (int i = 0; i < (int)props.size(); ++i)
+    nearby = InvalidActor;
+    if (!PlayerActive())
     {
-        const auto& p = props[i];
+        return;
+    }
+    float best = 1.8f;
+    ActorId ship = InvalidActor;
+    for (const auto& p : scene.Actors<Prop>())
+    {
         if (p.kind != PropKind::Citizen && p.kind != PropKind::Relay &&
             p.kind != PropKind::Memory && p.kind != PropKind::Core && p.kind != PropKind::Ship)
         {
@@ -183,22 +168,22 @@ void GameWorld::UpdateNearby()
         {
             continue;
         }
-        float d = Distance(player, p.p);
+        float d = Distance(PlayerPosition(), p.Position());
         if (p.kind == PropKind::Ship)
         {
             if (d < 2.7f)
             {
-                ship = i;
+                ship = p.Id();
             }
             continue;
         }
         if (d < best)
         {
             best = d;
-            nearby = i;
+            nearby = p.Id();
         }
     }
-    if (nearby < 0)
+    if (nearby == InvalidActor)
     {
         nearby = ship;
     }
@@ -240,12 +225,17 @@ void GameWorld::Interact()
         return;
     }
     UpdateNearby();
-    if (nearby < 0)
+    if (nearby == InvalidActor)
     {
         Notify(L"가까운 주민이나 장치 앞에서 E를 눌러 상호작용하세요.");
         return;
     }
-    const Prop& p = props[nearby];
+    const Prop* target = scene.Find<Prop>(nearby);
+    if (!target || !target->IsActive())
+    {
+        return;
+    }
+    const Prop& p = *target;
     if (p.kind == PropKind::Citizen)
     {
         if (p.variant != 0)
@@ -311,8 +301,11 @@ void GameWorld::Interact()
         }
         restored[p.variant] = true;
         GainExperience(60);
-        AddLoot(LootKind::Health, player);
-        scanOrigin = p.p;
+        AddLoot(LootKind::Health, PlayerPosition());
+        if (auto* scan = scene.Find(scanEffectId))
+        {
+            scan->SetPosition(p.Position());
+        }
         scanWave = 0;
         Notify(L"중계기 복구  " + std::to_wstring(RestoredCount()) +
                L" / 3  ·  주민의 통신이 돌아옵니다.");
@@ -416,13 +409,16 @@ void GameWorld::Choose(int option)
 
 void GameWorld::Scan()
 {
-    if (view != View::Explore || scanCooldown > 0)
+    if (view != View::Explore || !PlayerActive() || scanCooldown > 0)
     {
         return;
     }
     scanCooldown = 5;
     scanWave = 0;
-    scanOrigin = player;
+    if (auto* scan = scene.Find(scanEffectId))
+    {
+        scan->SetPosition(PlayerPosition());
+    }
     Notify(L"공명 탐지 · 금빛 표식을 따라가세요. 지도에는 남은 신호가 표시됩니다.");
 }
 
@@ -430,27 +426,27 @@ Vec2 GameWorld::Objective() const
 {
     if (quest == 0)
     {
-        return residentPosition;
+        return ResidentPosition();
     }
     if (quest == 1)
     {
         float best = 10000;
-        Vec2 target = relays[0];
+        Vec2 target = RelayPosition(0);
         for (int i = 0; i < 3; ++i)
         {
-            if (!restored[i] && Distance(player, relays[i]) < best)
+            if (!restored[i] && Distance(PlayerPosition(), RelayPosition(i)) < best)
             {
-                best = Distance(player, relays[i]);
-                target = relays[i];
+                best = Distance(PlayerPosition(), RelayPosition(i));
+                target = RelayPosition(i);
             }
         }
         return target;
     }
     if (quest == 2)
     {
-        return bossActive ? bossHome : corePosition;
+        return bossActive ? bossHome : CorePosition();
     }
-    return shipPosition;
+    return ShipPosition();
 }
 
 std::wstring GameWorld::ObjectiveText() const
@@ -474,11 +470,16 @@ std::wstring GameWorld::ObjectiveText() const
 
 std::wstring GameWorld::NearbyText() const
 {
-    if (nearby < 0)
+    if (nearby == InvalidActor)
     {
         return L"";
     }
-    const auto& p = props[nearby];
+    const Prop* target = scene.Find<Prop>(nearby);
+    if (!target || !target->IsActive())
+    {
+        return L"";
+    }
+    const Prop& p = *target;
     switch (p.kind)
     {
         case PropKind::Citizen:
@@ -496,7 +497,7 @@ std::wstring GameWorld::NearbyText() const
 
 std::wstring GameWorld::Region() const
 {
-    int t = Tile((int)std::round(player.x), (int)std::round(player.y));
+    int t = Tile((int)std::round(PlayerPosition().x), (int)std::round(PlayerPosition().y));
     static const wchar_t* names[] = {L"노마드 착륙장", L"제7 주거구역", L"기억의 정원",
                                      L"기록보관소",    L"중앙 첨탑",    L"연결 교량"};
     return t >= 0 ? names[t] : L"엘리시움 변경";

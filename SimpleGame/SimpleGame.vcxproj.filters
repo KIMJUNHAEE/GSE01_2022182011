@@ -37,6 +37,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Canvas.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="WorldMath.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="Actor.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="ActorRenderer.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="SceneGraph.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="WorldActors.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="NavigationGrid.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="ShaderLoader.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Game.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="GameWorld.h"><Filter>헤더 파일</Filter></ClInclude>
@@ -59,6 +65,13 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Canvas.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="Actor.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="SceneGraph.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="WorldActors.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="NavigationGrid.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="WorldScene.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="WorldNavigation.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="GameScene.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="ShaderLoader.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="Game.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="GameWorld.cpp"><Filter>소스 파일</Filter></ClCompile>

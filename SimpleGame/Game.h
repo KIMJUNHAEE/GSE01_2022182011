@@ -2,8 +2,9 @@
 #include "Canvas.h"
 #include "GameWorld.h"
 #include "Renderer.h"
+#include "ActorRenderer.h"
 
-class Game
+class Game : public ActorRenderer
 {
 public:
 
@@ -50,16 +51,23 @@ private:
     Vec2 P(Vec2 grid, float z = 0) const;
     void Poly(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Color color);
     void Box(Vec2 p, float w, float d, float z, float h, Color top, Color left, Color right);
-    void Ground();
+    void Draw(const Prop& actor) override;
+    void Draw(const Character& actor) override;
+    void Draw(const Terrain& actor) override;
+    void Draw(const SceneEffect& actor) override;
+    void Draw(const Enemy& actor) override;
+    void Draw(const Projectile& actor) override;
+    void Draw(const Loot& actor) override;
+    void Draw(const CombatText& actor) override;
     void Building(const Prop& prop);
     void DrawProp(const Prop& prop);
     void Person(Vec2 foot, int kind, float size, bool moving, float phase = 0);
     void Portrait(float x, float y, float w, float h, int kind);
     void WorldScene();
     void DrawEnemy(const Enemy& enemy);
-    void DrawWeapon();
-    void CombatGround();
-    void CombatEffects();
+    void DrawWeapon(const SceneEffect& effect);
+    void DrawEnemyWarning(const Enemy& enemy);
+    void DrawAimGuide();
     void CombatHUD();
     void Defeat();
     void HUD();

@@ -1,5 +1,5 @@
 #pragma once
-#include "Canvas.h"
+#include "Actor.h"
 
 struct PlayerStats
 {
@@ -28,10 +28,14 @@ enum class EnemyKind
     Boss
 };
 
-struct Enemy
+class Enemy : public Actor
 {
+public:
+
+    std::unique_ptr<Actor> Clone() const override;
+    void Draw(ActorRenderer& renderer) const override;
+    Enemy();
     EnemyKind kind = EnemyKind::Drone;
-    Vec2 p;
     Vec2 home;
     Vec2 target;
     float health = 32;
@@ -43,9 +47,14 @@ struct Enemy
     int camp = 0;
 };
 
-struct Projectile
+class Projectile : public Actor
 {
-    Vec2 p;
+public:
+
+    std::unique_ptr<Actor> Clone() const override;
+    void Draw(ActorRenderer& renderer) const override;
+    Projectile(Vec2 position = {}, Vec2 direction = {}, float speed = 660, float range = 350,
+               float damage = 12, bool hostile = false, bool critical = false);
     Vec2 direction;
     float speed = 660;
     float remaining = 350;
@@ -62,17 +71,28 @@ enum class LootKind
     Magnet
 };
 
-struct Loot
+class Loot : public Actor
 {
+public:
+
+    std::unique_ptr<Actor> Clone() const override;
+    void Draw(ActorRenderer& renderer) const override;
+    Loot(LootKind kind = LootKind::Soul, Vec2 position = {}, int amount = 1,
+         bool attracted = false);
     LootKind kind = LootKind::Soul;
-    Vec2 p;
     int amount = 1;
     bool attracted = false;
 };
 
-struct CombatText
+class CombatText : public Actor
 {
-    Vec2 p;
+public:
+
+    std::unique_ptr<Actor> Clone() const override;
+    void Draw(ActorRenderer& renderer) const override;
+    CombatText(Vec2 position = {}, std::wstring text = L"", unsigned color = 0xffffff,
+               float life = 1);
+    void Update(float dt) override;
     std::wstring text;
     unsigned color = 0xffffff;
     float life = 1;
