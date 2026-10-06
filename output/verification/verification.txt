@@ -1,0 +1,6 @@
+PASS title rendering and Unicode text
+PASS timestep-independent normalized movement, collisions, map pause
+PASS collision-tested travel and companion following to all relays and memories
+PASS both narrative choices, journal and completed chapter
+PASS clean restart and non-16:10 resize
+ALL CHECKS PASSED

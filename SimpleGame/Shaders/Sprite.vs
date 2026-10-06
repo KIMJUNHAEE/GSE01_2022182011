@@ -3,18 +3,19 @@
 in vec3 a_Position;
 in vec2 a_TexCoord;
 
-uniform vec4 u_Trans; // xy = position offset, zw = width/height scale
+uniform vec4 u_Trans;  // xy = position offset, zw = width/height scale
+uniform vec4 u_UVRect; // xy = UV offset, zw = UV scale (defaults to full texture: 0,0,1,1)
 
 out vec2 v_TexCoord;
 
 void main()
 {
-	vec4 newPosition;
-	newPosition.x = a_Position.x * u_Trans.z + u_Trans.x;
-	newPosition.y = a_Position.y * u_Trans.w + u_Trans.y;
-	newPosition.z = 0;
-	newPosition.w = 1;
-	gl_Position = newPosition;
+    vec4 newPosition;
+    newPosition.x = a_Position.x * u_Trans.z + u_Trans.x;
+    newPosition.y = a_Position.y * u_Trans.w + u_Trans.y;
+    newPosition.z = 0;
+    newPosition.w = 1;
+    gl_Position = newPosition;
 
-	v_TexCoord = a_TexCoord;
+    v_TexCoord = u_UVRect.xy + a_TexCoord * u_UVRect.zw;
 }

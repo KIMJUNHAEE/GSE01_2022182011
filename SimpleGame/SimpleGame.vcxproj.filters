@@ -36,6 +36,18 @@
     <ClInclude Include="Renderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RenderStats.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="Canvas.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="WorldMath.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="Actor.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="ActorRenderer.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="SceneGraph.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="WorldActors.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="NavigationGrid.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="ShaderLoader.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="Game.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="GameWorld.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="CombatTypes.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Dependencies\stb_image.h">
       <Filter>헤더 파일\Dependencies</Filter>
     </ClInclude>
@@ -44,15 +56,33 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleGame.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="RenderStats.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="stb_image_impl.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Canvas.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="Actor.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="SceneGraph.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="WorldActors.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="NavigationGrid.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="WorldScene.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="WorldNavigation.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="GameScene.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="ShaderLoader.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="Game.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="GameWorld.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="LevelOne.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="Combat.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="GameCombat.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="PrototypeVerification.cpp"><Filter>소스 파일</Filter></ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidRect.fs">
@@ -67,8 +97,58 @@
     <None Include="Shaders\Sprite.vs">
       <Filter>소스 파일\Shaders</Filter>
     </None>
-    <None Include="Resources\Textures\test_sprite.png">
+    <None Include="Resources\Textures\floor_facility.png">
       <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\floor_facility_b.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\player.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\player_walk1.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\player_walk2.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\companion.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\companion_walk1.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\companion_walk2.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\pillar.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\crate.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\glow.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\white_pixel.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\font_atlas.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Shaders\Canvas.vs"><Filter>소스 파일\Shaders</Filter></None>
+    <None Include="Shaders\Canvas.fs"><Filter>소스 파일\Shaders</Filter></None>
+    <None Include="Resources\Textures\elysium_sky.png"><Filter>리소스 파일\Textures</Filter></None>
+    <None Include="Resources\Textures\crew_portraits.png"><Filter>리소스 파일\Textures</Filter></None>
+    <None Include="Resources\ArtNotes.txt"><Filter>리소스 파일</Filter></None>
+    <None Include="Shaders\PostProcess.vs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Blur.fs">
+      <Filter>소스 파일\Shaders</Filter>
+    </None>
+    <None Include="Shaders\Composite.fs">
+      <Filter>소스 파일\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
