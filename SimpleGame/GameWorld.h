@@ -2,6 +2,7 @@
 #include "WorldActors.h"
 #include "SceneGraph.h"
 #include "NavigationGrid.h"
+#include "Monitoring.h"
 #include <array>
 #include <deque>
 #include <cstdint>
@@ -35,6 +36,7 @@ public:
     explicit GameWorld(uint32_t seed = 0);
     View view = View::Title;
     SceneGraph scene;
+    MonitoringState monitoring;
     Vec2 facing = {1, 0};
     std::vector<District> districts;
     std::array<ActorId, 3> relays = {};

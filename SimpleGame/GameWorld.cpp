@@ -32,6 +32,7 @@ GameWorld::GameWorld(uint32_t seed)
     Spawn(SceneEffect(EffectKind::AmbientDust));
     scanEffectId = Spawn(SceneEffect(EffectKind::Scan)).Id();
     GenerateLevel();
+    monitoring.Record(time, "world_created", L"첫 행성 생성 완료");
 }
 
 void GameWorld::Move(Vec2 direction, float dt, bool running)
@@ -77,6 +78,7 @@ void GameWorld::Start()
     if (!runStarted)
     {
         runStarted = true;
+        monitoring.Record(time, "exploration_started", L"개척자가 탐사를 시작했습니다.", 0);
         quest = 1;
         Notify(L"첫 행성 · 마우스로 조준하고 좌클릭을 누르세요. 주변 드론을 처치해 성장하세요.");
         trail.clear();
@@ -238,6 +240,8 @@ void GameWorld::Interact()
     const Prop& p = *target;
     if (p.kind == PropKind::Citizen)
     {
+        monitoring.Record(time, "npc_dialogue", L"주민과 대화를 시작했습니다.",
+                          MonitoringVillageAt(*this, p.Position()), p.Id());
         if (p.variant != 0)
         {
             if (quest >= 3)
@@ -300,6 +304,8 @@ void GameWorld::Interact()
             return;
         }
         restored[p.variant] = true;
+        monitoring.Record(time, "relay_restored", L"중계기가 복구되었습니다.",
+                          MonitoringVillageAt(*this, p.Position()), p.Id());
         GainExperience(60);
         AddLoot(LootKind::Health, PlayerPosition());
         if (auto* scan = scene.Find(scanEffectId))
@@ -322,6 +328,8 @@ void GameWorld::Interact()
     else if (p.kind == PropKind::Memory)
     {
         found[p.variant] = true;
+        monitoring.Record(time, "memory_found", L"기억의 흔적을 발견했습니다.",
+                          MonitoringVillageAt(*this, p.Position()), p.Id());
         static const wchar_t* notes[] = {
             L"[항해 기록 01] 이름은 잊어도 괜찮아. 네가 내민 손은 누군가 기억할 테니까.",
             L"[정원의 편지] 엄마가 돌아오면 보여 주려고 심었어. 기다리는 것도 내가 고른 일이야.",
@@ -396,6 +404,10 @@ void GameWorld::Choose(int option)
     }
     choicePending = false;
     choice = option;
+    monitoring.Record(time, "story_choice",
+                      option == 0 ? L"주민 자치 개방을 선택했습니다."
+                                  : L"주민 주도의 단계적 개방을 선택했습니다.",
+                      4);
     quest = 3;
     Say({{L"개척자",
           option == 0

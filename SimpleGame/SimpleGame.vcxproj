@@ -165,6 +165,8 @@
   <ItemGroup>
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RenderStats.h" />
+    <ClInclude Include="Monitoring.h" />
+    <ClInclude Include="MonitorPublisher.h" />
     <ClInclude Include="Canvas.h" />
     <ClInclude Include="WorldMath.h" />
     <ClInclude Include="Actor.h" />
@@ -182,6 +184,8 @@
   <ItemGroup>
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderStats.cpp" />
+    <ClCompile Include="Monitoring.cpp" />
+    <ClCompile Include="MonitorPublisher.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Canvas.cpp" />
     <ClCompile Include="Actor.cpp" />
@@ -240,6 +244,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

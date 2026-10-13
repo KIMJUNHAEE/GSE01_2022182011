@@ -186,6 +186,31 @@ namespace
                 "GameWorld copy still shares character nodes");
     }
 
+    void VerifyMonitoring()
+    {
+        GameWorld world(42);
+        std::string json = BuildMonitoringSnapshot(world, 1);
+        Require(json.find("\"type\":\"world_snapshot\"") != std::string::npos &&
+                    json.find("\"sequence\":\"1\"") != std::string::npos &&
+                    json.find("\"npcs\":2") != std::string::npos,
+                "Monitoring snapshot is missing its schema or resident/companion count");
+        world.monitoring.Record(world.time, "murder_rumor", L"quote \" slash \\ newline\n", 1,
+                                InvalidActor, "warning", false);
+        json = BuildMonitoringSnapshot(world, 2);
+        Require(json.find("quote \\\" slash \\\\ newline\\u000a") != std::string::npos &&
+                    json.find("\"confirmed\":false") != std::string::npos,
+                "Monitoring JSON did not escape strings or preserve unconfirmed evidence");
+        for (int i = 0; i < 300; ++i)
+        {
+            world.monitoring.Record(world.time, "observation", L"test");
+        }
+        Require(world.monitoring.events.size() == MonitoringState::EventCapacity,
+                "Monitoring event history is unbounded");
+        GameWorld restarted(42);
+        Require(world.monitoring.sessionId != restarted.monitoring.sessionId,
+                "Restart reused monitoring session identity");
+    }
+
     void Capture(Game& game, int width, int height, const std::filesystem::path& file)
     {
         game.Render();
@@ -372,6 +397,8 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
     {
         // Opt-in only: this suite is run by the user with --verify, never at normal startup.
         VerifySceneGraph();
+        VerifyMonitoring();
+        report << "PASS monitoring schema, JSON escaping, bounded events, session identity\n";
         VerifyActorWorld();
         report << "PASS actor hierarchy, reparenting, activity, lifetime, copy, render order, "
                   "collision\n";

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STAR DRIFTER · World Monitor</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/dashboard.js" defer></script>
+</head>
+<body>
+    <header>
+        <div><p class="eyebrow">STAR DRIFTER / LOCAL OBSERVATORY</p><h1>월드 모니터</h1></div>
+        <div class="connection"><span id="connection" class="badge">수신 대기</span><small id="received">게임 JSON이 도착하면 자동으로 표시됩니다.</small></div>
+    </header>
+    <main>
+        <div id="notice" role="status" class="notice">게임을 실행하세요. 대시보드는 실제 수신 데이터만 표시합니다.</div>
+        <section class="metrics" aria-label="전체 지표">
+            <article><span>NPC / 활성</span><strong id="npc-count">—</strong><small id="npc-total">동료 + 주민, 플레이어 제외</small></article>
+            <article><span>몬스터 / 생존·활성</span><strong id="mob-count">—</strong><small id="mob-total">경비 드론 · 포탑 · 보스</small></article>
+            <article><span>FPS</span><strong id="fps">—</strong><small>최근 렌더 통계 구간 평균</small></article>
+            <article><span>Draw calls / frame</span><strong id="draw-calls">—</strong><small id="last-draw">실제 glDraw 호출 횟수</small></article>
+            <article><span>플레이어</span><strong id="level">—</strong><small id="health">체력 / 성장 상태</small></article>
+            <article><span>사건 / 최근 보관</span><strong id="event-count">—</strong><small id="events-total">게임 기록과 외부 제보 구분</small></article>
+        </section>
+        <section class="panel">
+            <div class="section-head"><div><p class="eyebrow">SETTLEMENTS</p><h2>마을 · 지역 상황</h2></div><span id="world-meta" class="muted">연결 대기</span></div>
+            <p class="hint">성향은 디자이너 설정값입니다. 분위기는 활성 몹·보스·중계기 상태로 추정하며, 선악 판정이나 사회 시뮬레이션 결과가 아닙니다.</p>
+            <div id="villages" class="villages"><p class="empty">지역 데이터가 아직 없습니다.</p></div>
+        </section>
+        <div class="split">
+            <section class="panel">
+                <div class="section-head"><div><p class="eyebrow">LIVE MAP</p><h2>배치 현황</h2></div><span class="legend">● 플레이어　<span class="npc-dot">● NPC</span>　<span class="mob-dot">● 몹</span></span></div>
+                <svg id="world-map" viewBox="-12 -19 35 27" role="img" aria-label="지역과 액터의 실제 월드 위치"></svg>
+                <p class="hint">월드 좌표 기준 평면도 · 점에 마우스를 올리면 이름 표시 · 비활성 개체는 흐리게 표시</p>
+            </section>
+            <section class="panel">
+                <div class="section-head"><div><p class="eyebrow">MISSION & PERFORMANCE</p><h2>진행 · 성능</h2></div></div>
+                <p id="objective">—</p>
+                <dl id="progress"></dl>
+                <h3>FPS 수신 추이 <small>최근 최대 120개 표본</small></h3>
+                <svg id="fps-chart" viewBox="0 0 400 90" role="img" aria-label="최근 FPS 추이"></svg>
+            </section>
+        </div>
+        <section class="panel">
+            <div class="section-head"><div><p class="eyebrow">ACTOR INSPECTOR</p><h2>NPC · 몬스터 상태</h2></div>
+                <div class="filters">
+                    <label>검색 <input id="search" placeholder="이름 또는 ID" maxlength="100"></label>
+                    <label>종류 <select id="entity-kind"><option value="npcs">NPC</option><option value="mobs">몬스터</option><option value="all">전체</option></select></label>
+                    <label>지역 <select id="village-filter"><option value="all">전체</option></select></label>
+                </div>
+            </div>
+            <div class="table-wrap"><table><thead><tr><th>이름 / ID</th><th>역할</th><th>현재 상태</th><th>지역</th><th>체력</th><th>좌표</th><th>표시 / 활성</th></tr></thead><tbody id="entities"></tbody></table></div>
+            <p class="hint">주민·동료의 체력은 현재 게임에 구현되지 않아 ‘미구현’으로 표시합니다. 상태는 현재 액터/이동/대화 데이터 기준입니다.</p>
+        </section>
+        <section class="panel">
+            <div class="section-head"><div><p class="eyebrow">INCIDENT FEED</p><h2>사건 · 소문</h2></div>
+                <div class="filters">
+                    <label>등급 <select id="severity-filter"><option value="all">전체</option><option value="danger">위험</option><option value="warning">주의</option><option value="info">정보</option></select></label>
+                    <label>출처 <select id="source-filter"><option value="all">전체</option><option value="game">게임 기록</option><option value="external">외부 제보</option></select></label>
+                </div>
+            </div>
+            <div id="events" class="events"><p class="empty">기록된 사건이 없습니다.</p></div>
+            <p class="hint">게임 사건 최대 256개 + 현재 세션의 외부 제보 최대 128개. 적 처치는 ‘살인 소문’으로 자동 변환하지 않습니다. 브라우저를 열면 게임이 기존 규칙에 따라 일시정지될 수 있습니다.</p>
+        </section>
+        <section class="panel">
+            <div class="section-head"><div><p class="eyebrow">JSON INBOX</p><h2>외부 사건 메시지 수신</h2></div><code>POST /api/events</code></div>
+            <p class="hint">실제 사건 생성/AI 제어 기능이 아닌 관측용 수신 창입니다. 모든 외부 신고는 미확인 제보로 표시되고 게임 상태를 바꾸지 않습니다.</p>
+            <label class="block-label" for="event-json">현재 세션을 지정한 JSON 메시지</label>
+            <textarea id="event-json" rows="10" spellcheck="false" placeholder="게임 연결 후 ‘예시 채우기’를 눌러 메시지 형식을 확인하세요."></textarea>
+            <div class="actions"><button id="fill-example" type="button">예시 채우기 (전송 안 함)</button><button id="send-event" type="button" class="primary">JSON 전송</button><span id="send-result" role="status"></span></div>
+        </section>
+        <details class="panel"><summary>마지막으로 받은 JSON 원문</summary><pre id="raw-json">수신 대기</pre></details>
+    </main>
+    <footer>LOOPBACK ONLY · 127.0.0.1 · JSON SNAPSHOT 2 Hz · READ-ONLY GAME TELEMETRY</footer>
+</body>
+</html>

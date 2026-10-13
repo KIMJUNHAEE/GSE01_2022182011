@@ -15,12 +15,21 @@
 // the console stays readable during play instead of scrolling at 60 lines/s.
 namespace RenderStats
 {
+    struct Snapshot
+    {
+        bool ready = false;
+        float fps = 0, averageDrawCalls = 0, averageInstancesPerDraw = 0;
+        int lastDrawCalls = 0;
+    };
+
+    Snapshot Latest();
+
     enum class FlushReason
     {
-        MeshKindChanged,  // this draw's shape (Quad/Disc/Triangle/...) differs from the previous one
-        TextureChanged,   // same shape, but a different texture/atlas
-        CapacityReached,  // same shape+texture, just hit the instance buffer's size cap
-        EndOfFrame,       // explicit flush at the end of a frame/pass, not a batch break
+        MeshKindChanged, // this draw's shape (Quad/Disc/Triangle/...) differs from the previous one
+        TextureChanged,  // same shape, but a different texture/atlas
+        CapacityReached, // same shape+texture, just hit the instance buffer's size cap
+        EndOfFrame,      // explicit flush at the end of a frame/pass, not a batch break
         Other
     };
 

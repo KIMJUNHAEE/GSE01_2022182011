@@ -2,6 +2,7 @@
    Base framework distributed under the What The Hell License. */
 #include "stdafx.h"
 #include "Game.h"
+#include "MonitorPublisher.h"
 #include "Dependencies/freeglut.h"
 #include "Dependencies/wglew.h"
 #include <windows.h>
@@ -9,16 +10,19 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <cstdlib>
 
 namespace
 {
     std::unique_ptr<Renderer> renderer;
     std::unique_ptr<Game> game;
+    std::unique_ptr<MonitorPublisher> monitor;
     int windowWidth = 1280, windowHeight = 800, lastTime = 0;
     bool shiftLeft = false, shiftRight = false;
 
     void Close()
     {
+        monitor.reset();
         game.reset();
         renderer.reset();
     }
@@ -60,6 +64,10 @@ namespace
         }
         int now = glutGet(GLUT_ELAPSED_TIME);
         game->Tick((now - lastTime) / 1000.f);
+        if (monitor)
+        {
+            monitor->Capture(game->world);
+        }
         lastTime = now;
         if (game->WantsExit())
         {
@@ -210,9 +218,26 @@ int main(int argc, char** argv)
     AttachDebugConsole();
 #endif
     bool verify = false;
+    bool enableMonitor = true;
+    unsigned short monitorPort = 8765;
     std::filesystem::path output = std::filesystem::current_path() / "output/verification";
     for (int i = 1; i < argc; ++i)
     {
+        if (std::string(argv[i]) == "--no-monitor")
+        {
+            enableMonitor = false;
+        }
+        if (std::string(argv[i]) == "--monitor-port")
+        {
+            char* end = nullptr;
+            long port = i + 1 < argc ? std::strtol(argv[++i], &end, 10) : 0;
+            if (!end || *end || port < 1024 || port > 65535)
+            {
+                std::cerr << "--monitor-port requires an integer between 1024 and 65535\n";
+                return 1;
+            }
+            monitorPort = (unsigned short)port;
+        }
         if (std::string(argv[i]) == "--verify")
         {
             verify = true;
@@ -269,6 +294,11 @@ int main(int argc, char** argv)
             return result;
         }
         glutKeyboardFunc(KeyDown);
+        if (enableMonitor)
+        {
+            monitor = std::make_unique<MonitorPublisher>(monitorPort);
+            monitor->Capture(game->world);
+        }
         glutKeyboardUpFunc(KeyUp);
         glutSpecialFunc(SpecialDown);
         glutSpecialUpFunc(SpecialUp);

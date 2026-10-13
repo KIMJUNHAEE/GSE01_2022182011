@@ -37,6 +37,8 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="RenderStats.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="Monitoring.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="MonitorPublisher.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Canvas.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="WorldMath.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Actor.h"><Filter>헤더 파일</Filter></ClInclude>
@@ -65,6 +67,8 @@
     <ClCompile Include="RenderStats.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Monitoring.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="MonitorPublisher.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="stb_image_impl.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

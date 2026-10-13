@@ -77,6 +77,7 @@ void GameWorld::GainExperience(int amount)
     stats.experience = stats.level == PlayerStats::MaxLevel ? 0 : (int)total;
     if (previous != stats.level)
     {
+        monitoring.Record(time, "level_up", L"레벨 " + std::to_wstring(stats.level) + L" 달성");
         Spawn(CombatText{PlayerPosition(), L"LEVEL UP", 0xf2cb83, 1.5f});
         Notify(L"레벨 " + std::to_wstring(stats.level) +
                L" 달성 · 공격력 / 연사 / 최대 체력 / 탐사 능력 증가");
@@ -94,6 +95,8 @@ void GameWorld::DamagePlayer(float amount)
     Spawn(CombatText{PlayerPosition(), L"-" + std::to_wstring((int)amount), 0xff7277, 1});
     if (stats.health <= 0)
     {
+        monitoring.Record(time, "player_defeated", L"개척자가 쓰러졌습니다.",
+                          MonitoringVillageAt(*this, PlayerPosition()), InvalidActor, "danger");
         view = View::Defeat;
         firing = walking = captainWalking = false;
         Notify(L"탐사 중단 · 같은 지형으로 다시 도전하거나 새로운 행성을 생성하세요.");
@@ -342,6 +345,10 @@ void GameWorld::UpdateProjectiles(float dt)
 
 void GameWorld::DefeatEnemy(const Enemy& enemy)
 {
+    monitoring.Record(time, enemy.kind == EnemyKind::Boss ? "boss_defeated" : "enemy_defeated",
+                      enemy.kind == EnemyKind::Boss ? L"ORACLE을 격파했습니다."
+                                                    : L"경비 기계를 처치했습니다.",
+                      MonitoringVillageAt(*this, enemy.Position()), enemy.Id());
     ++kills;
     if (enemy.kind == EnemyKind::Boss)
     {
@@ -515,6 +522,8 @@ void GameWorld::BeginBoss()
     boss.camp = -1;
     Spawn(boss);
     bossActive = true;
+    monitoring.Record(time, "boss_started", L"ORACLE 교전이 시작되었습니다.", 4, InvalidActor,
+                      "danger");
     firing = false;
     Notify(L"ORACLE · 경계 관리자 기동. 붉은 예고 범위를 벗어나세요. 후퇴할 수 있습니다.");
 }
