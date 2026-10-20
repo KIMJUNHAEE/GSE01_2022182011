@@ -1,5 +1,6 @@
 #pragma once
 #include "CombatTypes.h"
+#include "SpriteAnimation.h"
 
 enum class PropKind
 {
@@ -46,6 +47,7 @@ public:
     std::unique_ptr<Actor> Clone() const override;
     void Draw(ActorRenderer& renderer) const override;
     bool captain;
+    SpriteAnimation animation;
 };
 
 class Terrain : public Actor

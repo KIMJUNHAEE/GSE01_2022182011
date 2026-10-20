@@ -40,6 +40,8 @@
     <ClInclude Include="Monitoring.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="MonitorPublisher.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Canvas.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="SpriteAnimation.h"><Filter>헤더 파일</Filter></ClInclude>
+    <ClInclude Include="SpriteSheet.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="WorldMath.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="Actor.h"><Filter>헤더 파일</Filter></ClInclude>
     <ClInclude Include="ActorRenderer.h"><Filter>헤더 파일</Filter></ClInclude>
@@ -73,6 +75,8 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Canvas.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="SpriteAnimation.cpp"><Filter>소스 파일</Filter></ClCompile>
+    <ClCompile Include="SpriteSheet.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="Actor.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="SceneGraph.cpp"><Filter>소스 파일</Filter></ClCompile>
     <ClCompile Include="WorldActors.cpp"><Filter>소스 파일</Filter></ClCompile>
@@ -109,6 +113,21 @@
     </None>
     <None Include="Resources\Textures\player.png">
       <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\protagonist_sheet.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\protagonist_walk32.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\protagonist_idle_aseprite.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Textures\protagonist_walk_aseprite.png">
+      <Filter>리소스 파일\Textures</Filter>
+    </None>
+    <None Include="Resources\Art\Protagonist\protagonist_walk.aseprite">
+      <Filter>리소스 파일</Filter>
     </None>
     <None Include="Resources\Textures\player_walk1.png">
       <Filter>리소스 파일\Textures</Filter>

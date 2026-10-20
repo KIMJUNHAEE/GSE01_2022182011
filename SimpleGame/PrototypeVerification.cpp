@@ -186,6 +186,30 @@ namespace
                 "GameWorld copy still shares character nodes");
     }
 
+    void VerifySpriteAnimation()
+    {
+        SpriteAnimation animation;
+        Require(animation.Frame() == 0 && !animation.Moving(), "Sprite must start idle");
+        bool visited[SpriteAnimation::WalkFrames + 1] = {};
+        for (int i = 0; i < SpriteAnimation::WalkFrames; ++i)
+        {
+            animation.Advance({SpriteAnimation::StrideLength / SpriteAnimation::WalkFrames, 0});
+            Require(animation.Frame() >= 1 && animation.Frame() <= SpriteAnimation::WalkFrames,
+                    "Walking selected an invalid sprite frame");
+            visited[animation.Frame()] = true;
+        }
+        for (int frame = 1; frame <= SpriteAnimation::WalkFrames; ++frame)
+        {
+            Require(visited[frame], "Movement did not advance through every walk frame");
+        }
+        Require(animation.Frame() == 1, "Walk cycle did not wrap to its first pose");
+        animation.Advance({-1, 0});
+        Require(animation.Flipped(), "Leftward movement did not flip the sprite");
+        animation.Advance({});
+        Require(animation.Frame() == 0 && !animation.Moving() && animation.Flipped(),
+                "Stopped sprite did not idle while preserving direction");
+    }
+
     void VerifyMonitoring()
     {
         GameWorld world(42);
@@ -397,6 +421,8 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
     {
         // Opt-in only: this suite is run by the user with --verify, never at normal startup.
         VerifySceneGraph();
+        VerifySpriteAnimation();
+        report << "PASS sprite movement, all 32 walk frames, loop, idle, facing\n";
         VerifyMonitoring();
         report << "PASS monitoring schema, JSON escaping, bounded events, session identity\n";
         VerifyActorWorld();

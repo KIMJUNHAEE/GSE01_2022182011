@@ -168,6 +168,8 @@
     <ClInclude Include="Monitoring.h" />
     <ClInclude Include="MonitorPublisher.h" />
     <ClInclude Include="Canvas.h" />
+    <ClInclude Include="SpriteAnimation.h" />
+    <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="WorldMath.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ActorRenderer.h" />
@@ -188,6 +190,8 @@
     <ClCompile Include="MonitorPublisher.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Canvas.cpp" />
+    <ClCompile Include="SpriteAnimation.cpp" />
+    <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="WorldActors.cpp" />
@@ -223,6 +227,11 @@
     <None Include="Resources\Textures\floor_facility.png" />
     <None Include="Resources\Textures\floor_facility_b.png" />
     <None Include="Resources\Textures\player.png" />
+    <None Include="Resources\Textures\protagonist_sheet.png" />
+    <None Include="Resources\Textures\protagonist_walk32.png" />
+    <None Include="Resources\Textures\protagonist_idle_aseprite.png" />
+    <None Include="Resources\Textures\protagonist_walk_aseprite.png" />
+    <None Include="Resources\Art\Protagonist\protagonist_walk.aseprite" />
     <None Include="Resources\Textures\player_walk1.png" />
     <None Include="Resources\Textures\player_walk2.png" />
     <None Include="Resources\Textures\companion.png" />

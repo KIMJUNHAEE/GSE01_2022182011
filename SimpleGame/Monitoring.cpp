@@ -239,6 +239,10 @@ std::string BuildMonitoringSnapshot(const GameWorld& world, uint64_t sequence)
     {
         if (!character.captain)
         {
+            player.Num("spriteFrame", character.animation.Frame());
+            player.Num("spriteWalkFrames", SpriteAnimation::WalkFrames);
+            player.Bool("spriteMoving", character.animation.Moving());
+            player.Bool("spriteFlipped", character.animation.Flipped());
             continue;
         }
         ++totalNpcs;

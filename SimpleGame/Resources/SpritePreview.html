@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STAR DRIFTER · 주인공 스프라이트</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; background: #081219; color: #e7edea; font: 16px/1.5 system-ui, sans-serif; }
+        main { max-width: 1040px; margin: 48px auto; padding: 0 24px; }
+        h1 { font-size: 30px; margin: 8px 0; }
+        .eyebrow { color: #eac368; letter-spacing: .18em; font-size: 12px; }
+        .muted { color: #91a5af; }
+        .layout { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(260px, .8fr); gap: 28px; margin-top: 24px; }
+        .panel { border: 1px solid #253b49; border-radius: 16px; background: #101f29; padding: 24px; }
+        canvas { display: block; width: 100%; background: radial-gradient(ellipse at center, #243843, #0a151e); border-radius: 12px; }
+        button { background: #233945; color: #dce8ed; padding: 10px 18px; border: 1px solid #405966; border-radius: 8px; cursor: pointer; }
+        button.active { background: #eac368; color: #13222a; border-color: #eac368; }
+        button:focus-visible { outline: 2px solid #74dbcf; outline-offset: 3px; }
+        .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+        label { display: block; margin: 20px 0; }
+        input { width: 100%; accent-color: #eac368; }
+        #status { font-variant-numeric: tabular-nums; color: #74dbcf; }
+        .atlas { width: 100%; background-color: #11232d; background-image: linear-gradient(45deg, #1b303c 25%, transparent 25%), linear-gradient(-45deg, #1b303c 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #1b303c 75%), linear-gradient(-45deg, transparent 75%, #1b303c 75%); background-size: 20px 20px; border-radius: 12px; }
+        .help { font-size: 14px; }
+        @media (max-width: 720px) { main { margin: 24px auto; } .layout { grid-template-columns: 1fr; } }
+    </style>
+    <script src="SpritePreview.js" defer></script>
+</head>
+<body>
+    <main>
+        <div class="eyebrow">STAR DRIFTER / CHARACTER MOTION</div>
+        <h1>첫 번째 개척자</h1>
+        <p class="muted">은회색 머리, 검정·노랑 탐사복. 같은 발 기준점에서 걷기 루프를 확인하세요.</p>
+        <div class="layout">
+            <section class="panel">
+                <canvas id="preview" width="480" height="500" aria-label="주인공 걷기 애니메이션"></canvas>
+                <div class="controls">
+                    <button id="walk" class="active" aria-pressed="true">걷기</button>
+                    <button id="idle" aria-pressed="false">대기</button>
+                    <button id="flip" aria-pressed="false">방향 바꾸기</button>
+                </div>
+                <label>이동 속도 <span id="speed-label">1.0×</span><input id="speed" type="range" min="0.5" max="1.5" step="0.1" value="1"></label>
+                <label>프레임 직접 보기 <span id="frame-label">자동</span><input id="frame" type="range" min="0" max="32" step="1" value="0"></label>
+                <p id="status" role="status">스프라이트를 읽는 중…</p>
+                <p class="muted help">노란 선이 발 기준점입니다. ‘걷기’를 누르면 마지막 프레임에서 첫 걷기 프레임으로 반복합니다. Space: 대기/걷기, A/D: 방향.</p>
+            </section>
+            <section class="panel">
+                <h2>대기 1장 · 걷기 32장</h2>
+                <img class="atlas" src="Textures/protagonist_walk_aseprite.png?v=aseprite-rig-1" alt="Aseprite에서 제작한 8×4 주인공 걷기 스프라이트 시트">
+                <p class="muted help">Aseprite에서 다리와 팔을 분리해 제작한 32프레임입니다. 모든 프레임에 같은 캔버스·크기·발 기준점을 사용합니다.</p>
+                <p class="help"><a href="Art/Protagonist/protagonist_walk.gif" style="color:#eac368">걷기 GIF 열기</a> · <a href="Art/Protagonist/protagonist_walk.aseprite" style="color:#eac368">Aseprite 원본</a></p>
+                <p class="muted help">게임에서는 WASD/방향키로 이동하고 Shift로 달립니다. 이번 시트는 좌우 반전 방식입니다.</p>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

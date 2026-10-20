@@ -152,7 +152,9 @@ function renderProgress(world) {
         ["전체 액터", world.counts.actors], ["탄환 / 전리품", world.counts.projectiles + " / " + world.counts.loot],
         ["구역 밖 NPC / 몹", world.counts.unassignedNpcs + " / " + world.counts.unassignedMobs],
         ["처치 / 습득", world.player.kills + " / " + world.player.itemsCollected],
-        ["무기 강화", "+" + world.player.weaponTier], ["평균 인스턴스 / 드로우콜", fmt(world.performance.averageInstancesPerDraw, 1)]
+        ["무기 강화", "+" + world.player.weaponTier], ["평균 인스턴스 / 드로우콜", fmt(world.performance.averageInstancesPerDraw, 1)],
+        ["주인공 애니메이션", world.player.spriteFrame === undefined ? "미지원" :
+            (world.player.spriteMoving ? "걷기 " : "대기 ") + world.player.spriteFrame + " / " + world.player.spriteWalkFrames]
     ];
     $("progress").replaceChildren();
     values.forEach(([key, value]) => $("progress").append(node("dt", key), node("dd", value)));

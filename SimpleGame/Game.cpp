@@ -28,7 +28,13 @@ Game::Game(Renderer& r) : renderer(r)
 {
     sky = renderer.LoadTexture("Resources/Textures/elysium_sky.png");
     portraits = renderer.LoadTexture("Resources/Textures/crew_portraits.png");
-    if (!sky || !portraits || !canvas.Ready())
+    const SpriteFrameGeometry heroGeometry{396, 267, 455};
+    const bool spriteReady =
+        protagonist.Load(renderer, "Resources/Textures/protagonist_idle_aseprite.png", 1, 1,
+                         heroGeometry) &&
+        protagonistWalk.Load(renderer, "Resources/Textures/protagonist_walk_aseprite.png", 8, 4,
+                             heroGeometry);
+    if (!sky || !portraits || !spriteReady || !canvas.Ready())
     {
         throw std::runtime_error("Required art texture or Canvas is missing");
     }
@@ -485,7 +491,8 @@ void Game::Building(const Prop& o)
         Color(0x304951));
     Vec2 antenna = P(p + Vec2{-w * .3f, -d * .3f}, h + 16);
     canvas.Line(antenna, antenna + Vec2{0, -35 * zoom}, Color(0x809aa0, objectAlpha), 2 * zoom);
-    canvas.QueueGlow(antenna + Vec2{0, -35 * zoom}, 12 * zoom, 12 * zoom, Gold.Fade(.5f * objectAlpha));
+    canvas.QueueGlow(antenna + Vec2{0, -35 * zoom}, 12 * zoom, 12 * zoom,
+                     Gold.Fade(.5f * objectAlpha));
     if (o.kind == PropKind::Archive)
     {
         Vec2 sign = P(p, h * .82f);

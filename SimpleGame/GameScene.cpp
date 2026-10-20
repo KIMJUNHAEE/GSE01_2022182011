@@ -20,6 +20,15 @@ void Game::Draw(const Enemy& actor)
 
 void Game::Draw(const Character& actor)
 {
+    if (!actor.captain)
+    {
+        const Vec2 foot = P(actor.Position());
+        canvas.Ellipse(foot, 17 * zoom, 6 * zoom, Color(0x031419, .4f));
+        const int frame = actor.animation.Frame();
+        const SpriteSheet& sheet = frame == 0 ? protagonist : protagonistWalk;
+        sheet.Draw(canvas, frame == 0 ? 0 : frame - 1, foot, 80 * zoom, actor.animation.Flipped());
+        return;
+    }
     Person(P(actor.Position()), actor.captain ? 1 : 0, zoom,
            actor.captain ? world.captainWalking : world.walking, actor.captain ? 1.2f : 0.f);
 }

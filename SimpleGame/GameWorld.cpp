@@ -38,6 +38,12 @@ GameWorld::GameWorld(uint32_t seed)
 void GameWorld::Move(Vec2 direction, float dt, bool running)
 {
     walking = false;
+    auto* player = scene.Find<Character>(playerId);
+    if (!player)
+    {
+        return;
+    }
+    player->animation.Advance({});
     if (view != View::Explore || !PlayerActive())
     {
         return;
@@ -48,6 +54,7 @@ void GameWorld::Move(Vec2 direction, float dt, bool running)
         return;
     }
     direction = direction * (1 / len);
+    const Vec2 previous = PlayerPosition();
     facing = direction;
     float speed = stats.MoveSpeed() * (running ? 1.5f : 1.f);
     Vec2 delta = {(direction.x / 84 + direction.y / 42) * speed * dt,
@@ -70,6 +77,7 @@ void GameWorld::Move(Vec2 direction, float dt, bool running)
             walking = true;
         }
     }
+    player->animation.Advance(Project(PlayerPosition()) - Project(previous));
 }
 
 void GameWorld::Start()

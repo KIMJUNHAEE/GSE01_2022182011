@@ -3,6 +3,7 @@
 #include "GameWorld.h"
 #include "Renderer.h"
 #include "ActorRenderer.h"
+#include "SpriteSheet.h"
 
 class Game : public ActorRenderer
 {
@@ -40,6 +41,8 @@ private:
 
     Renderer& renderer;
     Canvas canvas;
+    SpriteSheet protagonist;
+    SpriteSheet protagonistWalk;
     GLuint sky = 0, portraits = 0;
     Vec2 camera;
     float zoom = 1.08f, desiredZoom = 1.08f, typing = 0, arrival = 0;

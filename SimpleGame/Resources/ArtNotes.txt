@@ -2,6 +2,35 @@ STAR DRIFTER — generated art provenance
 Generated for this prototype using the built-in image_gen tool (not the API/CLI fallback).
 Characters and location names are provisional original designs for this project.
 
+4. Current runtime protagonist animation (Aseprite-authored rebuild, 2026-10-20)
+Resources/Textures/protagonist_idle_aseprite.png
+Resources/Textures/protagonist_walk_aseprite.png
+Editable source: Resources/Art/Protagonist/protagonist_walk.aseprite
+Tool: personally source-built Aseprite 1.3.18.6-dev, following the Windows recipe
+in a1393323447/aseprite-builder. Source/dependency versions and recipe commit are
+recorded in Tools/Aseprite/README.md. No new image-generation prompt was used.
+Input: first idle pose of protagonist_sheet.png, itself generated with the user
+reference as documented below. Reference identity/outfit remain reference-derived.
+Method: Aseprite Lua, four editable cutout layers, articulated leg strip warps,
+counter-swinging near arm and coat sway, 32 distinct cyclic phases. Removed red
+matte spill. Common 512x512 canvas, pivot (267,455), 396px body reference height.
+Old protagonist_walk32.png is no longer loaded by the game. The first generated
+32-frame version had insufficiently clear pose changes and is retained only as reference.
+Actual exported frame/stride/loop validation is stored next to the editable source.
+
+3. Resources/Textures/protagonist_sheet.png
+Use: protagonist idle and walk atlas, 3x3 cells, actual output 1254x1254 with transparency.
+Reference: user-supplied silver-gray-haired female explorer image. This asset takes design cues from that reference; it is not asserted to be an independently original character design.
+Tool: built-in image_gen, transparent_background=true. Alpha was preserved; image copied into the project without repainting.
+Runtime normalization: shared character height, upper-body centroid and grounded foot anchor; source aspect ratio preserved. Other portraits remain unchanged.
+Prompt:
+Use case: stylized-concept
+Asset type: production RPG protagonist sprite atlas for an existing 2.5D game, with genuine transparent alpha background.
+Input image 1 is a CHARACTER DESIGN REFERENCE only, not an edit target. Inspired by the supplied silver-gray-haired, golden-eyed woman with black and yellow futuristic coat and white shirt.
+Primary request: Draw ONE perfectly regular 3-column by 3-row sprite sheet, 1536x1536 pixels, each cell 512x512, 9 isolated full-body sprites of the SAME adult female space explorer, clean high-quality anime game sprite illustration, readable compact details, approximately 5 heads tall, not oversized chibi. Shoulder-length silver-gray hair, amber eyes, short black jacket with yellow coat tails and trim, white top, black skirt/shorts, utility belt, gloves, dark ankle boots. No weapon; the game already draws the weapon separately.
+Pose order read left to right, top to bottom: cell0 neutral standing; cells1 through8 are eight sequential in-place walking-cycle poses facing screen-right in the SAME slight front three-quarter view. Walk phases are contact-left-foot, down, passing, up, contact-right-foot, down, passing, up, then seamlessly back to contact-left-foot. Feet alternate and opposite arms swing gently, coat tails follow. Keep every face and costume identical. Keep both boots fully visible.
+Technical invariants: EXACT uniform cell spacing, no grid drawn. Every sprite pelvis centered at local x=256, head top near local y=50, grounded lowest boot sole at local y=462; consistent body height about 412px in ALL frames; no changes in head size, torso proportions, viewpoint, lighting, zoom, or character scale. No sideways positional drift. Subtle motion only, no exaggerated jumps. First and final walking frames are adjacent phases of the SAME cyclic gait, do not duplicate endpoints. Empty padding at least 32px at every cell edge. Transparent between sprites, no opaque checkerboard, no text, no labels, no numbering, no borders, no ground shadow, no background, no props, no watermark. The atlas must be easily sliced into exactly 9 identical cells.
+
 1. Resources/Textures/elysium_sky.png
 Use: title/end screens and in-game parallax background.
 Prompt:
