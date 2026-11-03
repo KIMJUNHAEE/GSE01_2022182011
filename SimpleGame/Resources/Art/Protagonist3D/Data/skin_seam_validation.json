@@ -1,0 +1,26 @@
+{
+  "all_passed": true,
+  "shared_position_groups": 4289,
+  "checks": [
+    {
+      "clip": "Walk",
+      "phase": 0.3,
+      "maximum_shared_seam_gap_m": 0
+    },
+    {
+      "clip": "Run",
+      "phase": 0.3,
+      "maximum_shared_seam_gap_m": 0
+    },
+    {
+      "clip": "Jump",
+      "phase": 0.5,
+      "maximum_shared_seam_gap_m": 0
+    },
+    {
+      "clip": "Turn_L_90",
+      "phase": 0.5,
+      "maximum_shared_seam_gap_m": 0
+    }
+  ]
+}

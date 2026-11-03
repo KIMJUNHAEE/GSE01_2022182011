@@ -1,0 +1,244 @@
+{
+  "schema_version": "1.0.0",
+  "override_material_roles": {
+    "skin": "M_NPC_skin",
+    "hair": "M_NPC_hair",
+    "cloth": "M_NPC_cloth",
+    "trim": "M_NPC_trim"
+  },
+  "palettes": {
+    "skin": [
+      {
+        "index": 0,
+        "base_color_linear": [
+          0.66,
+          0.4,
+          0.26
+        ],
+        "material": "M_PAL_skin_000"
+      },
+      {
+        "index": 1,
+        "base_color_linear": [
+          0.81,
+          0.58,
+          0.41
+        ],
+        "material": "M_PAL_skin_001"
+      },
+      {
+        "index": 2,
+        "base_color_linear": [
+          0.38,
+          0.2,
+          0.12
+        ],
+        "material": "M_PAL_skin_002"
+      },
+      {
+        "index": 3,
+        "base_color_linear": [
+          0.57,
+          0.32,
+          0.2
+        ],
+        "material": "M_PAL_skin_003"
+      },
+      {
+        "index": 4,
+        "base_color_linear": [
+          0.88,
+          0.68,
+          0.51
+        ],
+        "material": "M_PAL_skin_004"
+      }
+    ],
+    "hair": [
+      {
+        "index": 0,
+        "base_color_linear": [
+          0.025,
+          0.02,
+          0.02
+        ],
+        "material": "M_PAL_hair_000"
+      },
+      {
+        "index": 1,
+        "base_color_linear": [
+          0.14,
+          0.061,
+          0.027
+        ],
+        "material": "M_PAL_hair_001"
+      },
+      {
+        "index": 2,
+        "base_color_linear": [
+          0.43,
+          0.28,
+          0.095
+        ],
+        "material": "M_PAL_hair_002"
+      },
+      {
+        "index": 3,
+        "base_color_linear": [
+          0.5,
+          0.54,
+          0.52
+        ],
+        "material": "M_PAL_hair_003"
+      },
+      {
+        "index": 4,
+        "base_color_linear": [
+          0.22,
+          0.115,
+          0.07
+        ],
+        "material": "M_PAL_hair_004"
+      },
+      {
+        "index": 5,
+        "base_color_linear": [
+          0.041,
+          0.086,
+          0.1
+        ],
+        "material": "M_PAL_hair_005"
+      }
+    ],
+    "cloth": [
+      {
+        "index": 0,
+        "base_color_linear": [
+          0.065,
+          0.25,
+          0.21
+        ],
+        "material": "M_PAL_cloth_000"
+      },
+      {
+        "index": 1,
+        "base_color_linear": [
+          0.19,
+          0.28,
+          0.32
+        ],
+        "material": "M_PAL_cloth_001"
+      },
+      {
+        "index": 2,
+        "base_color_linear": [
+          0.4,
+          0.23,
+          0.1
+        ],
+        "material": "M_PAL_cloth_002"
+      },
+      {
+        "index": 3,
+        "base_color_linear": [
+          0.17,
+          0.22,
+          0.15
+        ],
+        "material": "M_PAL_cloth_003"
+      },
+      {
+        "index": 4,
+        "base_color_linear": [
+          0.39,
+          0.4,
+          0.32
+        ],
+        "material": "M_PAL_cloth_004"
+      },
+      {
+        "index": 5,
+        "base_color_linear": [
+          0.075,
+          0.15,
+          0.2
+        ],
+        "material": "M_PAL_cloth_005"
+      },
+      {
+        "index": 6,
+        "base_color_linear": [
+          0.28,
+          0.18,
+          0.27
+        ],
+        "material": "M_PAL_cloth_006"
+      },
+      {
+        "index": 7,
+        "base_color_linear": [
+          0.57,
+          0.48,
+          0.3
+        ],
+        "material": "M_PAL_cloth_007"
+      }
+    ],
+    "trim": [
+      {
+        "index": 0,
+        "base_color_linear": [
+          0.82,
+          0.46,
+          0.14
+        ],
+        "material": "M_PAL_trim_000"
+      },
+      {
+        "index": 1,
+        "base_color_linear": [
+          0.14,
+          0.6,
+          0.55
+        ],
+        "material": "M_PAL_trim_001"
+      },
+      {
+        "index": 2,
+        "base_color_linear": [
+          0.63,
+          0.2,
+          0.13
+        ],
+        "material": "M_PAL_trim_002"
+      },
+      {
+        "index": 3,
+        "base_color_linear": [
+          0.66,
+          0.68,
+          0.56
+        ],
+        "material": "M_PAL_trim_003"
+      },
+      {
+        "index": 4,
+        "base_color_linear": [
+          0.24,
+          0.42,
+          0.59
+        ],
+        "material": "M_PAL_trim_004"
+      },
+      {
+        "index": 5,
+        "base_color_linear": [
+          0.69,
+          0.46,
+          0.24
+        ],
+        "material": "M_PAL_trim_005"
+      }
+    ]
+  }
+}

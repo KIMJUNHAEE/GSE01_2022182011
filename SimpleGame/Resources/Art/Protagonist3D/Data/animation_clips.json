@@ -1,0 +1,120 @@
+{
+  "schema_version": "1.0.0",
+  "rig_id": "SK_PLAYER_Stelle_Tripo",
+  "clips": [
+    {
+      "clip_id": "Idle",
+      "action_name": "PLAYER__Idle",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 61,
+      "duration_seconds": 2.0,
+      "loop": true,
+      "root_motion": "in_place"
+    },
+    {
+      "clip_id": "Walk",
+      "action_name": "PLAYER__Walk",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 33,
+      "duration_seconds": 1.0666666666666667,
+      "loop": true,
+      "root_motion": "in_place",
+      "stance_fraction": 0.64,
+      "stance_travel_m": 0.32,
+      "stride_m": 0.5,
+      "suggested_speed_mps": 0.46875
+    },
+    {
+      "clip_id": "Run",
+      "action_name": "PLAYER__Run",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 21,
+      "duration_seconds": 0.6666666666666666,
+      "loop": true,
+      "root_motion": "in_place",
+      "stance_fraction": 0.4,
+      "stance_travel_m": 0.42,
+      "stride_m": 1.0499999999999998,
+      "suggested_speed_mps": 1.5749999999999997
+    },
+    {
+      "clip_id": "Jump",
+      "action_name": "PLAYER__Jump",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 41,
+      "duration_seconds": 1.3333333333333333,
+      "loop": false,
+      "root_motion": "vertical jump"
+    },
+    {
+      "clip_id": "Turn_L_45",
+      "action_name": "PLAYER__Turn_L_45",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 32,
+      "duration_seconds": 1.0333333333333334,
+      "loop": false,
+      "root_motion": "yaw",
+      "heading_delta_degrees": 45
+    },
+    {
+      "clip_id": "Turn_R_45",
+      "action_name": "PLAYER__Turn_R_45",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 32,
+      "duration_seconds": 1.0333333333333334,
+      "loop": false,
+      "root_motion": "yaw",
+      "heading_delta_degrees": -45
+    },
+    {
+      "clip_id": "Turn_L_90",
+      "action_name": "PLAYER__Turn_L_90",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 45,
+      "duration_seconds": 1.4666666666666666,
+      "loop": false,
+      "root_motion": "yaw",
+      "heading_delta_degrees": 90
+    },
+    {
+      "clip_id": "Turn_R_90",
+      "action_name": "PLAYER__Turn_R_90",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 45,
+      "duration_seconds": 1.4666666666666666,
+      "loop": false,
+      "root_motion": "yaw",
+      "heading_delta_degrees": -90
+    },
+    {
+      "clip_id": "Turn_L_180",
+      "action_name": "PLAYER__Turn_L_180",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 63,
+      "duration_seconds": 2.066666666666667,
+      "loop": false,
+      "root_motion": "yaw",
+      "heading_delta_degrees": 180
+    },
+    {
+      "clip_id": "Turn_R_180",
+      "action_name": "PLAYER__Turn_R_180",
+      "fps": 30,
+      "start_frame": 1,
+      "end_frame": 63,
+      "duration_seconds": 2.066666666666667,
+      "loop": false,
+      "root_motion": "yaw",
+      "heading_delta_degrees": -180
+    }
+  ]
+}

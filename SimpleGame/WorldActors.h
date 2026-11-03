@@ -30,6 +30,8 @@ public:
     void SetFootprint(float width, float depth);
     void SetSolid(bool value);
     PropKind kind;
+    // Optional visual prefab; gameplay kind, collision and home ownership stay independent.
+    std::string modelBinding;
     float h;
     int variant;
 
@@ -54,11 +56,12 @@ class Terrain : public Actor
 {
 public:
 
-    Terrain(Vec2 position, int kind);
+    Terrain(Vec2 position, int kind, int width = 1, int depth = 1);
     std::unique_ptr<Actor> Clone() const override;
     void Draw(ActorRenderer& renderer) const override;
     bool BlocksNavigation() const override;
     const int kind;
+    const int width, depth;
 };
 
 enum class EffectKind

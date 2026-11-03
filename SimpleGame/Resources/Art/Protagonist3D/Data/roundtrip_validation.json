@@ -1,0 +1,10 @@
+{
+  "all_passed": true,
+  "scope": "Reimported GLB into empty Blender and evaluated real skin deformation at two walk phases; not a game runtime check.",
+  "imported_meshes": 21,
+  "imported_bones": 33,
+  "imported_actions": 10,
+  "maximum_walk_vertex_deformation_m": 0.16406532789649939,
+  "glb_sha256": "3ff30cd29ee1804641efa5aa14f3c443c4eb6089cedc41609ba167bedbad0f2d",
+  "reimport_render": "Previews/Player_GLB_Reimport.png"
+}

@@ -1,0 +1,40 @@
+{
+  "albedo_resolution": [
+    4096,
+    4096
+  ],
+  "face_resolution": [
+    2048,
+    2048
+  ],
+  "surface_resolution": [
+    4096,
+    4096
+  ],
+  "padding_pixels": 8,
+  "triangles": 19994,
+  "mesh_count": 21,
+  "bone_count": 33,
+  "actions": [
+    "PLAYER__Idle",
+    "PLAYER__Jump",
+    "PLAYER__Run",
+    "PLAYER__Turn_L_180",
+    "PLAYER__Turn_L_45",
+    "PLAYER__Turn_L_90",
+    "PLAYER__Turn_R_180",
+    "PLAYER__Turn_R_45",
+    "PLAYER__Turn_R_90",
+    "PLAYER__Walk"
+  ],
+  "source_geometry_changed": false,
+  "source_rig_changed": false,
+  "source_animation_changed": false,
+  "image_generation": "Reused prior eye sprite in native Blender texture layout; no new generation call",
+  "material_changes": [
+    "Upper lash edge overlaps raised socket ridge; eye artwork shift -0.027 m",
+    "Eyebrow shift -0.035 m",
+    "Leg and ankle skin matched to face linear RGBA (0.72, 0.52, 0.40, 1)"
+  ],
+  "geometry_change_scope": "No geometry change in this eye alignment pass"
+}

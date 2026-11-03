@@ -1,0 +1,2435 @@
+{
+  "all_passed": true,
+  "errors": [],
+  "glb_files_checked": 34,
+  "unique_mob_meshes": 7,
+  "npc_parts": 26,
+  "assembled_npc_examples": 1,
+  "checks": [
+    "GLB v2 byte boundaries",
+    "Named skin bones: 20 for bipeds and NPC; 22 for digitigrade quadrupeds",
+    "Mesh name matches asset file",
+    "Normalized skin weights and valid joint IDs",
+    "Finite mesh positions and animation values",
+    "Ten expected clips per file",
+    "Strictly increasing key times",
+    "Normalized rotation quaternions",
+    "Loop endpoint continuity"
+  ],
+  "files": [
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_000_ScrapRunner.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 1812,
+      "exported_vertices": 3610,
+      "sha256": "e2f9071e0ff7d071cb92c35fa59a167e98e7305dc605ec4a8ab4d920cded058f",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_001_PatrolSentinel.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 1896,
+      "exported_vertices": 3744,
+      "sha256": "92ba44d5f553fe853e9665163cf3dee2fc9656f6e92f4cd89014b8d06c50c2d3",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.9583333134651184,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.4583333730697632,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_002_RiotEnforcer.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 1976,
+      "exported_vertices": 3916,
+      "sha256": "c83312b78c4503a6bdac25f7daa286ff120ec4fd985db541fee50779214424e6",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.0416666269302368,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.5416666269302368,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_003_OracleWarden.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 2084,
+      "exported_vertices": 4186,
+      "sha256": "130609773056b014b14740f9dab67a37d481d28face71f31b35dd0a408bba582",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.125,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.625,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_004_TraceHound.glb",
+      "mesh_count": 1,
+      "bone_count": 22,
+      "animation_count": 10,
+      "triangles": 2288,
+      "exported_vertices": 4532,
+      "sha256": "c5cc2110c1e0835e17dfa5af225d07d562cc1663407eaf76d257f55d27a70cb6",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 9.788309429748245e-18
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.9583333134651184,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 8.041666984558105,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.0416667461395264,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 4.041666507720947,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 8.041666984558105,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.0416667461395264,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 4.041666507720947,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.5416666269302368,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_005_CargoMite.glb",
+      "mesh_count": 1,
+      "bone_count": 22,
+      "animation_count": 10,
+      "triangles": 2312,
+      "exported_vertices": 4572,
+      "sha256": "f2218981f8dd1a18515d55e359cd0e10c8d92e151b6bb90f963f9d3eb0f6a98f",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 9.792774550694806e-18
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.2083333730697632,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 8.041666984558105,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.0416667461395264,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 4.041666507720947,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 8.041666984558105,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.0416667461395264,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 4.041666507720947,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\Mobs\\SM_MOB_ELY_006_SiegeCrawler.glb",
+      "mesh_count": 1,
+      "bone_count": 22,
+      "animation_count": 10,
+      "triangles": 2192,
+      "exported_vertices": 4348,
+      "sha256": "0804b7f623976863d4970c57637bc70b18ab453e2d9267a107b7afed57caaebd",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 9.779111181336655e-18
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.2083333730697632,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 8.041666984558105,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.0416667461395264,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 4.041666507720947,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 8.041666984558105,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.0416667461395264,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 4.041666507720947,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\NPC_001_Sera_Example.glb",
+      "mesh_count": 6,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 1736,
+      "exported_vertices": 3272,
+      "sha256": "5f10ecf5bb15cfd8d020378ed6071bfc814a48cd2530c6db4ab46fc5ab2fd5c4",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_ACCESSORY_000_Scarf.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 88,
+      "exported_vertices": 160,
+      "sha256": "8ead1f3fd9ae7e051accc79ba18bc3bf55d40cd7dcda8c8a83a76b7850d5e0c1",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_ACCESSORY_001_Respirator.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 100,
+      "exported_vertices": 184,
+      "sha256": "2ab3e78ff9347587e9a86c9d32ff9a7537f466ac85bb3c35153499a77a3d73e2",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_ACCESSORY_002_Goggles.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 252,
+      "exported_vertices": 472,
+      "sha256": "59664e68fb9b7dd5054673707ed4b7273ca6ff5012a2bef7f6e4fa898a25c67b",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_ACCESSORY_003_Satchel.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 132,
+      "exported_vertices": 248,
+      "sha256": "1222330c7c2c6a1f786e11f1ae2881a49652157a2e4e9ff8f4d5145a2140c8d2",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_ACCESSORY_004_Backpack.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 144,
+      "exported_vertices": 272,
+      "sha256": "3d56cd2cae419738aa77bc6eb76ba207d39caf968d5a5f6bd2f8c7cb74449e9d",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_BODY_000_Male.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 620,
+      "exported_vertices": 1228,
+      "sha256": "ecb7caab46f056f511416b4f3edc473c65e7d94f0b4cbf7ffa13de66f26a7458",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_BODY_001_Female.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 620,
+      "exported_vertices": 1228,
+      "sha256": "771b9a668ae149619b8981b5d7d833dc4b4d70ff21c36858b8bf3b1e6359984d",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_BOTTOM_000_Trousers.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 148,
+      "exported_vertices": 280,
+      "sha256": "5f6daf06dd83430bac516f94907fa966459b97c4daad9ad99a3bc6953d7fe605",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_BOTTOM_001_CargoPants.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 268,
+      "exported_vertices": 504,
+      "sha256": "171f2f8832c64fb150873b7eca6c1fa2c1babfc11f6a340713bc3be169da512a",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_BOTTOM_002_ArmoredPants.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 388,
+      "exported_vertices": 728,
+      "sha256": "ff313889eadf8cedeedc53c65fa3cae17ae4436b3bf706bc39732ab101f24d78",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_FOOTWEAR_000_AnkleBoots.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 280,
+      "exported_vertices": 520,
+      "sha256": "ce636749a9cb52f0753bf0db9b05a8a7961f10326cc24a5a59f58ad566651336",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_FOOTWEAR_001_WorkBoots.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 400,
+      "exported_vertices": 744,
+      "sha256": "4964142605a081a2d7b401af491ee939d3891aa9321a7d696a719fb2fd35a131",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_FOOTWEAR_002_CombatBoots.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 400,
+      "exported_vertices": 744,
+      "sha256": "43a6a820fdde7a615a294951aa60bda604e3c5b3e20572f7c49d97cfb78c7441",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HAIR_000_ShortCrop.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 108,
+      "exported_vertices": 212,
+      "sha256": "a5b3f224db0d2a35d19c90b4b78455f801cdd6d26f1a45d5d0293e9dfb7db161",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HAIR_001_ShortBob.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 136,
+      "exported_vertices": 268,
+      "sha256": "e3182e962a087e1d2d181ba8d9ebf1e99c7165dd8b0cd8e5c61d2a85c0de1616",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HAIR_002_LongStraight.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 136,
+      "exported_vertices": 268,
+      "sha256": "d575dced1570fb6029156ff439bf090e4f6d731f370c061fedbf5f0601863966",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HAIR_003_LongPonytail.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 196,
+      "exported_vertices": 376,
+      "sha256": "046de83bc9e1f4c25a02bcc509abbf2a53fbd57c0ce90d13e71dea8f6330e6ed",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HAIR_004_ShortSwept.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 108,
+      "exported_vertices": 212,
+      "sha256": "787e03d5dbe2366338ba7b0a47dc3e904293e8187a9369c760a19c14013a67bf",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HEADGEAR_000_PatrolCap.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 104,
+      "exported_vertices": 192,
+      "sha256": "65808039001902dddfafe4ec4da13ca3fdaf52e475ec65626452659fde4b29c7",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_HEADGEAR_001_MilitaryHelmet.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 224,
+      "exported_vertices": 416,
+      "sha256": "5c03155e75f109988e818d27fa68ac9f69fc0fc390fe4db149fb52945f467449",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_TOP_000_Civilian.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 408,
+      "exported_vertices": 704,
+      "sha256": "aa146862dd23a9e4423eca7dd8c82e75a56d5855b7d5f75f04b6c349b1440115",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_TOP_001_WorkJacket.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 420,
+      "exported_vertices": 728,
+      "sha256": "39aa45995d6918d28843208320ca8b4a61cfee0b33dd265578c71b8a5e6ba4cc",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_TOP_002_Armor.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 580,
+      "exported_vertices": 1020,
+      "sha256": "3d4d3164c5c4cc2dd3d6760b916435d2fa10faa77f5d269cc3bd8fb062a68ee1",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_TOP_003_Military.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 580,
+      "exported_vertices": 1020,
+      "sha256": "7213fe5de890da57815f4d161cd8ae6324c5788476e68c335a8c486e9ab531b1",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_TOP_004_PilotCoat.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 540,
+      "exported_vertices": 952,
+      "sha256": "82f27a92870cbe091ee501fad661609732af01e484c9c1b493f1d3906c61d9e4",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    },
+    {
+      "file": "Meshes\\NPC\\SM_NPC_TOP_005_Expedition.glb",
+      "mesh_count": 1,
+      "bone_count": 20,
+      "animation_count": 10,
+      "triangles": 444,
+      "exported_vertices": 756,
+      "sha256": "83d0748b0c37a647d662cb4d7ef783e6f3d8a8f325d6b34e3aa2d4a9cec5b468",
+      "clips": [
+        {
+          "clip": "Idle",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.5416667461395264,
+          "loop_error": 0
+        },
+        {
+          "clip": "Jump",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.7083333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Run",
+          "start_time": 0.0416666679084301,
+          "end_time": 0.875,
+          "loop_error": 0
+        },
+        {
+          "clip": "Turn_L_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_L_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_180",
+          "start_time": 0.0416666679084301,
+          "end_time": 2.625,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_45",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.3333333730697632,
+          "loop_error": null
+        },
+        {
+          "clip": "Turn_R_90",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.875,
+          "loop_error": null
+        },
+        {
+          "clip": "Walk",
+          "start_time": 0.0416666679084301,
+          "end_time": 1.375,
+          "loop_error": 0
+        }
+      ]
+    }
+  ]
+}

@@ -32,12 +32,14 @@ GameWorld::GameWorld(uint32_t seed)
     Spawn(SceneEffect(EffectKind::AmbientDust));
     scanEffectId = Spawn(SceneEffect(EffectKind::Scan)).Id();
     GenerateLevel();
-    monitoring.Record(time, "world_created", L"첫 행성 생성 완료");
+    monitoring.Record(time, "world_created",
+                      L"행성 생성 완료 · 마을 5곳 / 주민 150명 / 주택 180채");
 }
 
 void GameWorld::Move(Vec2 direction, float dt, bool running)
 {
     walking = false;
+    playerMoveSpeed = 0;
     auto* player = scene.Find<Character>(playerId);
     if (!player)
     {
@@ -77,7 +79,9 @@ void GameWorld::Move(Vec2 direction, float dt, bool running)
             walking = true;
         }
     }
-    player->animation.Advance(Project(PlayerPosition()) - Project(previous));
+    const Vec2 traveled = Project(PlayerPosition()) - Project(previous);
+    playerMoveSpeed = dt > 0 ? Distance(traveled, {}) / dt : 0;
+    player->animation.Advance(traveled);
 }
 
 void GameWorld::Start()
@@ -88,7 +92,7 @@ void GameWorld::Start()
         runStarted = true;
         monitoring.Record(time, "exploration_started", L"개척자가 탐사를 시작했습니다.", 0);
         quest = 1;
-        Notify(L"첫 행성 · 마우스로 조준하고 좌클릭을 누르세요. 주변 드론을 처치해 성장하세요.");
+        Notify(L"엘리시움 탐사 · 마을 5곳과 주민 150명. M으로 지도와 다음 정착지를 확인하세요.");
         trail.clear();
         trail.push_back(CaptainPosition());
         trail.push_back(PlayerPosition());
@@ -97,6 +101,13 @@ void GameWorld::Start()
 
 void GameWorld::Update(float dt)
 {
+    if (view != View::Explore)
+    {
+        for (auto& entry : planet.residents)
+        {
+            entry.second.moving = false;
+        }
+    }
     if (view == View::Pause || view == View::Map || view == View::Journal || view == View::Ending ||
         view == View::Defeat)
     {
@@ -120,42 +131,107 @@ void GameWorld::Update(float dt)
             scanWave = -1;
         }
     }
-    if (trail.empty() || Distance(trail.back(), PlayerPosition()) > .15f)
+    UpdateCompanion(dt);
+    UpdateCombat(dt);
+    if (view == View::Explore)
     {
+        UpdatePlanet(dt);
+    }
+    // Visual child actors sample the final NPC/enemy positions of this frame, not the previous one.
+    scene.Update(dt);
+    scene.CollectDestroyed();
+    UpdateNearby();
+}
+
+void GameWorld::UpdateCompanion(float dt)
+{
+    captainWalking = false;
+    const auto* captain = scene.Find(captainId);
+    if (dt <= 0 || !PlayerActive() || !captain || !captain->IsActive())
+    {
+        captainFollowSpeed = 0;
+        captainFollowing = false;
+        return;
+    }
+    captainRepathCooldown = (std::max)(0.f, captainRepathCooldown - dt);
+    if (trail.empty() ||
+        (trail.size() < 512 && Distance(Project(trail.back() - PlayerPosition()), {}) > .01f))
+    {
+        // Keep the collision-tested player path, including its final partial step.
         trail.push_back(PlayerPosition());
     }
-    captainWalking = false;
-    if (PlayerActive() && scene.Find(captainId) && scene.Find(captainId)->IsActive() &&
-        Distance(CaptainPosition(), PlayerPosition()) > .9f && !trail.empty())
+    if ((trail.size() >= 512 || captainBlockedTime > .35f) && captainRepathCooldown <= 0)
     {
-        Vec2 target = trail.front();
-        float distance = Distance(target, CaptainPosition());
-        if (distance < .15f)
+        const auto route = FindRoute(CaptainPosition(), PlayerPosition());
+        if (!route.empty())
+        {
+            trail.assign(route.begin(), route.end());
+        }
+        captainRepathCooldown = 1;
+        captainBlockedTime = 0;
+    }
+    float remaining = 0;
+    Vec2 previous = CaptainPosition();
+    for (Vec2 point : trail)
+    {
+        remaining += Distance(Project(point - previous), {});
+        previous = point;
+    }
+    // Screen-space units match player movement in every isometric direction.
+    // Separate start/stop distances prevent repeated catch-up/stop oscillation.
+    if (remaining > 64)
+    {
+        captainFollowing = true;
+    }
+    else if (remaining <= 44.1f)
+    {
+        captainFollowing = false;
+    }
+    if (!captainFollowing)
+    {
+        captainFollowSpeed = 0;
+        captainBlockedTime = 0;
+        return;
+    }
+    const float leaderSpeed = walking ? playerMoveSpeed : 0;
+    const float gap = walking ? 56.f : 44.f;
+    float targetSpeed =
+        std::clamp(leaderSpeed + (remaining - gap) * 4, 0.f, stats.MoveSpeed() * 1.8f);
+    if (!walking)
+    {
+        targetSpeed = (std::max)(12.f, targetSpeed);
+    }
+    captainFollowSpeed += (targetSpeed - captainFollowSpeed) * (1 - std::exp(-dt * 10));
+    float budget = (std::min)(captainFollowSpeed * dt, (std::max)(0.f, remaining - 44));
+    bool blocked = false;
+    // Consume reached waypoints AND continue moving with the remaining budget in this frame.
+    while (budget > .0001f && !trail.empty())
+    {
+        const Vec2 position = CaptainPosition(), delta = trail.front() - position;
+        const float distance = Distance(delta, {}), pixels = Distance(Project(delta), {});
+        if (pixels < .001f)
+        {
+            trail.pop_front();
+            continue;
+        }
+        // Small, collision-tested substeps cannot jump through a building at low frame rates.
+        const float fraction = (std::min)(1.f, (std::min)(budget / pixels, .06f / distance));
+        const Vec2 next = position + delta * fraction;
+        if (!ClearPath(position, next, .15f))
+        {
+            blocked = true;
+            captainFollowSpeed = 0;
+            break;
+        }
+        SetCaptainPosition(next);
+        captainWalking = true;
+        budget -= pixels * fraction;
+        if (fraction >= 1)
         {
             trail.pop_front();
         }
-        else
-        {
-            float speed = Distance(CaptainPosition(), PlayerPosition()) > 3.f ? 10.f : 6.f;
-            Vec2 delta =
-                (target - CaptainPosition()) * ((std::min)(distance, dt * speed) / distance);
-            Vec2 next = CaptainPosition() + delta;
-            if (Walkable(next, .15f))
-            {
-                SetCaptainPosition(next);
-                captainWalking = true;
-            }
-        }
     }
-    // The breadcrumb path follows the player's collision-tested route around buildings.
-    while (trail.size() > 180)
-    {
-        trail.pop_front();
-    }
-    scene.Update(dt);
-    UpdateCombat(dt);
-    scene.CollectDestroyed();
-    UpdateNearby();
+    captainBlockedTime = blocked ? captainBlockedTime + dt : 0;
 }
 
 void GameWorld::UpdateNearby()
@@ -166,11 +242,13 @@ void GameWorld::UpdateNearby()
         return;
     }
     float best = 1.8f;
+    int bestPriority = -1;
     ActorId ship = InvalidActor;
     for (const auto& p : scene.Actors<Prop>())
     {
         if (p.kind != PropKind::Citizen && p.kind != PropKind::Relay &&
-            p.kind != PropKind::Memory && p.kind != PropKind::Core && p.kind != PropKind::Ship)
+            p.kind != PropKind::Memory && p.kind != PropKind::Core && p.kind != PropKind::Ship &&
+            planet.homes.find(p.Id()) == planet.homes.end())
         {
             continue;
         }
@@ -187,9 +265,13 @@ void GameWorld::UpdateNearby()
             }
             continue;
         }
-        if (d < best)
+        int priority = p.kind == PropKind::Citizen                       ? 1
+                       : planet.homes.find(p.Id()) != planet.homes.end() ? 0
+                                                                         : 2;
+        if (d < 1.8f && (priority > bestPriority || (priority == bestPriority && d < best)))
         {
             best = d;
+            bestPriority = priority;
             nearby = p.Id();
         }
     }
@@ -246,10 +328,45 @@ void GameWorld::Interact()
         return;
     }
     const Prop& p = *target;
-    if (p.kind == PropKind::Citizen)
+    auto house = planet.homes.find(p.Id());
+    if (house != planet.homes.end())
+    {
+        const auto& home = house->second;
+        auto owner = planet.residents.find(home.occupant);
+        Say({{L"주거 등록부",
+              monitoring.villages[home.village].name + L" / " +
+                  (owner == planet.residents.end() ? L"빈집 · 이주민 입주 가능"
+                                                   : owner->second.name + L"의 집")},
+             {L"안내", home.reservedBy ? L"새 입주자가 이곳으로 이동하고 있습니다."
+                                       : L"집 앞에서 거주 정보를 확인할 수 있습니다. 실내 입장은 "
+                                         L"아직 지원하지 않습니다."}});
+    }
+    else if (p.kind == PropKind::Citizen)
     {
         monitoring.Record(time, "npc_dialogue", L"주민과 대화를 시작했습니다.",
                           MonitoringVillageAt(*this, p.Position()), p.Id());
+        auto resident = planet.residents.find(p.Id());
+        if (resident != planet.residents.end() && !resident->second.storyResident)
+        {
+            const auto& profile = resident->second;
+            std::wstring news = L"다른 마을 소식은 배달부의 편지나 다녀온 사람에게서 들어요.";
+            for (const auto& heard : profile.knowledge)
+            {
+                if (heard.revision && heard.village != profile.village &&
+                    time - heard.observedAt <= PlanetRules::NewsLifetime)
+                {
+                    news = monitoring.villages[heard.village].name +
+                           (heard.rumor
+                                ? L"에서 치안이 불안하다는 소문이 왔어요. 확인된 일인지는 몰라요."
+                                : L"의 소식을 전달받았어요. 살 곳을 고를 때 참고하려고요.");
+                    break;
+                }
+            }
+            Say({{profile.name,
+                  L"제 집은 " + monitoring.villages[profile.village].name + L"에 있어요."},
+                 {profile.name, news}});
+            return;
+        }
         if (p.variant != 0)
         {
             if (quest >= 3)
@@ -500,6 +617,10 @@ std::wstring GameWorld::NearbyText() const
         return L"";
     }
     const Prop& p = *target;
+    if (planet.homes.find(p.Id()) != planet.homes.end())
+    {
+        return L"집의 거주 정보 확인";
+    }
     switch (p.kind)
     {
         case PropKind::Citizen:
@@ -518,7 +639,8 @@ std::wstring GameWorld::NearbyText() const
 std::wstring GameWorld::Region() const
 {
     int t = Tile((int)std::round(PlayerPosition().x), (int)std::round(PlayerPosition().y));
-    static const wchar_t* names[] = {L"노마드 착륙장", L"제7 주거구역", L"기억의 정원",
-                                     L"기록보관소",    L"중앙 첨탑",    L"연결 교량"};
-    return t >= 0 ? names[t] : L"엘리시움 변경";
+    static const wchar_t* names[] = {L"노마드 착륙장",  L"제7 주거구역", L"정원 마을",
+                                     L"흑항 교역 마을", L"첨탑 정착지",  L"마을 간 도로",
+                                     L"엘리시움 황야"};
+    return t >= 0 && t < 7 ? names[t] : L"엘리시움 변경";
 }

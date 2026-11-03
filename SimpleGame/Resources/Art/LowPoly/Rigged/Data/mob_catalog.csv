@@ -1,0 +1,8 @@
+﻿mob_index,mob_id,label_ko,planet,design_status,locomotion,mesh_name,rig_name,file,triangles,bone_count,hindleg_anatomy,asset_version
+0,MOB_ELY_000_ScrapRunner,고철 수거 기계,ELY,modeling_concept_not_runtime_spawn_definition,biped,SM_MOB_ELY_000_ScrapRunner,SK_MOB_ELY_000_ScrapRunner,Meshes/Mobs/SM_MOB_ELY_000_ScrapRunner.glb,1812,20,,
+1,MOB_ELY_001_PatrolSentinel,통제 순찰 기계,ELY,modeling_concept_not_runtime_spawn_definition,biped,SM_MOB_ELY_001_PatrolSentinel,SK_MOB_ELY_001_PatrolSentinel,Meshes/Mobs/SM_MOB_ELY_001_PatrolSentinel.glb,1896,20,,
+2,MOB_ELY_002_RiotEnforcer,중장갑 진압 기계,ELY,modeling_concept_not_runtime_spawn_definition,biped,SM_MOB_ELY_002_RiotEnforcer,SK_MOB_ELY_002_RiotEnforcer,Meshes/Mobs/SM_MOB_ELY_002_RiotEnforcer.glb,1976,20,,
+3,MOB_ELY_003_OracleWarden,ORACLE 수호 기계,ELY,modeling_concept_not_runtime_spawn_definition,biped,SM_MOB_ELY_003_OracleWarden,SK_MOB_ELY_003_OracleWarden,Meshes/Mobs/SM_MOB_ELY_003_OracleWarden.glb,2084,20,,
+4,MOB_ELY_004_TraceHound,추적 사냥 기계,ELY,modeling_concept_not_runtime_spawn_definition,quadruped,SM_MOB_ELY_004_TraceHound,SK_MOB_ELY_004_TraceHound,Meshes/Mobs/SM_MOB_ELY_004_TraceHound.glb,2288,22,digitigrade,2.1.0
+5,MOB_ELY_005_CargoMite,화물 회수 기계,ELY,modeling_concept_not_runtime_spawn_definition,quadruped,SM_MOB_ELY_005_CargoMite,SK_MOB_ELY_005_CargoMite,Meshes/Mobs/SM_MOB_ELY_005_CargoMite.glb,2312,22,digitigrade,2.1.0
+6,MOB_ELY_006_SiegeCrawler,사족 경계 기계,ELY,modeling_concept_not_runtime_spawn_definition,quadruped,SM_MOB_ELY_006_SiegeCrawler,SK_MOB_ELY_006_SiegeCrawler,Meshes/Mobs/SM_MOB_ELY_006_SiegeCrawler.glb,2192,22,digitigrade,2.1.0

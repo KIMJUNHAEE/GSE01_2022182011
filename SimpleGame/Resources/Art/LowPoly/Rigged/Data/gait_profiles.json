@@ -1,0 +1,213 @@
+{
+  "profiles": [
+    {
+      "rig_id": "SK_MOB_ELY_000_ScrapRunner",
+      "kind": "biped",
+      "feet": [
+        {
+          "foot_bone": "foot.L",
+          "walk_phase": 0,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0.5
+        }
+      ],
+      "walk": "alternating left/right steps",
+      "run": "alternating steps with flight phase",
+      "turn": "alternating planted-foot pivot steps"
+    },
+    {
+      "rig_id": "SK_MOB_ELY_001_PatrolSentinel",
+      "kind": "biped",
+      "feet": [
+        {
+          "foot_bone": "foot.L",
+          "walk_phase": 0,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0.5
+        }
+      ],
+      "walk": "alternating left/right steps",
+      "run": "alternating steps with flight phase",
+      "turn": "alternating planted-foot pivot steps"
+    },
+    {
+      "rig_id": "SK_MOB_ELY_002_RiotEnforcer",
+      "kind": "biped",
+      "feet": [
+        {
+          "foot_bone": "foot.L",
+          "walk_phase": 0,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0.5
+        }
+      ],
+      "walk": "alternating left/right steps",
+      "run": "alternating steps with flight phase",
+      "turn": "alternating planted-foot pivot steps"
+    },
+    {
+      "rig_id": "SK_MOB_ELY_003_OracleWarden",
+      "kind": "biped",
+      "feet": [
+        {
+          "foot_bone": "foot.L",
+          "walk_phase": 0,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0.5
+        }
+      ],
+      "walk": "alternating left/right steps",
+      "run": "alternating steps with flight phase",
+      "turn": "alternating planted-foot pivot steps"
+    },
+    {
+      "rig_id": "SK_MOB_ELY_004_TraceHound",
+      "kind": "quadruped",
+      "feet": [
+        {
+          "foot_bone": "fore_foot.L",
+          "walk_phase": 0.25,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "fore_foot.R",
+          "walk_phase": 0.75,
+          "run_phase": 0.5
+        },
+        {
+          "foot_bone": "hind_foot.L",
+          "walk_phase": 0,
+          "run_phase": 0.5
+        },
+        {
+          "foot_bone": "hind_foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0
+        }
+      ],
+      "walk": "four-beat sequential walk, three feet supporting",
+      "run": "diagonal-pair trot",
+      "turn": "diagonal-pair pivot, 15-degree increments",
+      "asset_version": "2.1.0",
+      "bone_count": 22,
+      "hindleg_anatomy": "digitigrade",
+      "hindleg_chain": [
+        "hind_upper",
+        "hind_lower",
+        "hind_metatarsal",
+        "hind_foot"
+      ]
+    },
+    {
+      "rig_id": "SK_MOB_ELY_005_CargoMite",
+      "kind": "quadruped",
+      "feet": [
+        {
+          "foot_bone": "fore_foot.L",
+          "walk_phase": 0.25,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "fore_foot.R",
+          "walk_phase": 0.75,
+          "run_phase": 0.5
+        },
+        {
+          "foot_bone": "hind_foot.L",
+          "walk_phase": 0,
+          "run_phase": 0.5
+        },
+        {
+          "foot_bone": "hind_foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0
+        }
+      ],
+      "walk": "four-beat sequential walk, three feet supporting",
+      "run": "diagonal-pair trot",
+      "turn": "diagonal-pair pivot, 15-degree increments",
+      "asset_version": "2.1.0",
+      "bone_count": 22,
+      "hindleg_anatomy": "digitigrade",
+      "hindleg_chain": [
+        "hind_upper",
+        "hind_lower",
+        "hind_metatarsal",
+        "hind_foot"
+      ]
+    },
+    {
+      "rig_id": "SK_MOB_ELY_006_SiegeCrawler",
+      "kind": "quadruped",
+      "feet": [
+        {
+          "foot_bone": "fore_foot.L",
+          "walk_phase": 0.25,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "fore_foot.R",
+          "walk_phase": 0.75,
+          "run_phase": 0.5
+        },
+        {
+          "foot_bone": "hind_foot.L",
+          "walk_phase": 0,
+          "run_phase": 0.5
+        },
+        {
+          "foot_bone": "hind_foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0
+        }
+      ],
+      "walk": "four-beat sequential walk, three feet supporting",
+      "run": "diagonal-pair trot",
+      "turn": "diagonal-pair pivot, 15-degree increments",
+      "asset_version": "2.1.0",
+      "bone_count": 22,
+      "hindleg_anatomy": "digitigrade",
+      "hindleg_chain": [
+        "hind_upper",
+        "hind_lower",
+        "hind_metatarsal",
+        "hind_foot"
+      ]
+    },
+    {
+      "rig_id": "SK_NPC_Common",
+      "kind": "biped",
+      "feet": [
+        {
+          "foot_bone": "foot.L",
+          "walk_phase": 0,
+          "run_phase": 0
+        },
+        {
+          "foot_bone": "foot.R",
+          "walk_phase": 0.5,
+          "run_phase": 0.5
+        }
+      ],
+      "walk": "alternating left/right steps",
+      "run": "alternating steps with flight phase",
+      "turn": "alternating planted-foot pivot steps"
+    }
+  ]
+}

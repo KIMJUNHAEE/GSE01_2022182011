@@ -23,6 +23,7 @@ Renderer::~Renderer()
     glDeleteFramebuffers(1, &m_SceneFBO);
     glDeleteFramebuffers(2, m_BlurFBO);
     glDeleteTextures(1, &m_SceneColorTex);
+    glDeleteRenderbuffers(1, &m_SceneDepth);
     glDeleteTextures(2, m_BlurTex);
     if (!m_LoadedTextures.empty())
     {
@@ -135,6 +136,11 @@ void Renderer::CreateFramebuffers()
     glGenFramebuffers(1, &m_SceneFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, m_SceneFBO);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_SceneColorTex, 0);
+    glGenRenderbuffers(1, &m_SceneDepth);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_SceneDepth);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, m_WindowSizeX, m_WindowSizeY);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_SceneDepth);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
         std::cout << "Scene framebuffer is incomplete.. \n";
@@ -175,9 +181,9 @@ void Renderer::DrawFullscreenQuad(GLuint shader)
                           (void*)(sizeof(float) * 3));
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
-    const char* label = shader == m_BlurShader ? "PostProcess/Blur"
+    const char* label = shader == m_BlurShader        ? "PostProcess/Blur"
                         : shader == m_CompositeShader ? "PostProcess/Composite"
-                                                       : "PostProcess/Other";
+                                                      : "PostProcess/Other";
     RenderStats::DrawCall(label, 1, RenderStats::FlushReason::Other);
 
     glDisableVertexAttribArray(attribPosition);

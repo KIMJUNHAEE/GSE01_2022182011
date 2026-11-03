@@ -4,6 +4,8 @@
 #include "Renderer.h"
 #include "ActorRenderer.h"
 #include "SpriteSheet.h"
+#include "ModelRenderer.h"
+#include <set>
 
 class Game : public ActorRenderer
 {
@@ -43,6 +45,12 @@ private:
     Canvas canvas;
     SpriteSheet protagonist;
     SpriteSheet protagonistWalk;
+    std::unique_ptr<ModelLibrary> modelLibrary;
+    std::unique_ptr<ModelRenderer> modelRenderer;
+    std::map<ActorId, ActorId> modelAttachments;
+    std::set<ActorId> failedModels;
+    std::string modelSession;
+    bool modelsEnabled = false, modelsFailed = false;
     GLuint sky = 0, portraits = 0;
     Vec2 camera;
     float zoom = 1.08f, desiredZoom = 1.08f, typing = 0, arrival = 0;
@@ -55,6 +63,14 @@ private:
     void Poly(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Color color);
     void Box(Vec2 p, float w, float d, float z, float h, Color top, Color left, Color right);
     void Draw(const Prop& actor) override;
+    void Draw(const ModelActor& actor) override;
+    void ToggleModels();
+    void ReloadModels();
+    void UpdateModelBindings();
+    bool HasModel(ActorId parent) const;
+    void AttachModel(ActorId parent, const ModelAssembly& assembly, float scale = 1);
+    bool InView(const Actor& actor) const override;
+    void DrawTile(Vec2 position, int tile);
     void Draw(const Character& actor) override;
     void Draw(const Terrain& actor) override;
     void Draw(const SceneEffect& actor) override;
@@ -64,6 +80,7 @@ private:
     void Draw(const CombatText& actor) override;
     void Building(const Prop& prop);
     void DrawProp(const Prop& prop);
+    void DrawCitizenIndicators(const Prop& prop);
     void Person(Vec2 foot, int kind, float size, bool moving, float phase = 0);
     void Portrait(float x, float y, float w, float h, int kind);
     void WorldScene();

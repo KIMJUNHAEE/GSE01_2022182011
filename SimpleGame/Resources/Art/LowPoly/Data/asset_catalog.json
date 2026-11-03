@@ -1,0 +1,2042 @@
+{
+  "schema_version": "1.0.0",
+  "pack": "StarDrifter_LowPoly",
+  "units": "meters",
+  "blender_axes": {
+    "up": "+Z",
+    "front": "-Y"
+  },
+  "glb_axes": {
+    "up": "+Y",
+    "front": "+Z"
+  },
+  "origin": "NPC: shared feet (0,0,0); environment: ground center; floating drone: projected ground center",
+  "slots": {
+    "body": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_BODY_000_Male"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_BODY_001_Female"
+      }
+    ],
+    "hair": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_HAIR_000_ShortCrop"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_HAIR_001_ShortBob"
+      },
+      {
+        "index": 2,
+        "asset_id": "SM_NPC_HAIR_002_LongStraight"
+      },
+      {
+        "index": 3,
+        "asset_id": "SM_NPC_HAIR_003_LongPonytail"
+      },
+      {
+        "index": 4,
+        "asset_id": "SM_NPC_HAIR_004_ShortSwept"
+      }
+    ],
+    "top": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_TOP_000_Civilian"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_TOP_001_WorkJacket"
+      },
+      {
+        "index": 2,
+        "asset_id": "SM_NPC_TOP_002_Armor"
+      },
+      {
+        "index": 3,
+        "asset_id": "SM_NPC_TOP_003_Military"
+      },
+      {
+        "index": 4,
+        "asset_id": "SM_NPC_TOP_004_PilotCoat"
+      },
+      {
+        "index": 5,
+        "asset_id": "SM_NPC_TOP_005_Expedition"
+      }
+    ],
+    "bottom": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_BOTTOM_000_Trousers"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_BOTTOM_001_CargoPants"
+      },
+      {
+        "index": 2,
+        "asset_id": "SM_NPC_BOTTOM_002_ArmoredPants"
+      }
+    ],
+    "footwear": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_FOOTWEAR_000_AnkleBoots"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_FOOTWEAR_001_WorkBoots"
+      },
+      {
+        "index": 2,
+        "asset_id": "SM_NPC_FOOTWEAR_002_CombatBoots"
+      }
+    ],
+    "accessory": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_ACCESSORY_000_Scarf"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_ACCESSORY_001_Respirator"
+      },
+      {
+        "index": 2,
+        "asset_id": "SM_NPC_ACCESSORY_002_Goggles"
+      },
+      {
+        "index": 3,
+        "asset_id": "SM_NPC_ACCESSORY_003_Satchel"
+      },
+      {
+        "index": 4,
+        "asset_id": "SM_NPC_ACCESSORY_004_Backpack"
+      }
+    ],
+    "headgear": [
+      {
+        "index": 0,
+        "asset_id": "SM_NPC_HEADGEAR_000_PatrolCap"
+      },
+      {
+        "index": 1,
+        "asset_id": "SM_NPC_HEADGEAR_001_MilitaryHelmet"
+      }
+    ]
+  },
+  "optional_none_index": -1,
+  "assets": [
+    {
+      "asset_id": "SM_NPC_BODY_000_Male",
+      "mesh_name": "SM_NPC_BODY_000_Male",
+      "category": "NPC_BODY",
+      "label_ko": "남성 몸형",
+      "file": "Meshes/NPC/SM_NPC_BODY_000_Male.glb",
+      "slot": "body",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 332,
+      "triangles": 588,
+      "bounds_blender": [
+        [
+          -0.5294557213783264,
+          -0.2919999957084656,
+          0.61771559715271
+        ],
+        [
+          0.5371546149253845,
+          0.25037136673927307,
+          1.7999999523162842
+        ]
+      ],
+      "materials": [
+        "M_NPC_skin",
+        "M_NPC_white",
+        "M_NPC_iris",
+        "M_NPC_hair",
+        "M_NPC_lip"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_BODY_001_Female",
+      "mesh_name": "SM_NPC_BODY_001_Female",
+      "category": "NPC_BODY",
+      "label_ko": "여성 몸형",
+      "file": "Meshes/NPC/SM_NPC_BODY_001_Female.glb",
+      "slot": "body",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 332,
+      "triangles": 588,
+      "bounds_blender": [
+        [
+          -0.5294557213783264,
+          -0.2919999957084656,
+          0.61771559715271
+        ],
+        [
+          0.5371546149253845,
+          0.25037136673927307,
+          1.7999999523162842
+        ]
+      ],
+      "materials": [
+        "M_NPC_skin",
+        "M_NPC_white",
+        "M_NPC_iris",
+        "M_NPC_hair",
+        "M_NPC_lip"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_000_ShortCrop",
+      "mesh_name": "SM_NPC_HAIR_000_ShortCrop",
+      "category": "NPC_HAIR",
+      "label_ko": "짧은 크롭",
+      "file": "Meshes/NPC/SM_NPC_HAIR_000_ShortCrop.glb",
+      "slot": "hair",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 68,
+      "triangles": 108,
+      "bounds_blender": [
+        [
+          -0.27716386318206787,
+          -0.29374340176582336,
+          1.5942734479904175
+        ],
+        [
+          0.27716386318206787,
+          0.27268627285957336,
+          1.8562796115875244
+        ]
+      ],
+      "materials": [
+        "M_NPC_hair"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_001_ShortBob",
+      "mesh_name": "SM_NPC_HAIR_001_ShortBob",
+      "category": "NPC_HAIR",
+      "label_ko": "짧은 단발",
+      "file": "Meshes/NPC/SM_NPC_HAIR_001_ShortBob.glb",
+      "slot": "hair",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 76,
+      "triangles": 136,
+      "bounds_blender": [
+        [
+          -0.2919999957084656,
+          -0.29374340176582336,
+          1.309999942779541
+        ],
+        [
+          0.2919999957084656,
+          0.29705503582954407,
+          1.8350000381469727
+        ]
+      ],
+      "materials": [
+        "M_NPC_hair"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_002_LongStraight",
+      "mesh_name": "SM_NPC_HAIR_002_LongStraight",
+      "category": "NPC_HAIR",
+      "label_ko": "긴 생머리",
+      "file": "Meshes/NPC/SM_NPC_HAIR_002_LongStraight.glb",
+      "slot": "hair",
+      "index": 2,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 76,
+      "triangles": 136,
+      "bounds_blender": [
+        [
+          -0.3199999928474426,
+          -0.29374340176582336,
+          1.0199999809265137
+        ],
+        [
+          0.3199999928474426,
+          0.29705503582954407,
+          1.8350000381469727
+        ]
+      ],
+      "materials": [
+        "M_NPC_hair"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_003_LongPonytail",
+      "mesh_name": "SM_NPC_HAIR_003_LongPonytail",
+      "category": "NPC_HAIR",
+      "label_ko": "긴 묶음머리",
+      "file": "Meshes/NPC/SM_NPC_HAIR_003_LongPonytail.glb",
+      "slot": "hair",
+      "index": 3,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 112,
+      "triangles": 196,
+      "bounds_blender": [
+        [
+          -0.3199999928474426,
+          -0.29374340176582336,
+          1.0158727169036865
+        ],
+        [
+          0.3199999928474426,
+          0.503887414932251,
+          1.8350000381469727
+        ]
+      ],
+      "materials": [
+        "M_NPC_hair",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_004_ShortSwept",
+      "mesh_name": "SM_NPC_HAIR_004_ShortSwept",
+      "category": "NPC_HAIR",
+      "label_ko": "짧은 넘긴머리",
+      "file": "Meshes/NPC/SM_NPC_HAIR_004_ShortSwept.glb",
+      "slot": "hair",
+      "index": 4,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 68,
+      "triangles": 108,
+      "bounds_blender": [
+        [
+          -0.27716386318206787,
+          -0.29374340176582336,
+          1.5942734479904175
+        ],
+        [
+          0.27716386318206787,
+          0.27268627285957336,
+          1.861825942993164
+        ]
+      ],
+      "materials": [
+        "M_NPC_hair"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_TOP_000_Civilian",
+      "mesh_name": "SM_NPC_TOP_000_Civilian",
+      "category": "NPC_TOP",
+      "label_ko": "주민 상의",
+      "file": "Meshes/NPC/SM_NPC_TOP_000_Civilian.glb",
+      "slot": "top",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 192,
+      "triangles": 344,
+      "bounds_blender": [
+        [
+          -0.5136070847511292,
+          -0.2160000056028366,
+          0.6549999713897705
+        ],
+        [
+          0.5136070847511292,
+          0.17276547849178314,
+          1.1349999904632568
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_dark",
+        "M_NPC_metal",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_TOP_001_WorkJacket",
+      "mesh_name": "SM_NPC_TOP_001_WorkJacket",
+      "category": "NPC_TOP",
+      "label_ko": "정비 작업복",
+      "file": "Meshes/NPC/SM_NPC_TOP_001_WorkJacket.glb",
+      "slot": "top",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 200,
+      "triangles": 356,
+      "bounds_blender": [
+        [
+          -0.5136070847511292,
+          -0.2160000056028366,
+          0.6549999713897705
+        ],
+        [
+          0.5136070847511292,
+          0.17276547849178314,
+          1.1349999904632568
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_trim",
+        "M_NPC_dark",
+        "M_NPC_metal"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_TOP_002_Armor",
+      "mesh_name": "SM_NPC_TOP_002_Armor",
+      "category": "NPC_TOP",
+      "label_ko": "금속 갑옷",
+      "file": "Meshes/NPC/SM_NPC_TOP_002_Armor.glb",
+      "slot": "top",
+      "index": 2,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 282,
+      "triangles": 508,
+      "bounds_blender": [
+        [
+          -0.5136070847511292,
+          -0.2574999928474426,
+          0.6549999713897705
+        ],
+        [
+          0.5136070847511292,
+          0.1832461953163147,
+          1.1549999713897705
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_dark",
+        "M_NPC_metal",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_TOP_003_Military",
+      "mesh_name": "SM_NPC_TOP_003_Military",
+      "category": "NPC_TOP",
+      "label_ko": "군용 전투복",
+      "file": "Meshes/NPC/SM_NPC_TOP_003_Military.glb",
+      "slot": "top",
+      "index": 3,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 282,
+      "triangles": 508,
+      "bounds_blender": [
+        [
+          -0.5136070847511292,
+          -0.2574999928474426,
+          0.6549999713897705
+        ],
+        [
+          0.5136070847511292,
+          0.1832461953163147,
+          1.1549999713897705
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_dark",
+        "M_NPC_metal",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_TOP_004_PilotCoat",
+      "mesh_name": "SM_NPC_TOP_004_PilotCoat",
+      "category": "NPC_TOP",
+      "label_ko": "선장 코트",
+      "file": "Meshes/NPC/SM_NPC_TOP_004_PilotCoat.glb",
+      "slot": "top",
+      "index": 4,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 264,
+      "triangles": 476,
+      "bounds_blender": [
+        [
+          -0.5136070847511292,
+          -0.2160000056028366,
+          0.5199999809265137
+        ],
+        [
+          0.5136070847511292,
+          0.17276547849178314,
+          1.1349999904632568
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_trim",
+        "M_NPC_dark",
+        "M_NPC_metal",
+        "M_NPC_white"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_TOP_005_Expedition",
+      "mesh_name": "SM_NPC_TOP_005_Expedition",
+      "category": "NPC_TOP",
+      "label_ko": "탐사복",
+      "file": "Meshes/NPC/SM_NPC_TOP_005_Expedition.glb",
+      "slot": "top",
+      "index": 5,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 204,
+      "triangles": 364,
+      "bounds_blender": [
+        [
+          -0.5136070847511292,
+          -0.2160000056028366,
+          0.6549999713897705
+        ],
+        [
+          0.5136070847511292,
+          0.17276547849178314,
+          1.1794474124908447
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_dark",
+        "M_NPC_metal",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_000_Trousers",
+      "mesh_name": "SM_NPC_BOTTOM_000_Trousers",
+      "category": "NPC_BOTTOM",
+      "label_ko": "기본 바지",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_000_Trousers.glb",
+      "slot": "bottom",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 80,
+      "triangles": 148,
+      "bounds_blender": [
+        [
+          -0.2607998549938202,
+          -0.14000000059604645,
+          0.12999999523162842
+        ],
+        [
+          0.2607998549938202,
+          0.14000000059604645,
+          0.7099999785423279
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_001_CargoPants",
+      "mesh_name": "SM_NPC_BOTTOM_001_CargoPants",
+      "category": "NPC_BOTTOM",
+      "label_ko": "카고 바지",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_001_CargoPants.glb",
+      "slot": "bottom",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 144,
+      "triangles": 268,
+      "bounds_blender": [
+        [
+          -0.28999999165534973,
+          -0.14000000059604645,
+          0.12999999523162842
+        ],
+        [
+          0.28999999165534973,
+          0.14000000059604645,
+          0.7099999785423279
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_002_ArmoredPants",
+      "mesh_name": "SM_NPC_BOTTOM_002_ArmoredPants",
+      "category": "NPC_BOTTOM",
+      "label_ko": "장갑 바지",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_002_ArmoredPants.glb",
+      "slot": "bottom",
+      "index": 2,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 208,
+      "triangles": 388,
+      "bounds_blender": [
+        [
+          -0.2607998549938202,
+          -0.14000000059604645,
+          0.12999999523162842
+        ],
+        [
+          0.2607998549938202,
+          0.14000000059604645,
+          0.7099999785423279
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_dark",
+        "M_NPC_metal"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_000_AnkleBoots",
+      "mesh_name": "SM_NPC_FOOTWEAR_000_AnkleBoots",
+      "category": "NPC_FOOTWEAR",
+      "label_ko": "발목 부츠",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_000_AnkleBoots.glb",
+      "slot": "footwear",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 152,
+      "triangles": 280,
+      "bounds_blender": [
+        [
+          -0.2524999976158142,
+          -0.25200000405311584,
+          0.0
+        ],
+        [
+          0.2524999976158142,
+          0.11999999731779099,
+          0.17000000178813934
+        ]
+      ],
+      "materials": [
+        "M_NPC_dark"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_001_WorkBoots",
+      "mesh_name": "SM_NPC_FOOTWEAR_001_WorkBoots",
+      "category": "NPC_FOOTWEAR",
+      "label_ko": "작업 부츠",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_001_WorkBoots.glb",
+      "slot": "footwear",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 216,
+      "triangles": 400,
+      "bounds_blender": [
+        [
+          -0.2524999976158142,
+          -0.25200000405311584,
+          0.0
+        ],
+        [
+          0.2524999976158142,
+          0.11999999731779099,
+          0.20499999821186066
+        ]
+      ],
+      "materials": [
+        "M_NPC_dark",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_002_CombatBoots",
+      "mesh_name": "SM_NPC_FOOTWEAR_002_CombatBoots",
+      "category": "NPC_FOOTWEAR",
+      "label_ko": "전투 부츠",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_002_CombatBoots.glb",
+      "slot": "footwear",
+      "index": 2,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 216,
+      "triangles": 400,
+      "bounds_blender": [
+        [
+          -0.2524999976158142,
+          -0.25200000405311584,
+          0.0
+        ],
+        [
+          0.2524999976158142,
+          0.11999999731779099,
+          0.20499999821186066
+        ]
+      ],
+      "materials": [
+        "M_NPC_dark",
+        "M_NPC_metal"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_000_Scarf",
+      "mesh_name": "SM_NPC_ACCESSORY_000_Scarf",
+      "category": "NPC_ACCESSORY",
+      "label_ko": "스카프",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_000_Scarf.glb",
+      "slot": "accessory",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 48,
+      "triangles": 88,
+      "bounds_blender": [
+        [
+          -0.22499999403953552,
+          -0.21549999713897705,
+          0.8349999785423279
+        ],
+        [
+          0.16167892515659332,
+          0.16167892515659332,
+          1.1799999475479126
+        ]
+      ],
+      "materials": [
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_001_Respirator",
+      "mesh_name": "SM_NPC_ACCESSORY_001_Respirator",
+      "category": "NPC_ACCESSORY",
+      "label_ko": "호흡 마스크",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_001_Respirator.glb",
+      "slot": "accessory",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 56,
+      "triangles": 100,
+      "bounds_blender": [
+        [
+          -0.14499999582767487,
+          -0.3100000023841858,
+          1.315000057220459
+        ],
+        [
+          0.14499999582767487,
+          -0.21799999475479126,
+          1.4249999523162842
+        ]
+      ],
+      "materials": [
+        "M_NPC_dark",
+        "M_NPC_metal"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_002_Goggles",
+      "mesh_name": "SM_NPC_ACCESSORY_002_Goggles",
+      "category": "NPC_ACCESSORY",
+      "label_ko": "고글",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_002_Goggles.glb",
+      "slot": "accessory",
+      "index": 2,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 136,
+      "triangles": 252,
+      "bounds_blender": [
+        [
+          -0.1679999977350235,
+          -0.31299999356269836,
+          1.4785000085830688
+        ],
+        [
+          0.1679999977350235,
+          -0.2605000138282776,
+          1.5614999532699585
+        ]
+      ],
+      "materials": [
+        "M_NPC_dark",
+        "M_NPC_trim",
+        "M_NPC_metal"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_003_Satchel",
+      "mesh_name": "SM_NPC_ACCESSORY_003_Satchel",
+      "category": "NPC_ACCESSORY",
+      "label_ko": "어깨 가방",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_003_Satchel.glb",
+      "slot": "accessory",
+      "index": 3,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 72,
+      "triangles": 132,
+      "bounds_blender": [
+        [
+          -0.23091505467891693,
+          -0.23399999737739563,
+          0.6000000238418579
+        ],
+        [
+          0.4650000035762787,
+          0.10199999809265137,
+          1.109101414680481
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_trim",
+        "M_NPC_dark"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_004_Backpack",
+      "mesh_name": "SM_NPC_ACCESSORY_004_Backpack",
+      "category": "NPC_ACCESSORY",
+      "label_ko": "배낭",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_004_Backpack.glb",
+      "slot": "accessory",
+      "index": 4,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 80,
+      "triangles": 144,
+      "bounds_blender": [
+        [
+          -0.2199999988079071,
+          -0.07000000029802322,
+          0.7300000190734863
+        ],
+        [
+          0.2199999988079071,
+          0.4074999988079071,
+          1.0950000286102295
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_trim",
+        "M_NPC_dark"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HEADGEAR_000_PatrolCap",
+      "mesh_name": "SM_NPC_HEADGEAR_000_PatrolCap",
+      "category": "NPC_HEADGEAR",
+      "label_ko": "순찰 모자",
+      "file": "Meshes/NPC/SM_NPC_HEADGEAR_000_PatrolCap.glb",
+      "slot": "headgear",
+      "index": 0,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 56,
+      "triangles": 104,
+      "bounds_blender": [
+        [
+          -0.27716386318206787,
+          -0.3700000047683716,
+          1.659000039100647
+        ],
+        [
+          0.27716386318206787,
+          0.2686862647533417,
+          1.850000023841858
+        ]
+      ],
+      "materials": [
+        "M_NPC_cloth",
+        "M_NPC_dark"
+      ]
+    },
+    {
+      "asset_id": "SM_NPC_HEADGEAR_001_MilitaryHelmet",
+      "mesh_name": "SM_NPC_HEADGEAR_001_MilitaryHelmet",
+      "category": "NPC_HEADGEAR",
+      "label_ko": "군용 헬멧",
+      "file": "Meshes/NPC/SM_NPC_HEADGEAR_001_MilitaryHelmet.glb",
+      "slot": "headgear",
+      "index": 1,
+      "body_compatibility": [
+        0,
+        1
+      ],
+      "vertices": 120,
+      "triangles": 224,
+      "bounds_blender": [
+        [
+          -0.3199999928474426,
+          -0.2840000092983246,
+          1.465000033378601
+        ],
+        [
+          0.3199999928474426,
+          0.2686862647533417,
+          1.850000023841858
+        ]
+      ],
+      "materials": [
+        "M_NPC_metal",
+        "M_NPC_trim"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_BLD_000_Habitat",
+      "mesh_name": "SM_ELY_BLD_000_Habitat",
+      "category": "ENV_ELY",
+      "label_ko": "엘리시움 거주동",
+      "file": "Meshes/ELY/SM_ELY_BLD_000_Habitat.glb",
+      "vertices": 340,
+      "triangles": 608,
+      "bounds_blender": [
+        [
+          -1.6749999523162842,
+          -1.3250000476837158,
+          0.0
+        ],
+        [
+          1.6749999523162842,
+          1.3250000476837158,
+          3.2200000286102295
+        ]
+      ],
+      "materials": [
+        "M_ely_edge",
+        "M_ely_hull",
+        "M_ely_panel",
+        "M_ely_glass",
+        "M_ely_light",
+        "M_ely_warm",
+        "M_NPC_metal"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_BLD_001_Workshop",
+      "mesh_name": "SM_ELY_BLD_001_Workshop",
+      "category": "ENV_ELY",
+      "label_ko": "엘리시움 정비소",
+      "file": "Meshes/ELY/SM_ELY_BLD_001_Workshop.glb",
+      "vertices": 368,
+      "triangles": 656,
+      "bounds_blender": [
+        [
+          -1.9249999523162842,
+          -1.975000023841858,
+          0.0
+        ],
+        [
+          1.9249999523162842,
+          1.524999976158142,
+          2.869999885559082
+        ]
+      ],
+      "materials": [
+        "M_ely_edge",
+        "M_ely_hull",
+        "M_ely_panel",
+        "M_ely_glass",
+        "M_ely_light",
+        "M_ely_warm",
+        "M_com_ochre"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_BLD_002_Archive",
+      "mesh_name": "SM_ELY_BLD_002_Archive",
+      "category": "ENV_ELY",
+      "label_ko": "엘리시움 기록보관소",
+      "file": "Meshes/ELY/SM_ELY_BLD_002_Archive.glb",
+      "vertices": 456,
+      "triangles": 828,
+      "bounds_blender": [
+        [
+          -1.725000023841858,
+          -1.4249999523162842,
+          0.0
+        ],
+        [
+          1.725000023841858,
+          1.4249999523162842,
+          4.25
+        ]
+      ],
+      "materials": [
+        "M_ely_edge",
+        "M_ely_hull",
+        "M_ely_panel",
+        "M_ely_glass",
+        "M_ely_light",
+        "M_ely_warm"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_BLD_003_ControlSpire",
+      "mesh_name": "SM_ELY_BLD_003_ControlSpire",
+      "category": "ENV_ELY",
+      "label_ko": "통제 첨탑",
+      "file": "Meshes/ELY/SM_ELY_BLD_003_ControlSpire.glb",
+      "vertices": 116,
+      "triangles": 204,
+      "bounds_blender": [
+        [
+          -1.062461495399475,
+          -1.062461495399475,
+          0.0
+        ],
+        [
+          1.062461495399475,
+          1.062461495399475,
+          5.099999904632568
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_light",
+        "M_ely_panel"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_BLD_004_CheckpointGate",
+      "mesh_name": "SM_ELY_BLD_004_CheckpointGate",
+      "category": "ENV_ELY",
+      "label_ko": "통제 검문 게이트",
+      "file": "Meshes/ELY/SM_ELY_BLD_004_CheckpointGate.glb",
+      "vertices": 112,
+      "triangles": 204,
+      "bounds_blender": [
+        [
+          -1.5,
+          -0.3125,
+          0.0
+        ],
+        [
+          1.5,
+          0.3100000023841858,
+          2.759999990463257
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_light",
+        "M_ely_panel"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_MOD_000_Wall2m",
+      "mesh_name": "SM_ELY_MOD_000_Wall2m",
+      "category": "ENV_ELY",
+      "label_ko": "통제 구역 벽 2m",
+      "file": "Meshes/ELY/SM_ELY_MOD_000_Wall2m.glb",
+      "vertices": 80,
+      "triangles": 144,
+      "bounds_blender": [
+        [
+          -1.0,
+          -0.17000000178813934,
+          0.0
+        ],
+        [
+          1.0,
+          0.17000000178813934,
+          1.5
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_panel",
+        "M_ely_edge"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_MOD_001_Floor2m",
+      "mesh_name": "SM_ELY_MOD_001_Floor2m",
+      "category": "ENV_ELY",
+      "label_ko": "금속 바닥 2m",
+      "file": "Meshes/ELY/SM_ELY_MOD_001_Floor2m.glb",
+      "vertices": 64,
+      "triangles": 108,
+      "bounds_blender": [
+        [
+          -1.0,
+          -1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.13199999928474426
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_edge"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_PROP_000_Planter",
+      "mesh_name": "SM_ELY_PROP_000_Planter",
+      "category": "ENV_ELY",
+      "label_ko": "주민 화분",
+      "file": "Meshes/ELY/SM_ELY_PROP_000_Planter.glb",
+      "vertices": 90,
+      "triangles": 152,
+      "bounds_blender": [
+        [
+          -0.6000000238418579,
+          -0.32499998807907104,
+          0.0
+        ],
+        [
+          0.6000000238418579,
+          0.32499998807907104,
+          1.000611424446106
+        ]
+      ],
+      "materials": [
+        "M_ely_panel",
+        "M_stone_dark",
+        "M_ely_leaf"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_PROP_001_StreetLamp",
+      "mesh_name": "SM_ELY_PROP_001_StreetLamp",
+      "category": "ENV_ELY",
+      "label_ko": "따뜻한 가로등",
+      "file": "Meshes/ELY/SM_ELY_PROP_001_StreetLamp.glb",
+      "vertices": 84,
+      "triangles": 152,
+      "bounds_blender": [
+        [
+          -0.22499999403953552,
+          -0.3700000047683716,
+          0.0
+        ],
+        [
+          0.22499999403953552,
+          0.22499999403953552,
+          2.2799999713897705
+        ]
+      ],
+      "materials": [
+        "M_ely_edge",
+        "M_ely_panel",
+        "M_ely_hull",
+        "M_ely_warm"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_PROP_002_Relay",
+      "mesh_name": "SM_ELY_PROP_002_Relay",
+      "category": "ENV_ELY",
+      "label_ko": "통신 중계기",
+      "file": "Meshes/ELY/SM_ELY_PROP_002_Relay.glb",
+      "vertices": 116,
+      "triangles": 216,
+      "bounds_blender": [
+        [
+          -0.4065069854259491,
+          -0.4065069854259491,
+          0.0
+        ],
+        [
+          0.4065069854259491,
+          0.4065069854259491,
+          2.0250000953674316
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_light",
+        "M_ely_panel"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_PROP_003_OracleTerminal",
+      "mesh_name": "SM_ELY_PROP_003_OracleTerminal",
+      "category": "ENV_ELY",
+      "label_ko": "ORACLE 단말",
+      "file": "Meshes/ELY/SM_ELY_PROP_003_OracleTerminal.glb",
+      "vertices": 120,
+      "triangles": 216,
+      "bounds_blender": [
+        [
+          -0.44999998807907104,
+          -0.48500001430511475,
+          0.0
+        ],
+        [
+          0.44999998807907104,
+          0.32499998807907104,
+          1.2999999523162842
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_glass",
+        "M_ely_light",
+        "M_ely_panel"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_NAT_000_RockTall",
+      "mesh_name": "SM_ELY_NAT_000_RockTall",
+      "category": "ENV_ELY",
+      "label_ko": "엘리시움 바위",
+      "file": "Meshes/ELY/SM_ELY_NAT_000_RockTall.glb",
+      "vertices": 12,
+      "triangles": 20,
+      "bounds_blender": [
+        [
+          -0.5232089757919312,
+          -0.4370501935482025,
+          0.0
+        ],
+        [
+          0.581231951713562,
+          0.4009416103363037,
+          0.9621658325195312
+        ]
+      ],
+      "materials": [
+        "M_ely_rock"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_NAT_001_RockFlat",
+      "mesh_name": "SM_ELY_NAT_001_RockFlat",
+      "category": "ENV_ELY",
+      "label_ko": "엘리시움 바위",
+      "file": "Meshes/ELY/SM_ELY_NAT_001_RockFlat.glb",
+      "vertices": 12,
+      "triangles": 20,
+      "bounds_blender": [
+        [
+          -0.8270177841186523,
+          -0.5647724270820618,
+          0.0
+        ],
+        [
+          0.8837093710899353,
+          0.6054098010063171,
+          0.574686586856842
+        ]
+      ],
+      "materials": [
+        "M_ely_rock"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_NAT_002_DryGrass",
+      "mesh_name": "SM_ELY_NAT_002_DryGrass",
+      "category": "ENV_ELY",
+      "label_ko": "메마른 풀 군락",
+      "file": "Meshes/ELY/SM_ELY_NAT_002_DryGrass.glb",
+      "vertices": 48,
+      "triangles": 64,
+      "bounds_blender": [
+        [
+          -0.26781734824180603,
+          -0.19164372980594635,
+          0.004999999888241291
+        ],
+        [
+          0.2364972084760666,
+          0.13304629921913147,
+          0.46691715717315674
+        ]
+      ],
+      "materials": [
+        "M_ely_grass"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_NAT_003_PrunedTree",
+      "mesh_name": "SM_ELY_NAT_003_PrunedTree",
+      "category": "ENV_ELY",
+      "label_ko": "통제 정원 나무",
+      "file": "Meshes/ELY/SM_ELY_NAT_003_PrunedTree.glb",
+      "vertices": 102,
+      "triangles": 168,
+      "bounds_blender": [
+        [
+          -0.9494203925132751,
+          -0.8139154314994812,
+          -0.004202187526971102
+        ],
+        [
+          0.9046034812927246,
+          0.8784611821174622,
+          2.6698343753814697
+        ]
+      ],
+      "materials": [
+        "M_bark",
+        "M_ely_leaf"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_UNIT_000_SecurityDrone",
+      "mesh_name": "SM_ELY_UNIT_000_SecurityDrone",
+      "category": "ENV_ELY",
+      "label_ko": "근접 경비 드론",
+      "file": "Meshes/ELY/SM_ELY_UNIT_000_SecurityDrone.glb",
+      "vertices": 132,
+      "triangles": 232,
+      "bounds_blender": [
+        [
+          -0.7300000190734863,
+          -0.3449999988079071,
+          0.4467562437057495
+        ],
+        [
+          0.7300000190734863,
+          0.27249032258987427,
+          1.0037333965301514
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_light",
+        "M_ely_panel",
+        "M_ely_edge"
+      ]
+    },
+    {
+      "asset_id": "SM_ELY_UNIT_001_RangedSentry",
+      "mesh_name": "SM_ELY_UNIT_001_RangedSentry",
+      "category": "ENV_ELY",
+      "label_ko": "원거리 감시기",
+      "file": "Meshes/ELY/SM_ELY_UNIT_001_RangedSentry.glb",
+      "vertices": 98,
+      "triangles": 180,
+      "bounds_blender": [
+        [
+          -0.4065069854259491,
+          -0.699999988079071,
+          0.0
+        ],
+        [
+          0.4065069854259491,
+          0.4362357258796692,
+          1.3200000524520874
+        ]
+      ],
+      "materials": [
+        "M_ely_hull",
+        "M_ely_panel",
+        "M_ely_light",
+        "M_ely_edge"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_BLD_000_MemorySanctum",
+      "mesh_name": "SM_RUI_BLD_000_MemorySanctum",
+      "category": "ENV_RUI",
+      "label_ko": "기억 성소",
+      "file": "Meshes/RUI/SM_RUI_BLD_000_MemorySanctum.glb",
+      "vertices": 312,
+      "triangles": 572,
+      "bounds_blender": [
+        [
+          -2.4000000953674316,
+          -1.850000023841858,
+          0.0
+        ],
+        [
+          2.4000000953674316,
+          1.850000023841858,
+          3.009999990463257
+        ]
+      ],
+      "materials": [
+        "M_stone",
+        "M_stone_light",
+        "M_stone_dark",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_BLD_001_AncientGate",
+      "mesh_name": "SM_RUI_BLD_001_AncientGate",
+      "category": "ENV_RUI",
+      "label_ko": "유적 석문",
+      "file": "Meshes/RUI/SM_RUI_BLD_001_AncientGate.glb",
+      "vertices": 196,
+      "triangles": 360,
+      "bounds_blender": [
+        [
+          -1.399999976158142,
+          -0.43666088581085205,
+          0.0
+        ],
+        [
+          1.399999976158142,
+          0.4000000059604645,
+          2.714355945587158
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_stone_light",
+        "M_stone",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_MOD_000_IntactPillar",
+      "mesh_name": "SM_RUI_MOD_000_IntactPillar",
+      "category": "ENV_RUI",
+      "label_ko": "온전한 유적 기둥",
+      "file": "Meshes/RUI/SM_RUI_MOD_000_IntactPillar.glb",
+      "vertices": 90,
+      "triangles": 164,
+      "bounds_blender": [
+        [
+          -0.4000000059604645,
+          -0.4000000059604645,
+          0.0
+        ],
+        [
+          0.4000000059604645,
+          0.4000000059604645,
+          2.244999885559082
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_stone_light",
+        "M_stone",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_MOD_001_BrokenPillar",
+      "mesh_name": "SM_RUI_MOD_001_BrokenPillar",
+      "category": "ENV_RUI",
+      "label_ko": "부서진 유적 기둥",
+      "file": "Meshes/RUI/SM_RUI_MOD_001_BrokenPillar.glb",
+      "vertices": 62,
+      "triangles": 112,
+      "bounds_blender": [
+        [
+          -0.4000000059604645,
+          -0.4000000059604645,
+          0.0
+        ],
+        [
+          0.7793737053871155,
+          0.4000000059604645,
+          1.1399999856948853
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_stone",
+        "M_stone_light"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_MOD_002_Wall2m",
+      "mesh_name": "SM_RUI_MOD_002_Wall2m",
+      "category": "ENV_RUI",
+      "label_ko": "유적 벽 2m",
+      "file": "Meshes/RUI/SM_RUI_MOD_002_Wall2m.glb",
+      "vertices": 128,
+      "triangles": 240,
+      "bounds_blender": [
+        [
+          -1.0,
+          -0.20749999582767487,
+          0.0
+        ],
+        [
+          1.0,
+          0.18000000715255737,
+          1.2400000095367432
+        ]
+      ],
+      "materials": [
+        "M_stone",
+        "M_stone_light"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_MOD_003_Floor2m",
+      "mesh_name": "SM_RUI_MOD_003_Floor2m",
+      "category": "ENV_RUI",
+      "label_ko": "유적 바닥 2m",
+      "file": "Meshes/RUI/SM_RUI_MOD_003_Floor2m.glb",
+      "vertices": 160,
+      "triangles": 300,
+      "bounds_blender": [
+        [
+          -1.0,
+          -1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.19499999284744263
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_stone_light"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_PROP_000_MemoryPlinth",
+      "mesh_name": "SM_RUI_PROP_000_MemoryPlinth",
+      "category": "ENV_RUI",
+      "label_ko": "기억 제단",
+      "file": "Meshes/RUI/SM_RUI_PROP_000_MemoryPlinth.glb",
+      "vertices": 108,
+      "triangles": 200,
+      "bounds_blender": [
+        [
+          -0.800000011920929,
+          -0.800000011920929,
+          0.0
+        ],
+        [
+          0.800000011920929,
+          0.800000011920929,
+          1.2144289016723633
+        ]
+      ],
+      "materials": [
+        "M_stone",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_PROP_001_RuneMonolith",
+      "mesh_name": "SM_RUI_PROP_001_RuneMonolith",
+      "category": "ENV_RUI",
+      "label_ko": "발광 문양 석비",
+      "file": "Meshes/RUI/SM_RUI_PROP_001_RuneMonolith.glb",
+      "vertices": 52,
+      "triangles": 84,
+      "bounds_blender": [
+        [
+          -0.4667375683784485,
+          -0.34105607867240906,
+          0.0
+        ],
+        [
+          0.44346216320991516,
+          0.3987669348716736,
+          2.4000000953674316
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_PROP_002_AncientConsole",
+      "mesh_name": "SM_RUI_PROP_002_AncientConsole",
+      "category": "ENV_RUI",
+      "label_ko": "고대 기록 단말",
+      "file": "Meshes/RUI/SM_RUI_PROP_002_AncientConsole.glb",
+      "vertices": 54,
+      "triangles": 96,
+      "bounds_blender": [
+        [
+          -0.42500001192092896,
+          -0.375,
+          0.0
+        ],
+        [
+          0.42500001192092896,
+          0.375,
+          1.1562162637710571
+        ]
+      ],
+      "materials": [
+        "M_stone",
+        "M_stone_dark",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_000_CrystalCluster",
+      "mesh_name": "SM_RUI_NAT_000_CrystalCluster",
+      "category": "ENV_RUI",
+      "label_ko": "청록 수정 군락",
+      "file": "Meshes/RUI/SM_RUI_NAT_000_CrystalCluster.glb",
+      "vertices": 75,
+      "triangles": 130,
+      "bounds_blender": [
+        [
+          -0.4021206796169281,
+          -0.36984601616859436,
+          0.0
+        ],
+        [
+          0.4001043438911438,
+          0.33595290780067444,
+          0.7900000214576721
+        ]
+      ],
+      "materials": [
+        "M_crystal"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_001_LuminousTree",
+      "mesh_name": "SM_RUI_NAT_001_LuminousTree",
+      "category": "ENV_RUI",
+      "label_ko": "발광 우산나무",
+      "file": "Meshes/RUI/SM_RUI_NAT_001_LuminousTree.glb",
+      "vertices": 184,
+      "triangles": 304,
+      "bounds_blender": [
+        [
+          -1.3754920959472656,
+          -1.2229597568511963,
+          -0.00971299596130848
+        ],
+        [
+          1.4445959329605103,
+          1.1263489723205566,
+          2.56603741645813
+        ]
+      ],
+      "materials": [
+        "M_bark",
+        "M_rui_leaf",
+        "M_rui_glow",
+        "M_rui_leaf_light"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_002_FossilTree",
+      "mesh_name": "SM_RUI_NAT_002_FossilTree",
+      "category": "ENV_RUI",
+      "label_ko": "화석 나무",
+      "file": "Meshes/RUI/SM_RUI_NAT_002_FossilTree.glb",
+      "vertices": 52,
+      "triangles": 84,
+      "bounds_blender": [
+        [
+          -0.410137802362442,
+          -0.5422717332839966,
+          -0.0098686832934618
+        ],
+        [
+          0.5452212691307068,
+          0.4393324851989746,
+          1.8232896327972412
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_stone"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_003_Fern",
+      "mesh_name": "SM_RUI_NAT_003_Fern",
+      "category": "ENV_RUI",
+      "label_ko": "입체 양치식물",
+      "file": "Meshes/RUI/SM_RUI_NAT_003_Fern.glb",
+      "vertices": 322,
+      "triangles": 448,
+      "bounds_blender": [
+        [
+          -0.4202084541320801,
+          -0.4529043734073639,
+          0.007254157215356827
+        ],
+        [
+          0.46467578411102295,
+          0.4536442458629608,
+          0.3271695375442505
+        ]
+      ],
+      "materials": [
+        "M_rui_leaf",
+        "M_rui_leaf_light"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_004_LuminousGrass",
+      "mesh_name": "SM_RUI_NAT_004_LuminousGrass",
+      "category": "ENV_RUI",
+      "label_ko": "발광 풀 군락",
+      "file": "Meshes/RUI/SM_RUI_NAT_004_LuminousGrass.glb",
+      "vertices": 84,
+      "triangles": 124,
+      "bounds_blender": [
+        [
+          -0.26781734824180603,
+          -0.19961732625961304,
+          0.004999999888241291
+        ],
+        [
+          0.2364972084760666,
+          0.13304629921913147,
+          0.46691715717315674
+        ]
+      ],
+      "materials": [
+        "M_rui_leaf",
+        "M_rui_glow"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_005_Boulder",
+      "mesh_name": "SM_RUI_NAT_005_Boulder",
+      "category": "ENV_RUI",
+      "label_ko": "풍화된 바위",
+      "file": "Meshes/RUI/SM_RUI_NAT_005_Boulder.glb",
+      "vertices": 12,
+      "triangles": 20,
+      "bounds_blender": [
+        [
+          -0.6473302245140076,
+          -0.4444916844367981,
+          0.0
+        ],
+        [
+          0.6055653691291809,
+          0.5110116004943848,
+          1.072137713432312
+        ]
+      ],
+      "materials": [
+        "M_stone"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_006_MossBoulder",
+      "mesh_name": "SM_RUI_NAT_006_MossBoulder",
+      "category": "ENV_RUI",
+      "label_ko": "이끼 바위",
+      "file": "Meshes/RUI/SM_RUI_NAT_006_MossBoulder.glb",
+      "vertices": 60,
+      "triangles": 100,
+      "bounds_blender": [
+        [
+          -0.8099770545959473,
+          -0.5372515916824341,
+          0.0
+        ],
+        [
+          0.6954588890075684,
+          0.5920888781547546,
+          0.9378783106803894
+        ]
+      ],
+      "materials": [
+        "M_stone_dark",
+        "M_rui_leaf"
+      ]
+    },
+    {
+      "asset_id": "SM_RUI_NAT_007_Rubble",
+      "mesh_name": "SM_RUI_NAT_007_Rubble",
+      "category": "ENV_RUI",
+      "label_ko": "유적 잔해",
+      "file": "Meshes/RUI/SM_RUI_NAT_007_Rubble.glb",
+      "vertices": 72,
+      "triangles": 120,
+      "bounds_blender": [
+        [
+          -0.6834967136383057,
+          -0.47681620717048645,
+          0.0
+        ],
+        [
+          0.6255336999893188,
+          0.3821631968021393,
+          0.34503045678138733
+        ]
+      ],
+      "materials": [
+        "M_stone_light",
+        "M_stone"
+      ]
+    },
+    {
+      "asset_id": "SM_COM_PROP_000_CargoCrate",
+      "mesh_name": "SM_COM_PROP_000_CargoCrate",
+      "category": "ENV_COM",
+      "label_ko": "공용 화물 상자",
+      "file": "Meshes/COM/SM_COM_PROP_000_CargoCrate.glb",
+      "vertices": 80,
+      "triangles": 144,
+      "bounds_blender": [
+        [
+          -0.42500001192092896,
+          -0.4124999940395355,
+          0.0
+        ],
+        [
+          0.42500001192092896,
+          0.375,
+          0.800000011920929
+        ]
+      ],
+      "materials": [
+        "M_com_hull",
+        "M_com_ochre",
+        "M_ely_edge"
+      ]
+    },
+    {
+      "asset_id": "SM_COM_PROP_001_Barrel",
+      "mesh_name": "SM_COM_PROP_001_Barrel",
+      "category": "ENV_COM",
+      "label_ko": "보급통",
+      "file": "Meshes/COM/SM_COM_PROP_001_Barrel.glb",
+      "vertices": 80,
+      "triangles": 148,
+      "bounds_blender": [
+        [
+          -0.34032946825027466,
+          -0.3489210605621338,
+          0.0
+        ],
+        [
+          0.34032946825027466,
+          0.3489210605621338,
+          0.8500000238418579
+        ]
+      ],
+      "materials": [
+        "M_com_hull",
+        "M_com_ochre"
+      ]
+    },
+    {
+      "asset_id": "SM_COM_PROP_002_Bench",
+      "mesh_name": "SM_COM_PROP_002_Bench",
+      "category": "ENV_COM",
+      "label_ko": "변경 거주지 의자",
+      "file": "Meshes/COM/SM_COM_PROP_002_Bench.glb",
+      "vertices": 128,
+      "triangles": 240,
+      "bounds_blender": [
+        [
+          -0.675000011920929,
+          -0.23999999463558197,
+          0.0
+        ],
+        [
+          0.675000011920929,
+          0.24500000476837158,
+          1.0750000476837158
+        ]
+      ],
+      "materials": [
+        "M_com_hull",
+        "M_ely_edge",
+        "M_com_ochre"
+      ]
+    },
+    {
+      "asset_id": "SM_COM_PROP_003_Antenna",
+      "mesh_name": "SM_COM_PROP_003_Antenna",
+      "category": "ENV_COM",
+      "label_ko": "공용 통신 안테나",
+      "file": "Meshes/COM/SM_COM_PROP_003_Antenna.glb",
+      "vertices": 52,
+      "triangles": 88,
+      "bounds_blender": [
+        [
+          -0.550000011920929,
+          -0.44346216320991516,
+          0.0
+        ],
+        [
+          0.550000011920929,
+          0.44346216320991516,
+          2.200000047683716
+        ]
+      ],
+      "materials": [
+        "M_ely_edge",
+        "M_com_hull",
+        "M_com_ochre"
+      ]
+    },
+    {
+      "asset_id": "SM_COM_MOD_000_LandingPad",
+      "mesh_name": "SM_COM_MOD_000_LandingPad",
+      "category": "ENV_COM",
+      "label_ko": "노마드 착륙대",
+      "file": "Meshes/COM/SM_COM_MOD_000_LandingPad.glb",
+      "vertices": 272,
+      "triangles": 508,
+      "bounds_blender": [
+        [
+          -3.2335784435272217,
+          -3.2335784435272217,
+          0.0
+        ],
+        [
+          3.2335784435272217,
+          3.2335784435272217,
+          0.1599999964237213
+        ]
+      ],
+      "materials": [
+        "M_ely_edge",
+        "M_ely_warm"
+      ]
+    },
+    {
+      "asset_id": "SM_COM_SHIP_000_Nomad",
+      "mesh_name": "SM_COM_SHIP_000_Nomad",
+      "category": "ENV_COM",
+      "label_ko": "낡은 개척선 노마드",
+      "file": "Meshes/COM/SM_COM_SHIP_000_Nomad.glb",
+      "vertices": 382,
+      "triangles": 688,
+      "bounds_blender": [
+        [
+          -2.049999952316284,
+          -2.700000047683716,
+          0.0
+        ],
+        [
+          2.049999952316284,
+          1.9500000476837158,
+          1.4299999475479126
+        ]
+      ],
+      "materials": [
+        "M_com_hull",
+        "M_ely_glass",
+        "M_com_ochre",
+        "M_ely_edge",
+        "M_ely_light",
+        "M_NPC_metal"
+      ]
+    }
+  ],
+  "compatibility": {
+    "all_body_indices": [
+      0,
+      1
+    ],
+    "headgear_rule": "headgear >= 0 requires hair = -1",
+    "required_slots": [
+      "body",
+      "top",
+      "bottom",
+      "footwear"
+    ],
+    "optional_slots": [
+      "hair",
+      "accessory",
+      "headgear"
+    ],
+    "one_mesh_per_slot": true
+  },
+  "assembly": "Select each slot by index; place each part at identity transform under the same NPC root. Apply palette material overrides by role. No complete NPC mesh is required.",
+  "sockets_blender": {
+    "head": [
+      0,
+      0,
+      1.5
+    ],
+    "right_hand": [
+      0.465,
+      0,
+      0.718
+    ],
+    "left_hand": [
+      -0.465,
+      0,
+      0.718
+    ],
+    "back": [
+      0,
+      0.28,
+      0.93
+    ]
+  },
+  "static_meshes": true,
+  "rigged": false,
+  "animations": false
+}

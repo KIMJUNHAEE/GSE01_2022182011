@@ -15,11 +15,19 @@ void Game::Draw(const Prop& actor)
 
 void Game::Draw(const Enemy& actor)
 {
+    if (HasModel(actor.Id()))
+    {
+        return;
+    }
     DrawEnemy(actor);
 }
 
 void Game::Draw(const Character& actor)
 {
+    if (actor.captain && HasModel(actor.Id()))
+    {
+        return;
+    }
     if (!actor.captain)
     {
         const Vec2 foot = P(actor.Position());
@@ -74,6 +82,10 @@ void Game::Draw(const SceneEffect& effect)
             break;
         case EffectKind::LandingPad:
         {
+            if (HasModel(effect.Id()))
+            {
+                break;
+            }
             // Landing pad rings and inset guide lights provide a readable arrival landmark.
             Vec2 pad = P(effect.Position());
             canvas.Ellipse(pad, 152 * zoom, 76 * zoom, Gold.Fade(.4f), false, 1.4f * zoom);

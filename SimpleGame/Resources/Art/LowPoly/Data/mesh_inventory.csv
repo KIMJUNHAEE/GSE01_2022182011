@@ -1,0 +1,67 @@
+﻿asset_id,label_ko,category,slot,index,triangles,vertices,file
+SM_NPC_BODY_000_Male,남성 몸형,NPC_BODY,body,0,588,332,Meshes/NPC/SM_NPC_BODY_000_Male.glb
+SM_NPC_BODY_001_Female,여성 몸형,NPC_BODY,body,1,588,332,Meshes/NPC/SM_NPC_BODY_001_Female.glb
+SM_NPC_HAIR_000_ShortCrop,짧은 크롭,NPC_HAIR,hair,0,108,68,Meshes/NPC/SM_NPC_HAIR_000_ShortCrop.glb
+SM_NPC_HAIR_001_ShortBob,짧은 단발,NPC_HAIR,hair,1,136,76,Meshes/NPC/SM_NPC_HAIR_001_ShortBob.glb
+SM_NPC_HAIR_002_LongStraight,긴 생머리,NPC_HAIR,hair,2,136,76,Meshes/NPC/SM_NPC_HAIR_002_LongStraight.glb
+SM_NPC_HAIR_003_LongPonytail,긴 묶음머리,NPC_HAIR,hair,3,196,112,Meshes/NPC/SM_NPC_HAIR_003_LongPonytail.glb
+SM_NPC_HAIR_004_ShortSwept,짧은 넘긴머리,NPC_HAIR,hair,4,108,68,Meshes/NPC/SM_NPC_HAIR_004_ShortSwept.glb
+SM_NPC_TOP_000_Civilian,주민 상의,NPC_TOP,top,0,344,192,Meshes/NPC/SM_NPC_TOP_000_Civilian.glb
+SM_NPC_TOP_001_WorkJacket,정비 작업복,NPC_TOP,top,1,356,200,Meshes/NPC/SM_NPC_TOP_001_WorkJacket.glb
+SM_NPC_TOP_002_Armor,금속 갑옷,NPC_TOP,top,2,508,282,Meshes/NPC/SM_NPC_TOP_002_Armor.glb
+SM_NPC_TOP_003_Military,군용 전투복,NPC_TOP,top,3,508,282,Meshes/NPC/SM_NPC_TOP_003_Military.glb
+SM_NPC_TOP_004_PilotCoat,선장 코트,NPC_TOP,top,4,476,264,Meshes/NPC/SM_NPC_TOP_004_PilotCoat.glb
+SM_NPC_TOP_005_Expedition,탐사복,NPC_TOP,top,5,364,204,Meshes/NPC/SM_NPC_TOP_005_Expedition.glb
+SM_NPC_BOTTOM_000_Trousers,기본 바지,NPC_BOTTOM,bottom,0,148,80,Meshes/NPC/SM_NPC_BOTTOM_000_Trousers.glb
+SM_NPC_BOTTOM_001_CargoPants,카고 바지,NPC_BOTTOM,bottom,1,268,144,Meshes/NPC/SM_NPC_BOTTOM_001_CargoPants.glb
+SM_NPC_BOTTOM_002_ArmoredPants,장갑 바지,NPC_BOTTOM,bottom,2,388,208,Meshes/NPC/SM_NPC_BOTTOM_002_ArmoredPants.glb
+SM_NPC_FOOTWEAR_000_AnkleBoots,발목 부츠,NPC_FOOTWEAR,footwear,0,280,152,Meshes/NPC/SM_NPC_FOOTWEAR_000_AnkleBoots.glb
+SM_NPC_FOOTWEAR_001_WorkBoots,작업 부츠,NPC_FOOTWEAR,footwear,1,400,216,Meshes/NPC/SM_NPC_FOOTWEAR_001_WorkBoots.glb
+SM_NPC_FOOTWEAR_002_CombatBoots,전투 부츠,NPC_FOOTWEAR,footwear,2,400,216,Meshes/NPC/SM_NPC_FOOTWEAR_002_CombatBoots.glb
+SM_NPC_ACCESSORY_000_Scarf,스카프,NPC_ACCESSORY,accessory,0,88,48,Meshes/NPC/SM_NPC_ACCESSORY_000_Scarf.glb
+SM_NPC_ACCESSORY_001_Respirator,호흡 마스크,NPC_ACCESSORY,accessory,1,100,56,Meshes/NPC/SM_NPC_ACCESSORY_001_Respirator.glb
+SM_NPC_ACCESSORY_002_Goggles,고글,NPC_ACCESSORY,accessory,2,252,136,Meshes/NPC/SM_NPC_ACCESSORY_002_Goggles.glb
+SM_NPC_ACCESSORY_003_Satchel,어깨 가방,NPC_ACCESSORY,accessory,3,132,72,Meshes/NPC/SM_NPC_ACCESSORY_003_Satchel.glb
+SM_NPC_ACCESSORY_004_Backpack,배낭,NPC_ACCESSORY,accessory,4,144,80,Meshes/NPC/SM_NPC_ACCESSORY_004_Backpack.glb
+SM_NPC_HEADGEAR_000_PatrolCap,순찰 모자,NPC_HEADGEAR,headgear,0,104,56,Meshes/NPC/SM_NPC_HEADGEAR_000_PatrolCap.glb
+SM_NPC_HEADGEAR_001_MilitaryHelmet,군용 헬멧,NPC_HEADGEAR,headgear,1,224,120,Meshes/NPC/SM_NPC_HEADGEAR_001_MilitaryHelmet.glb
+SM_ELY_BLD_000_Habitat,엘리시움 거주동,ENV_ELY,,,608,340,Meshes/ELY/SM_ELY_BLD_000_Habitat.glb
+SM_ELY_BLD_001_Workshop,엘리시움 정비소,ENV_ELY,,,656,368,Meshes/ELY/SM_ELY_BLD_001_Workshop.glb
+SM_ELY_BLD_002_Archive,엘리시움 기록보관소,ENV_ELY,,,828,456,Meshes/ELY/SM_ELY_BLD_002_Archive.glb
+SM_ELY_BLD_003_ControlSpire,통제 첨탑,ENV_ELY,,,204,116,Meshes/ELY/SM_ELY_BLD_003_ControlSpire.glb
+SM_ELY_BLD_004_CheckpointGate,통제 검문 게이트,ENV_ELY,,,204,112,Meshes/ELY/SM_ELY_BLD_004_CheckpointGate.glb
+SM_ELY_MOD_000_Wall2m,통제 구역 벽 2m,ENV_ELY,,,144,80,Meshes/ELY/SM_ELY_MOD_000_Wall2m.glb
+SM_ELY_MOD_001_Floor2m,금속 바닥 2m,ENV_ELY,,,108,64,Meshes/ELY/SM_ELY_MOD_001_Floor2m.glb
+SM_ELY_PROP_000_Planter,주민 화분,ENV_ELY,,,152,90,Meshes/ELY/SM_ELY_PROP_000_Planter.glb
+SM_ELY_PROP_001_StreetLamp,따뜻한 가로등,ENV_ELY,,,152,84,Meshes/ELY/SM_ELY_PROP_001_StreetLamp.glb
+SM_ELY_PROP_002_Relay,통신 중계기,ENV_ELY,,,216,116,Meshes/ELY/SM_ELY_PROP_002_Relay.glb
+SM_ELY_PROP_003_OracleTerminal,ORACLE 단말,ENV_ELY,,,216,120,Meshes/ELY/SM_ELY_PROP_003_OracleTerminal.glb
+SM_ELY_NAT_000_RockTall,엘리시움 바위,ENV_ELY,,,20,12,Meshes/ELY/SM_ELY_NAT_000_RockTall.glb
+SM_ELY_NAT_001_RockFlat,엘리시움 바위,ENV_ELY,,,20,12,Meshes/ELY/SM_ELY_NAT_001_RockFlat.glb
+SM_ELY_NAT_002_DryGrass,메마른 풀 군락,ENV_ELY,,,64,48,Meshes/ELY/SM_ELY_NAT_002_DryGrass.glb
+SM_ELY_NAT_003_PrunedTree,통제 정원 나무,ENV_ELY,,,168,102,Meshes/ELY/SM_ELY_NAT_003_PrunedTree.glb
+SM_ELY_UNIT_000_SecurityDrone,근접 경비 드론,ENV_ELY,,,232,132,Meshes/ELY/SM_ELY_UNIT_000_SecurityDrone.glb
+SM_ELY_UNIT_001_RangedSentry,원거리 감시기,ENV_ELY,,,180,98,Meshes/ELY/SM_ELY_UNIT_001_RangedSentry.glb
+SM_RUI_BLD_000_MemorySanctum,기억 성소,ENV_RUI,,,572,312,Meshes/RUI/SM_RUI_BLD_000_MemorySanctum.glb
+SM_RUI_BLD_001_AncientGate,유적 석문,ENV_RUI,,,360,196,Meshes/RUI/SM_RUI_BLD_001_AncientGate.glb
+SM_RUI_MOD_000_IntactPillar,온전한 유적 기둥,ENV_RUI,,,164,90,Meshes/RUI/SM_RUI_MOD_000_IntactPillar.glb
+SM_RUI_MOD_001_BrokenPillar,부서진 유적 기둥,ENV_RUI,,,112,62,Meshes/RUI/SM_RUI_MOD_001_BrokenPillar.glb
+SM_RUI_MOD_002_Wall2m,유적 벽 2m,ENV_RUI,,,240,128,Meshes/RUI/SM_RUI_MOD_002_Wall2m.glb
+SM_RUI_MOD_003_Floor2m,유적 바닥 2m,ENV_RUI,,,300,160,Meshes/RUI/SM_RUI_MOD_003_Floor2m.glb
+SM_RUI_PROP_000_MemoryPlinth,기억 제단,ENV_RUI,,,200,108,Meshes/RUI/SM_RUI_PROP_000_MemoryPlinth.glb
+SM_RUI_PROP_001_RuneMonolith,발광 문양 석비,ENV_RUI,,,84,52,Meshes/RUI/SM_RUI_PROP_001_RuneMonolith.glb
+SM_RUI_PROP_002_AncientConsole,고대 기록 단말,ENV_RUI,,,96,54,Meshes/RUI/SM_RUI_PROP_002_AncientConsole.glb
+SM_RUI_NAT_000_CrystalCluster,청록 수정 군락,ENV_RUI,,,130,75,Meshes/RUI/SM_RUI_NAT_000_CrystalCluster.glb
+SM_RUI_NAT_001_LuminousTree,발광 우산나무,ENV_RUI,,,304,184,Meshes/RUI/SM_RUI_NAT_001_LuminousTree.glb
+SM_RUI_NAT_002_FossilTree,화석 나무,ENV_RUI,,,84,52,Meshes/RUI/SM_RUI_NAT_002_FossilTree.glb
+SM_RUI_NAT_003_Fern,입체 양치식물,ENV_RUI,,,448,322,Meshes/RUI/SM_RUI_NAT_003_Fern.glb
+SM_RUI_NAT_004_LuminousGrass,발광 풀 군락,ENV_RUI,,,124,84,Meshes/RUI/SM_RUI_NAT_004_LuminousGrass.glb
+SM_RUI_NAT_005_Boulder,풍화된 바위,ENV_RUI,,,20,12,Meshes/RUI/SM_RUI_NAT_005_Boulder.glb
+SM_RUI_NAT_006_MossBoulder,이끼 바위,ENV_RUI,,,100,60,Meshes/RUI/SM_RUI_NAT_006_MossBoulder.glb
+SM_RUI_NAT_007_Rubble,유적 잔해,ENV_RUI,,,120,72,Meshes/RUI/SM_RUI_NAT_007_Rubble.glb
+SM_COM_PROP_000_CargoCrate,공용 화물 상자,ENV_COM,,,144,80,Meshes/COM/SM_COM_PROP_000_CargoCrate.glb
+SM_COM_PROP_001_Barrel,보급통,ENV_COM,,,148,80,Meshes/COM/SM_COM_PROP_001_Barrel.glb
+SM_COM_PROP_002_Bench,변경 거주지 의자,ENV_COM,,,240,128,Meshes/COM/SM_COM_PROP_002_Bench.glb
+SM_COM_PROP_003_Antenna,공용 통신 안테나,ENV_COM,,,88,52,Meshes/COM/SM_COM_PROP_003_Antenna.glb
+SM_COM_MOD_000_LandingPad,노마드 착륙대,ENV_COM,,,508,272,Meshes/COM/SM_COM_MOD_000_LandingPad.glb
+SM_COM_SHIP_000_Nomad,낡은 개척선 노마드,ENV_COM,,,688,382,Meshes/COM/SM_COM_SHIP_000_Nomad.glb

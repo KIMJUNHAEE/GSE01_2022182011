@@ -1,0 +1,214 @@
+{
+  "weight_errors": [],
+  "weight_report": [
+    {
+      "mesh": "SM_NPC_BODY_000_Male",
+      "vertices": 348,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_BODY_001_Female",
+      "vertices": 348,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_HAIR_000_ShortCrop",
+      "vertices": 68,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_HAIR_001_ShortBob",
+      "vertices": 76,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_HAIR_002_LongStraight",
+      "vertices": 76,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_HAIR_003_LongPonytail",
+      "vertices": 112,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_HAIR_004_ShortSwept",
+      "vertices": 68,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_TOP_000_Civilian",
+      "vertices": 224,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_TOP_001_WorkJacket",
+      "vertices": 232,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_TOP_002_Armor",
+      "vertices": 318,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_TOP_003_Military",
+      "vertices": 318,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_TOP_004_PilotCoat",
+      "vertices": 296,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_TOP_005_Expedition",
+      "vertices": 244,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_BOTTOM_000_Trousers",
+      "vertices": 80,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_BOTTOM_001_CargoPants",
+      "vertices": 144,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_BOTTOM_002_ArmoredPants",
+      "vertices": 208,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_FOOTWEAR_000_AnkleBoots",
+      "vertices": 152,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_FOOTWEAR_001_WorkBoots",
+      "vertices": 216,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_FOOTWEAR_002_CombatBoots",
+      "vertices": 216,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_ACCESSORY_000_Scarf",
+      "vertices": 48,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_ACCESSORY_001_Respirator",
+      "vertices": 56,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_ACCESSORY_002_Goggles",
+      "vertices": 136,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_ACCESSORY_003_Satchel",
+      "vertices": 72,
+      "unweighted": 0,
+      "max_influences": 2
+    },
+    {
+      "mesh": "SM_NPC_ACCESSORY_004_Backpack",
+      "vertices": 80,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_HEADGEAR_000_PatrolCap",
+      "vertices": 56,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_NPC_HEADGEAR_001_MilitaryHelmet",
+      "vertices": 120,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_000_ScrapRunner",
+      "vertices": 998,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_001_PatrolSentinel",
+      "vertices": 1040,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_002_RiotEnforcer",
+      "vertices": 1084,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_003_OracleWarden",
+      "vertices": 1150,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_004_TraceHound",
+      "vertices": 1292,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_005_CargoMite",
+      "vertices": 1300,
+      "unweighted": 0,
+      "max_influences": 1
+    },
+    {
+      "mesh": "SM_MOB_ELY_006_SiegeCrawler",
+      "vertices": 1236,
+      "unweighted": 0,
+      "max_influences": 1
+    }
+  ],
+  "reach_clamps": [],
+  "rig_bone_counts": {
+    "SK_NPC_Common": 20,
+    "SK_MOB_ELY_000_ScrapRunner": 20,
+    "SK_MOB_ELY_001_PatrolSentinel": 20,
+    "SK_MOB_ELY_002_RiotEnforcer": 20,
+    "SK_MOB_ELY_003_OracleWarden": 20,
+    "SK_MOB_ELY_004_TraceHound": 22,
+    "SK_MOB_ELY_005_CargoMite": 22,
+    "SK_MOB_ELY_006_SiegeCrawler": 22
+  }
+}

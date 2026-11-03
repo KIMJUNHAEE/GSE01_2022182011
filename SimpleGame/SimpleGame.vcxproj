@@ -178,6 +178,13 @@
     <ClInclude Include="NavigationGrid.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="GameWorld.h" />
+    <ClInclude Include="Planet.h" />
+    <ClInclude Include="ModelMath.h" />
+    <ClInclude Include="ModelAsset.h" />
+    <ClInclude Include="ModelAnimation.h" />
+    <ClInclude Include="ModelLibrary.h" />
+    <ClInclude Include="ModelActor.h" />
+    <ClInclude Include="ModelRenderer.h" />
     <ClInclude Include="CombatTypes.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="stdafx.h" />
@@ -202,6 +209,16 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="LevelOne.cpp" />
+    <ClCompile Include="PlanetGeneration.cpp" />
+    <ClCompile Include="PlanetSimulation.cpp" />
+    <ClCompile Include="ModelAsset.cpp" />
+    <ClCompile Include="ModelAnimation.cpp" />
+    <ClCompile Include="ModelLibrary.cpp" />
+    <ClCompile Include="ModelActor.cpp" />
+    <ClCompile Include="ModelRenderer.cpp" />
+    <ClCompile Include="ModelVerification.cpp" />
+    <ClCompile Include="GameModels.cpp" />
+    <ClCompile Include="cgltf_impl.cpp" />
     <ClCompile Include="Combat.cpp" />
     <ClCompile Include="GameCombat.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -216,6 +233,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\stb_image.h" />
+    <ClInclude Include="Dependencies\cgltf.h" />
+    <ClInclude Include="Dependencies\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidRect.fs" />
@@ -224,6 +243,9 @@
     <None Include="Shaders\Sprite.vs" />
     <None Include="Shaders\Canvas.vs" />
     <None Include="Shaders\Canvas.fs" />
+    <None Include="Shaders\Model.vs" />
+    <None Include="Shaders\Model.fs" />
+    <None Include="Resources\LowPolyBindings.json" />
     <None Include="Resources\Textures\floor_facility.png" />
     <None Include="Resources\Textures\floor_facility_b.png" />
     <None Include="Resources\Textures\player.png" />
@@ -260,12 +282,14 @@
   <Target Name="CopyGameResources" AfterTargets="Build">
     <ItemGroup>
       <RuntimeShaders Include="$(ProjectDir)Shaders\**\*" />
-      <RuntimeResources Include="$(ProjectDir)Resources\**\*" />
+      <RuntimeResources Include="$(ProjectDir)Resources\**\*" Exclude="$(ProjectDir)Resources\Art\LowPoly\**\*.blend;$(ProjectDir)Resources\Art\LowPoly\**\*.blend1;$(ProjectDir)Resources\Art\LowPoly\Previews\**\*;$(ProjectDir)Resources\Art\LowPoly\Rigged\Previews\**\*" />
+      <RuntimeModelNotices Include="$(ProjectDir)Dependencies\cgltf.LICENSE;$(ProjectDir)Dependencies\json.LICENSE;$(ProjectDir)Dependencies\ModelLoader_NOTICES.md" />
       <RuntimeDlls Include="$(SolutionDir)x64\$(Configuration)\*.dll" Condition="'$(Platform)'=='x64'" />
       <RuntimeDlls Include="$(SolutionDir)$(Configuration)\*.dll" Condition="'$(Platform)'=='Win32'" />
     </ItemGroup>
     <Copy SourceFiles="@(RuntimeShaders)" DestinationFiles="@(RuntimeShaders->'$(TargetDir)Shaders\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(RuntimeResources)" DestinationFiles="@(RuntimeResources->'$(TargetDir)Resources\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(RuntimeModelNotices)" DestinationFolder="$(TargetDir)Licenses" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(RuntimeDlls)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
   </Target>
   <ImportGroup Label="ExtensionTargets">

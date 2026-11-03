@@ -1,0 +1,888 @@
+{
+  "scope": "Offline rig, keyframe, loop and deformed-foot validation; no game runtime validation",
+  "all_passed": true,
+  "errors": [],
+  "clips_checked": 80,
+  "checks": [
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Walk",
+      "frames_checked": 33,
+      "min_deformed_sole_z_m": -0.001075,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Run",
+      "frames_checked": 21,
+      "min_deformed_sole_z_m": -0.001109,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Jump",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Turn_L_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Turn_R_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Turn_L_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Turn_R_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Turn_L_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Turn_R_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Walk",
+      "frames_checked": 33,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Run",
+      "frames_checked": 21,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Jump",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Turn_L_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Turn_R_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Turn_L_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Turn_R_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Turn_L_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Turn_R_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": 0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Walk",
+      "frames_checked": 35,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Run",
+      "frames_checked": 23,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Jump",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Turn_L_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Turn_R_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Turn_L_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Turn_R_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Turn_L_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Turn_R_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": 0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Walk",
+      "frames_checked": 37,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Run",
+      "frames_checked": 25,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Jump",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": 0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Turn_L_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Turn_R_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Turn_L_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Turn_R_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Turn_L_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Turn_R_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Walk",
+      "frames_checked": 39,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Run",
+      "frames_checked": 27,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Jump",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Turn_L_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Turn_R_45",
+      "frames_checked": 32,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Turn_L_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Turn_R_90",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Turn_L_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -1e-06,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Turn_R_180",
+      "frames_checked": 63,
+      "min_deformed_sole_z_m": -0.0,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": 9.672174098926412e-18,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Walk",
+      "frames_checked": 37,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Run",
+      "frames_checked": 23,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Jump",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Turn_L_45",
+      "frames_checked": 49,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Turn_R_45",
+      "frames_checked": 49,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Turn_L_90",
+      "frames_checked": 97,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Turn_R_90",
+      "frames_checked": 97,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Turn_L_180",
+      "frames_checked": 193,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Turn_R_180",
+      "frames_checked": 193,
+      "min_deformed_sole_z_m": 0.005,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": 9.704264570790407e-18,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Walk",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Run",
+      "frames_checked": 29,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Jump",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Turn_L_45",
+      "frames_checked": 49,
+      "min_deformed_sole_z_m": 0.004299,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Turn_R_45",
+      "frames_checked": 49,
+      "min_deformed_sole_z_m": 0.004299,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Turn_L_90",
+      "frames_checked": 97,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Turn_R_90",
+      "frames_checked": 97,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Turn_L_180",
+      "frames_checked": 193,
+      "min_deformed_sole_z_m": 0.004299,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Turn_R_180",
+      "frames_checked": 193,
+      "min_deformed_sole_z_m": 0.0043,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Idle",
+      "frames_checked": 61,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": 9.624414344718825e-18,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Walk",
+      "frames_checked": 41,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Run",
+      "frames_checked": 29,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": 0.0,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Jump",
+      "frames_checked": 45,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Turn_L_45",
+      "frames_checked": 49,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Turn_R_45",
+      "frames_checked": 49,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Turn_L_90",
+      "frames_checked": 97,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Turn_R_90",
+      "frames_checked": 97,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Turn_L_180",
+      "frames_checked": 193,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Turn_R_180",
+      "frames_checked": 193,
+      "min_deformed_sole_z_m": 0.005899,
+      "loop_channel_max_error": null,
+      "scale_range": [
+        1.0,
+        1.0
+      ]
+    }
+  ]
+}

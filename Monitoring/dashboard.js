@@ -13,7 +13,12 @@ const labels = {
     world_created: "월드 생성", exploration_started: "탐사 시작", npc_dialogue: "NPC 대화",
     relay_restored: "중계기 복구", memory_found: "기억 발견", level_up: "레벨 상승",
     player_defeated: "플레이어 패배", enemy_defeated: "적 처치", boss_started: "보스 교전",
-    boss_defeated: "보스 격파", story_choice: "이야기 선택"
+    boss_defeated: "보스 격파", story_choice: "이야기 선택", courier: "편지 배달부",
+    delivering: "편지 운반", migrating: "이주 중", strolling: "마을 산책", returning: "귀가 중",
+    peaceful: "안정 지향", ambitious: "성공 지향", free_spirit: "자유 지향",
+    letter_dispatched: "편지 출발", letter_delivered: "편지 도착", traveller_news: "여행자의 소식",
+    migration_started: "이주 출발", migration_completed: "입주 완료", security_rumor: "치안 소문",
+    npc_route_blocked: "주민 경로 막힘"
 };
 const label = (value) => labels[value] || value;
 const fmt = (value, places = 0) => typeof value === "number" && Number.isFinite(value) ? value.toFixed(places) : "—";
@@ -39,7 +44,9 @@ function renderVillages(world) {
         card.append(node("h3", v.name), node("p", label(v.alignment) + " · 설정값", "alignment"),
             badge(label(v.mood) + " · 추정", v.mood === "crisis" ? "danger" : v.mood === "threatened" ? "warning" : ""),
             node("p", "NPC " + v.npcCount + "　/　몹 " + v.mobCount),
-            node("p", v.relayRestored === null ? "중계기 대상 아님" : v.relayRestored ? "통신 복구됨" : "통신 미복구", "muted"));
+            node("p", v.residentCount === undefined ? "" : "거주민 " + v.residentCount + "명 · 집 " + v.homeCount + "채 · 빈집 " + v.vacantHomes + " · 예약 " + v.reservedHomes),
+            node("p", v.knownVillages === undefined ? "" : "소식을 아는 마을 " + v.knownVillages + " / " + world.villages.length, "muted"),
+            node("p", v.relayRestored === null ? "편지·여행자로 소식 전달" : v.relayRestored ? "중계기 복구 · 소식은 직접 운반" : "편지·여행자로 소식 전달", "muted"));
         $("villages").append(card);
     });
     const selected = $("village-filter").value;
@@ -63,10 +70,13 @@ function renderEntities() {
         const row = node("tr");
         const name = node("td");
         name.append(node("strong", entity.name), node("small", "#" + entity.id));
+        if (entity.homeId) name.append(node("small", label(entity.disposition) + " · 집 #" + entity.homeId));
         const health = entity.health === null || entity.health === undefined ? "미구현" :
             fmt(entity.health) + " / " + fmt(entity.maxHealth);
         row.append(name, node("td", label(entity.role)), node("td", label(entity.state)),
-            node("td", villageName(entity.villageId)), node("td", health),
+            node("td", entity.residentVillageId === undefined ? villageName(entity.villageId) :
+                "거주: " + villageName(entity.residentVillageId) + " / 현재: " + villageName(entity.villageId) +
+                (entity.destinationVillageId >= 0 ? " → " + villageName(entity.destinationVillageId) : "")), node("td", health),
             node("td", fmt(entity.position.x, 1) + ", " + fmt(entity.position.y, 1)),
             node("td", (entity.visible ? "보임" : "숨김") + " / " + (entity.active ? "활성" : "비활성")));
         $("entities").append(row);
@@ -128,11 +138,37 @@ function renderMap(world) {
         map.append(svgNode("rect", {x: b.x0, y: b.y0, width: b.x1-b.x0, height: b.y1-b.y0, rx: .2}));
         const text = svgNode("text", {x: b.x0 + .3, y: b.y0 + .7});
         text.textContent = v.name;
+        const extent = Math.max(...bounds.map((area) => area.x1 - area.x0), 10);
+        text.style.fontSize = String(extent * .09) + "px";
         map.append(text);
     });
+    (world.roads || []).forEach((road) => {
+        const a = world.villages.find((v) => v.id === road.from)?.bounds;
+        const b = world.villages.find((v) => v.id === road.to)?.bounds;
+        if (!a || !b) return;
+        const x1 = (a.x0 + a.x1) / 2, y1 = (a.y0 + a.y1) / 2;
+        const x2 = (b.x0 + b.x1) / 2, y2 = (b.y0 + b.y1) / 2;
+        const line = svgNode("polyline", {points: `${x1},${y1} ${x2},${y1} ${x2},${y2}`,
+            fill: "none", stroke: "#738d86", "stroke-width": .7});
+        const title = svgNode("title", {});
+        title.textContent = "기본 도보 " + fmt(road.walkingSeconds, 1) + "초";
+        line.append(title);
+        map.prepend(line);
+    });
+    (world.homes || []).forEach((home) => {
+        const rect = svgNode("rect", {x: home.position.x - .7, y: home.position.y - .7,
+            width: 1.4, height: 1.4});
+        rect.style.fill = home.occupantId === "0" ? "#776b47" : "#4d766e";
+        const title = svgNode("title", {});
+        title.textContent = "집 #" + home.id + " · 주민 #" + home.occupantId + " · 예약 #" + home.reservedBy;
+        rect.append(title);
+        map.append(rect);
+    });
     function point(entity, kind, radius) {
+        const mapWidth = bounds.length ? Math.max(...bounds.map((b) => b.x1)) - Math.min(...bounds.map((b) => b.x0)) : 30;
         const dot = svgNode("circle", {cx: entity.position.x, cy: entity.position.y, r: radius,
             class: kind + (entity.active ? "" : " inactive")});
+        dot.setAttribute("r", String(radius * Math.max(1, mapWidth / 45)));
         const title = svgNode("title", {});
         title.textContent = (entity.name || "플레이어") + (entity.state ? " / " + label(entity.state) : "");
         dot.append(title);
@@ -156,6 +192,11 @@ function renderProgress(world) {
         ["주인공 애니메이션", world.player.spriteFrame === undefined ? "미지원" :
             (world.player.spriteMoving ? "걷기 " : "대기 ") + world.player.spriteFrame + " / " + world.player.spriteWalkFrames]
     ];
+    if (world.planet) values.push(
+        ["총 거주민 / 집", world.planet.residents + "명 / " + world.planet.homes + "채"],
+        ["운반 중인 편지", (world.letters || []).length + "건"],
+        ["누적 편지 전달 / 이주", world.planet.lettersDelivered + "건 / " + world.planet.migrationsCompleted + "명"],
+        ["마을 간 기본 도보", "약 " + world.planet.targetWalkingSeconds + "초 (중심 간)"]);
     $("progress").replaceChildren();
     values.forEach(([key, value]) => $("progress").append(node("dt", key), node("dd", value)));
     const samples = current.history || [];

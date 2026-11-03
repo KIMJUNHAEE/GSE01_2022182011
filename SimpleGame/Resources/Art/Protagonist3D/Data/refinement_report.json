@@ -1,0 +1,13 @@
+{
+  "triangles_before": 19994,
+  "triangles_after": 19994,
+  "maximum_surface_displacement_m": 0.009854763310723777,
+  "protected_face_maximum_displacement_m": 0.0,
+  "albedo_pixels_edited": false,
+  "original_image_resolution": 4096,
+  "geometry_changes": "UV-seam coherent smoothing and local knee cross-section cleanup; no global head/body proportion changes",
+  "material_changes": "Reduced normal strength and replaced noisy metal/roughness response per surface; source basecolor remains intact",
+  "lower_body_assignment": "Connected source surfaces rather than colour or X sign; left boot crosses X=0",
+  "skin_contacts": "Welded UV/part seam weights shared after contact relaxation",
+  "authored_arm_motion": "Restrained swing and elbow bend to suit source hand/coat contacts"
+}

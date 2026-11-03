@@ -199,3 +199,76 @@ Vec2 NavigationGrid::NextTarget(Vec2 position, Vec2 target, const PathTest& path
     }
     return Position(best);
 }
+
+std::vector<Vec2> NavigationGrid::FindPath(Vec2 from, Vec2 to, const PathTest& path) const
+{
+    if (path(from, to, .28f))
+    {
+        return {to};
+    }
+    int start = Nearest(from, path), end = Nearest(to, path);
+    if (start < 0 || end < 0)
+    {
+        return {};
+    }
+    auto heuristic = [&](int index)
+    {
+        return std::abs(index % width - end % width) + std::abs(index / width - end / width);
+    };
+    using Entry = std::pair<int, int>;
+    std::priority_queue<Entry, std::vector<Entry>, std::greater<Entry>> pending;
+    std::vector<int> cost(Count(), -1), parent(Count(), -1);
+    cost[start] = 0;
+    pending.push({heuristic(start), start});
+    while (!pending.empty())
+    {
+        auto entry = pending.top();
+        pending.pop();
+        int current = entry.second;
+        if (entry.first != cost[current] + heuristic(current))
+        {
+            continue;
+        }
+        if (current == end)
+        {
+            break;
+        }
+        for (int d = 0; d < 4; ++d)
+        {
+            int next = Neighbor(current, d);
+            if ((edges[current] & (1 << d)) && (cost[next] < 0 || cost[next] > cost[current] + 1))
+            {
+                cost[next] = cost[current] + 1;
+                parent[next] = current;
+                pending.push({cost[next] + heuristic(next), next});
+            }
+        }
+    }
+    if (cost[end] < 0)
+    {
+        return {};
+    }
+    std::vector<Vec2> reverse;
+    for (int current = end; current != start; current = parent[current])
+    {
+        reverse.push_back(Position(current));
+    }
+    reverse.push_back(Position(start));
+    std::reverse(reverse.begin(), reverse.end());
+    reverse.push_back(to);
+    // Keep corners, not one waypoint per grid node. Every shortened segment is collision-tested.
+    std::vector<Vec2> result;
+    Vec2 previous = from;
+    for (size_t i = 0; i < reverse.size();)
+    {
+        size_t last = i;
+        while (last + 1 < reverse.size() && path(previous, reverse[last + 1], .28f))
+        {
+            ++last;
+        }
+        result.push_back(reverse[last]);
+        previous = reverse[last];
+        i = last + 1;
+    }
+    return result;
+}

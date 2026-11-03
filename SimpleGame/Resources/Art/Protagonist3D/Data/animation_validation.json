@@ -1,0 +1,70 @@
+{
+  "all_passed": true,
+  "errors": [],
+  "weight_errors": [],
+  "rig_bones": 33,
+  "clips_checked": 10,
+  "reach_errors": [],
+  "checks": [
+    {
+      "clip": "Idle",
+      "frames": 61,
+      "minimum_sole_z_m": -5.6106124247889966e-05,
+      "loop_max_error": 0.0
+    },
+    {
+      "clip": "Walk",
+      "frames": 33,
+      "minimum_sole_z_m": -5.585590042755939e-05,
+      "loop_max_error": 0.0
+    },
+    {
+      "clip": "Run",
+      "frames": 21,
+      "minimum_sole_z_m": -5.4731408454244956e-05,
+      "loop_max_error": 0.0
+    },
+    {
+      "clip": "Jump",
+      "frames": 41,
+      "minimum_sole_z_m": -5.5960470490390435e-05,
+      "loop_max_error": null
+    },
+    {
+      "clip": "Turn_L_45",
+      "frames": 32,
+      "minimum_sole_z_m": -5.5940494348760694e-05,
+      "loop_max_error": null
+    },
+    {
+      "clip": "Turn_R_45",
+      "frames": 32,
+      "minimum_sole_z_m": -5.602754754363559e-05,
+      "loop_max_error": null
+    },
+    {
+      "clip": "Turn_L_90",
+      "frames": 45,
+      "minimum_sole_z_m": -5.5950236856006086e-05,
+      "loop_max_error": null
+    },
+    {
+      "clip": "Turn_R_90",
+      "frames": 45,
+      "minimum_sole_z_m": -5.600635631708428e-05,
+      "loop_max_error": null
+    },
+    {
+      "clip": "Turn_L_180",
+      "frames": 63,
+      "minimum_sole_z_m": -5.5989126849453896e-05,
+      "loop_max_error": null
+    },
+    {
+      "clip": "Turn_R_180",
+      "frames": 63,
+      "minimum_sole_z_m": -5.6030694395303726e-05,
+      "loop_max_error": null
+    }
+  ]
+}

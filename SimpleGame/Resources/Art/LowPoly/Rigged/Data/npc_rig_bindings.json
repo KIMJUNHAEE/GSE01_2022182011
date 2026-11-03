@@ -1,0 +1,391 @@
+{
+  "schema_version": "2.0.0",
+  "slot_index_scope": "index is local to each slot, not a global mesh index",
+  "none_index": -1,
+  "npc_presets": [
+    {
+      "npc_id": "NPC_000_Kael",
+      "display_name_ko": "카엘 · 선장",
+      "planet": "COM",
+      "design_status": "story_named",
+      "part_indices": {
+        "body": 0,
+        "hair": 4,
+        "top": 4,
+        "bottom": 1,
+        "footwear": 1,
+        "accessory": 0,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 1,
+        "hair": 1,
+        "cloth": 2,
+        "trim": 0
+      },
+      "binding_note": "Captain actor; no runtime ID assigned here",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_001_Sera",
+      "display_name_ko": "세라 · 주민",
+      "planet": "ELY",
+      "design_status": "story_named",
+      "part_indices": {
+        "body": 1,
+        "hair": 1,
+        "top": 1,
+        "bottom": 0,
+        "footwear": 0,
+        "accessory": 3,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 1,
+        "hair": 0,
+        "cloth": 0,
+        "trim": 1
+      },
+      "binding_note": "Citizen variant 0",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_002_Mechanic",
+      "display_name_ko": "정비공 시안",
+      "planet": "ELY",
+      "design_status": "dialogue_role_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": 0,
+        "top": 1,
+        "bottom": 1,
+        "footwear": 1,
+        "accessory": 2,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 3,
+        "hair": 4,
+        "cloth": 1,
+        "trim": 0
+      },
+      "binding_note": "Nonzero Citizen variant dialogue before quest 3; not a separate confirmed actor",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_003_Archivist",
+      "display_name_ko": "기록관리인 시안",
+      "planet": "ELY",
+      "design_status": "dialogue_role_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": 2,
+        "top": 0,
+        "bottom": 0,
+        "footwear": 0,
+        "accessory": 0,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 4,
+        "hair": 3,
+        "cloth": 6,
+        "trim": 3
+      },
+      "binding_note": "Nonzero Citizen variant dialogue after quest 3; not a separate confirmed actor",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_004_ResidentM",
+      "display_name_ko": "주민 남성 시안",
+      "planet": "ELY",
+      "design_status": "population_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": 0,
+        "top": 0,
+        "bottom": 0,
+        "footwear": 0,
+        "accessory": -1,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 2,
+        "hair": 0,
+        "cloth": 4,
+        "trim": 0
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_005_ResidentF",
+      "display_name_ko": "주민 여성 시안",
+      "planet": "ELY",
+      "design_status": "population_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": 3,
+        "top": 0,
+        "bottom": 1,
+        "footwear": 0,
+        "accessory": 3,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 0,
+        "hair": 2,
+        "cloth": 7,
+        "trim": 2
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_006_PatrolM",
+      "display_name_ko": "순찰대 남성 시안",
+      "planet": "ELY",
+      "design_status": "population_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": -1,
+        "top": 3,
+        "bottom": 1,
+        "footwear": 2,
+        "accessory": 1,
+        "headgear": 0
+      },
+      "palette_indices": {
+        "skin": 1,
+        "hair": 1,
+        "cloth": 5,
+        "trim": 4
+      },
+      "binding_note": "Hair slot disabled for headgear",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_007_PatrolF",
+      "display_name_ko": "순찰대 여성 시안",
+      "planet": "ELY",
+      "design_status": "population_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": -1,
+        "top": 3,
+        "bottom": 1,
+        "footwear": 2,
+        "accessory": -1,
+        "headgear": 0
+      },
+      "palette_indices": {
+        "skin": 3,
+        "hair": 0,
+        "cloth": 1,
+        "trim": 1
+      },
+      "binding_note": "Hair slot disabled for headgear",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_008_GuardM",
+      "display_name_ko": "장갑 경비 남성 시안",
+      "planet": "ELY",
+      "design_status": "population_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": -1,
+        "top": 2,
+        "bottom": 2,
+        "footwear": 2,
+        "accessory": 1,
+        "headgear": 1
+      },
+      "palette_indices": {
+        "skin": 2,
+        "hair": 0,
+        "cloth": 5,
+        "trim": 2
+      },
+      "binding_note": "Hair slot disabled for headgear",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_009_GuardF",
+      "display_name_ko": "장갑 경비 여성 시안",
+      "planet": "ELY",
+      "design_status": "population_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": -1,
+        "top": 2,
+        "bottom": 2,
+        "footwear": 2,
+        "accessory": -1,
+        "headgear": 1
+      },
+      "palette_indices": {
+        "skin": 4,
+        "hair": 3,
+        "cloth": 1,
+        "trim": 1
+      },
+      "binding_note": "Hair slot disabled for headgear",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_010_ScoutF",
+      "display_name_ko": "유적 정찰 여성 시안",
+      "planet": "RUI",
+      "design_status": "expedition_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": 3,
+        "top": 5,
+        "bottom": 1,
+        "footwear": 1,
+        "accessory": 4,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 0,
+        "hair": 5,
+        "cloth": 0,
+        "trim": 0
+      },
+      "binding_note": "Unconfirmed second-planet population design",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_011_ScoutM",
+      "display_name_ko": "유적 정찰 남성 시안",
+      "planet": "RUI",
+      "design_status": "expedition_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": 4,
+        "top": 5,
+        "bottom": 1,
+        "footwear": 1,
+        "accessory": 0,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 3,
+        "hair": 3,
+        "cloth": 7,
+        "trim": 1
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_012_ScholarF",
+      "display_name_ko": "유적 연구 여성 시안",
+      "planet": "RUI",
+      "design_status": "expedition_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": 2,
+        "top": 4,
+        "bottom": 0,
+        "footwear": 0,
+        "accessory": 3,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 2,
+        "hair": 0,
+        "cloth": 4,
+        "trim": 1
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_013_ScholarM",
+      "display_name_ko": "유적 연구 남성 시안",
+      "planet": "RUI",
+      "design_status": "expedition_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": 0,
+        "top": 0,
+        "bottom": 0,
+        "footwear": 0,
+        "accessory": 4,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 4,
+        "hair": 2,
+        "cloth": 6,
+        "trim": 3
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_014_SalvagerF",
+      "display_name_ko": "유적 수집 여성 시안",
+      "planet": "RUI",
+      "design_status": "expedition_concept",
+      "part_indices": {
+        "body": 1,
+        "hair": 1,
+        "top": 1,
+        "bottom": 1,
+        "footwear": 1,
+        "accessory": 1,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 1,
+        "hair": 1,
+        "cloth": 2,
+        "trim": 5
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    },
+    {
+      "npc_id": "NPC_015_GuardianM",
+      "display_name_ko": "유적 호위 남성 시안",
+      "planet": "RUI",
+      "design_status": "expedition_concept",
+      "part_indices": {
+        "body": 0,
+        "hair": 4,
+        "top": 2,
+        "bottom": 2,
+        "footwear": 2,
+        "accessory": 0,
+        "headgear": -1
+      },
+      "palette_indices": {
+        "skin": 0,
+        "hair": 5,
+        "cloth": 3,
+        "trim": 0
+      },
+      "binding_note": "",
+      "rig_id": "SK_NPC_Common",
+      "animation_profile": "NPC_Common"
+    }
+  ]
+}

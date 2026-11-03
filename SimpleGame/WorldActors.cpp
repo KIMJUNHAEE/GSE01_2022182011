@@ -47,8 +47,8 @@ Character::Character(Vec2 position, bool captain)
 {
 }
 
-Terrain::Terrain(Vec2 position, int kind)
-    : Actor("Terrain", position, RenderLayer::Terrain), kind(kind)
+Terrain::Terrain(Vec2 position, int kind, int width, int depth)
+    : Actor("Terrain", position, RenderLayer::Terrain), kind(kind), width(width), depth(depth)
 {
 }
 

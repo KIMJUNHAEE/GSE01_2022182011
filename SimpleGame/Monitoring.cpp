@@ -196,9 +196,9 @@ MonitoringState::MonitoringState()
     // Designer metadata, not an inferred morality/reputation simulation.
     villages = {{0, L"노마드 착륙장", VillageAlignment::Neutral},
                 {1, L"제7 주거구역", VillageAlignment::Civilian},
-                {2, L"기억의 정원", VillageAlignment::Neutral},
-                {3, L"기록보관소", VillageAlignment::Neutral},
-                {4, L"중앙 첨탑", VillageAlignment::Unknown}};
+                {2, L"정원 마을", VillageAlignment::Civilian},
+                {3, L"흑항 교역 마을", VillageAlignment::Pirate},
+                {4, L"첨탑 정착지", VillageAlignment::Neutral}};
 }
 
 void MonitoringState::Record(float gameTime, const std::string& kind, const std::wstring& message,
@@ -232,6 +232,7 @@ std::string BuildMonitoringSnapshot(const GameWorld& world, uint64_t sequence)
 {
     Object root, counts, player, progress, performance;
     Array npcs, mobs, villages, events;
+    Array homes, roads, letters;
     std::map<int, int> npcCounts, mobCounts;
     int activeNpcs = 0, totalNpcs = 0, activeMobs = 0, totalMobs = 0;
 
@@ -269,9 +270,72 @@ std::string BuildMonitoringSnapshot(const GameWorld& world, uint64_t sequence)
             ++activeNpcs;
             ++npcCounts[MonitoringVillageAt(world, prop.Position())];
         }
+        auto resident = world.planet.residents.find(prop.Id());
+        const ResidentProfile* profile =
+            resident == world.planet.residents.end() ? nullptr : &resident->second;
+        std::string state = "idle";
+        if (profile)
+        {
+            switch (profile->activity)
+            {
+                case ResidentActivity::Delivering:
+                    state = "delivering";
+                    break;
+                case ResidentActivity::Migrating:
+                    state = "migrating";
+                    break;
+                case ResidentActivity::Strolling:
+                    state = "strolling";
+                    break;
+                case ResidentActivity::Returning:
+                    state = "returning";
+                    break;
+                default:
+                    break;
+            }
+        }
         Object npc =
-            Entity(world, prop, L"주민 #" + std::to_wstring(prop.Id()), "resident",
-                   world.view == View::Dialogue && world.nearby == prop.Id() ? "talking" : "idle");
+            Entity(world, prop, profile ? profile->name : L"주민 #" + std::to_wstring(prop.Id()),
+                   profile && profile->courier ? "courier" : "resident",
+                   world.view == View::Dialogue && world.nearby == prop.Id() ? "talking" : state);
+        if (profile)
+        {
+            npc.Num("residentVillageId", profile->village);
+            npc.Num("destinationVillageId", profile->destinationVillage);
+            npc.Text("homeId", std::to_string(profile->home));
+            npc.Text("reservedHomeId", std::to_string(profile->reservedHome));
+            npc.Text("disposition", profile->disposition == NpcDisposition::Peaceful ? "peaceful"
+                                    : profile->disposition == NpcDisposition::Ambitious
+                                        ? "ambitious"
+                                        : "free_spirit");
+            npc.Num("migrations", profile->migrations);
+            npc.Num("deliveries", profile->deliveries);
+            npc.Bool("moving", profile->moving);
+            Array knowledge;
+            for (const auto& report : profile->knowledge)
+            {
+                if (!report.revision)
+                {
+                    continue;
+                }
+                Object value;
+                value.Num("villageId", report.village);
+                value.Num("observedAt", report.observedAt);
+                value.Bool("rumor", report.rumor);
+                value.Bool("confirmed", report.confirmed);
+                knowledge.Add(value);
+            }
+            npc.Raw("knownNews", knowledge.Json());
+            if (profile->courier && !profile->route.empty())
+            {
+                Object letter;
+                letter.Text("carrierId", std::to_string(prop.Id()));
+                letter.Num("homeVillageId", profile->village);
+                letter.Num("destinationVillageId", profile->destinationVillage);
+                letter.Num("waypointsRemaining", profile->route.size() - profile->waypoint);
+                letters.Add(letter);
+            }
+        }
         npc.Raw("health", "null");
         npc.Text("healthTracking", "not_implemented");
         npcs.Add(npc);
@@ -318,6 +382,35 @@ std::string BuildMonitoringSnapshot(const GameWorld& world, uint64_t sequence)
         village.Text("moodSource", "derived_from_active_mobs_boss_and_relay");
         village.Num("npcCount", npcCounts[profile.id]);
         village.Num("mobCount", threats);
+        int population = 0, homeCount = 0, vacant = 0, reserved = 0;
+        for (const auto& entry : world.planet.residents)
+        {
+            population += entry.second.village == profile.id && world.scene.Find(entry.first);
+        }
+        for (const auto& entry : world.planet.homes)
+        {
+            const auto& home = entry.second;
+            if (home.village == profile.id)
+            {
+                ++homeCount;
+                vacant += !home.occupant && !home.reservedBy;
+                reserved += home.reservedBy != InvalidActor;
+            }
+        }
+        const auto& settlement = world.planet.villages[profile.id];
+        village.Num("residentCount", population);
+        village.Num("homeCount", homeCount);
+        village.Num("vacantHomes", vacant);
+        village.Num("reservedHomes", reserved);
+        village.Num("safety", settlement.safety);
+        village.Num("prosperity", settlement.prosperity);
+        village.Num("freedom", settlement.freedom);
+        int knownReports = 0;
+        for (const auto& report : settlement.bulletin)
+        {
+            knownReports += report.revision != 0;
+        }
+        village.Num("knownVillages", knownReports);
         village.Raw("relayRestored",
                     profile.id >= 1 && profile.id <= 3 ? (relay ? "true" : "false") : "null");
         bool located = false;
@@ -336,6 +429,35 @@ std::string BuildMonitoringSnapshot(const GameWorld& world, uint64_t sequence)
         }
         village.Raw("bounds", located ? bounds.Json() : "null");
         villages.Add(village);
+    }
+    for (const auto& entry : world.planet.homes)
+    {
+        const auto& home = entry.second;
+        Object value, position, entrance;
+        value.Text("id", std::to_string(home.actor));
+        value.Num("villageId", home.village);
+        value.Text("occupantId", std::to_string(home.occupant));
+        value.Text("reservedBy", std::to_string(home.reservedBy));
+        const Actor* actor = world.scene.Find(home.actor);
+        if (!actor)
+        {
+            continue;
+        }
+        position.Num("x", actor->Position().x);
+        position.Num("y", actor->Position().y);
+        entrance.Num("x", home.entrance.x);
+        entrance.Num("y", home.entrance.y);
+        value.Raw("position", position.Json());
+        value.Raw("entrance", entrance.Json());
+        homes.Add(value);
+    }
+    for (const auto& road : world.planet.roads)
+    {
+        Object value;
+        value.Num("from", road.from);
+        value.Num("to", road.to);
+        value.Num("walkingSeconds", road.walkingSeconds);
+        roads.Add(value);
     }
     for (const auto& event : world.monitoring.events)
     {
@@ -403,6 +525,16 @@ std::string BuildMonitoringSnapshot(const GameWorld& world, uint64_t sequence)
     root.Raw("npcs", npcs.Json());
     root.Raw("mobs", mobs.Json());
     root.Raw("events", events.Json());
+    Object planet;
+    planet.Num("targetWalkingSeconds", PlanetRules::TravelSeconds);
+    planet.Num("lettersDelivered", world.planet.lettersDelivered);
+    planet.Num("migrationsCompleted", world.planet.migrationsCompleted);
+    planet.Num("residents", world.planet.residents.size());
+    planet.Num("homes", world.planet.homes.size());
+    root.Raw("planet", planet.Json());
+    root.Raw("homes", homes.Json());
+    root.Raw("roads", roads.Json());
+    root.Raw("letters", letters.Json());
     root.Text("eventsTotal", std::to_string(world.monitoring.totalEvents));
     return root.Json();
 }

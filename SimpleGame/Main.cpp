@@ -46,6 +46,23 @@ namespace
         }
     }
 
+    void ToggleFullscreen()
+    {
+        if (!game)
+        {
+            return;
+        }
+        game->ClearInput();
+        shiftLeft = shiftRight = false;
+        // freeglut preserves the previous window size/position when leaving fullscreen.
+        glutFullScreenToggle();
+        Reshape(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+        lastTime = glutGet(GLUT_ELAPSED_TIME);
+        std::cout << "[Display] " << (glutGet(GLUT_FULL_SCREEN) ? "fullscreen" : "windowed") << " "
+                  << windowWidth << "x" << windowHeight << '\n';
+        glutPostRedisplay();
+    }
+
     void Timer(int)
     {
         if (!game)
@@ -80,6 +97,11 @@ namespace
 
     void KeyDown(unsigned char key, int, int)
     {
+        if (key == 13 && (glutGetModifiers() & GLUT_ACTIVE_ALT))
+        {
+            ToggleFullscreen();
+            return;
+        }
         if (game)
         {
             game->Key(key, true);
@@ -96,6 +118,14 @@ namespace
 
     void Special(int key, bool down)
     {
+        if (key == GLUT_KEY_F11)
+        {
+            if (down)
+            {
+                ToggleFullscreen();
+            }
+            return;
+        }
         if (!game)
         {
             return;
@@ -218,11 +248,20 @@ int main(int argc, char** argv)
     AttachDebugConsole();
 #endif
     bool verify = false;
+    bool startFullscreen = true;
     bool enableMonitor = true;
     unsigned short monitorPort = 8765;
     std::filesystem::path output = std::filesystem::current_path() / "output/verification";
     for (int i = 1; i < argc; ++i)
     {
+        if (std::string(argv[i]) == "--windowed")
+        {
+            startFullscreen = false;
+        }
+        if (std::string(argv[i]) == "--fullscreen")
+        {
+            startFullscreen = true;
+        }
         if (std::string(argv[i]) == "--no-monitor")
         {
             enableMonitor = false;
@@ -256,8 +295,19 @@ int main(int argc, char** argv)
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
         glutInitContextVersion(3, 3);
         glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
+        int windowX = 100, windowY = 70;
+        if (!verify)
+        {
+            const int screenWidth = (std::max)(640, glutGet(GLUT_SCREEN_WIDTH));
+            const int screenHeight = (std::max)(480, glutGet(GLUT_SCREEN_HEIGHT));
+            const float scale = (std::min)(screenWidth * .85f / 1440, screenHeight * .85f / 900);
+            windowWidth = (int)(1440 * scale);
+            windowHeight = (int)(900 * scale);
+            windowX = (screenWidth - windowWidth) / 2;
+            windowY = (screenHeight - windowHeight) / 2;
+        }
         glutInitWindowSize(windowWidth, windowHeight);
-        glutInitWindowPosition(100, 70);
+        glutInitWindowPosition(windowX, windowY);
         glutCreateWindow("STAR DRIFTER | First Contact");
         if (verify)
         {
@@ -308,10 +358,14 @@ int main(int argc, char** argv)
         glutMouseWheelFunc(Wheel);
         glutEntryFunc(Entry);
         glutIgnoreKeyRepeat(1);
+        if (startFullscreen)
+        {
+            ToggleFullscreen();
+        }
         lastTime = glutGet(GLUT_ELAPSED_TIME);
         glutTimerFunc(16, Timer, 0);
         std::cout << "\nSTAR DRIFTER ready. WASD move, Shift run, E interact, Q scan, M map, J "
-                     "journal.\n";
+                     "journal. F11 / Alt+Enter fullscreen, F7 reload art, F8 compare graphics.\n";
         glutMainLoop();
         Close();
         return 0;

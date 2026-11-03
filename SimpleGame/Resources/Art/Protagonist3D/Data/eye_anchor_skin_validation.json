@@ -1,0 +1,33 @@
+{
+  "all_passed": true,
+  "eyes": [
+    {
+      "side": "left",
+      "iris_center_model_xz": [
+        -0.17777620271571204,
+        1.3129917988685973
+      ],
+      "upper_black_lash_median_top_height": 1.3594921875,
+      "iris_inside_measured_socket_height_range": true,
+      "upper_lash_overlaps_raised_ridge_height_range": true
+    },
+    {
+      "side": "right",
+      "iris_center_model_xz": [
+        0.03733810927779413,
+        1.3128329579703024
+      ],
+      "upper_black_lash_median_top_height": 1.3594921875,
+      "iris_inside_measured_socket_height_range": true,
+      "upper_lash_overlaps_raised_ridge_height_range": true
+    }
+  ],
+  "face_skin_srgb_8bit": [
+    221,
+    192,
+    171
+  ],
+  "sampled_leg_texels": 620,
+  "leg_skin_max_channel_difference_8bit": 1,
+  "scope": "Texture pixel locations compared to measured bind-pose socket/ridge height ranges; exported leg atlas texels compared to face skin pixels."
+}

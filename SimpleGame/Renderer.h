@@ -80,6 +80,7 @@ private:
 
     GLuint m_SceneFBO = 0;
     GLuint m_SceneColorTex = 0;
+    GLuint m_SceneDepth = 0;
 
     static const int BLUR_TEX_SIZE = 128;
     GLuint m_BlurFBO[2] = {0, 0};

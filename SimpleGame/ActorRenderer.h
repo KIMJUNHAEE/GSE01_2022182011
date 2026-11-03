@@ -1,6 +1,8 @@
 #pragma once
 
 class Prop;
+class Actor;
+class ModelActor;
 class Character;
 class Terrain;
 class SceneEffect;
@@ -15,6 +17,16 @@ class ActorRenderer
 public:
 
     virtual ~ActorRenderer() = default;
+
+    virtual void Draw(const ModelActor&)
+    {
+    }
+
+    virtual bool InView(const Actor&) const
+    {
+        return true;
+    }
+
     virtual void Draw(const Prop& actor) = 0;
     virtual void Draw(const Character& actor) = 0;
     virtual void Draw(const Terrain& actor) = 0;

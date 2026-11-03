@@ -1,0 +1,613 @@
+{
+  "all_passed": true,
+  "files_checked": 66,
+  "total_triangles": 16790,
+  "max_asset_triangles": 828,
+  "total_glb_bytes": 1109120,
+  "checks": [
+    "GLB v2 header and byte lengths",
+    "One named mesh and one named node per file",
+    "Required part metadata",
+    "Triangle index and vertex buffer bounds",
+    "Finite positions",
+    "Material name references",
+    "Triangle counts match source",
+    "Y-up exported bounds match Blender Z-up source"
+  ],
+  "results": [
+    {
+      "asset_id": "SM_NPC_BODY_000_Male",
+      "file": "Meshes/NPC/SM_NPC_BODY_000_Male.glb",
+      "triangles": 588,
+      "bytes": 37384,
+      "sha256": "c22e87ea69656bb2498a7a7fc59a6724e0c22c48dcc96fdc9ed89a0823f18b01",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_BODY_001_Female",
+      "file": "Meshes/NPC/SM_NPC_BODY_001_Female.glb",
+      "triangles": 588,
+      "bytes": 37388,
+      "sha256": "8dfeff08c9779477b9a44236d3d3ec63d99f2788db7c0e56bb1e4469824ec3c5",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_000_ShortCrop",
+      "file": "Meshes/NPC/SM_NPC_HAIR_000_ShortCrop.glb",
+      "triangles": 108,
+      "bytes": 7760,
+      "sha256": "e3e0678b17cb23947977db61feb5253b3957928194e03f072c53b0216f3b6cc4",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_001_ShortBob",
+      "file": "Meshes/NPC/SM_NPC_HAIR_001_ShortBob.glb",
+      "triangles": 136,
+      "bytes": 9268,
+      "sha256": "997e9440a03c967a0512fdcbe9fbace53f4141c15fe22f79942813d51f536414",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_002_LongStraight",
+      "file": "Meshes/NPC/SM_NPC_HAIR_002_LongStraight.glb",
+      "triangles": 136,
+      "bytes": 9280,
+      "sha256": "0020b17a27586f06391ecf87e475a9f7a0fe93fdea465f16f557147eb3740578",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_003_LongPonytail",
+      "file": "Meshes/NPC/SM_NPC_HAIR_003_LongPonytail.glb",
+      "triangles": 196,
+      "bytes": 13032,
+      "sha256": "ac07bb8506ec67de3414311feac507b954cf7d5947d667ef578a93661cec5dee",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_004_ShortSwept",
+      "file": "Meshes/NPC/SM_NPC_HAIR_004_ShortSwept.glb",
+      "triangles": 108,
+      "bytes": 7764,
+      "sha256": "ec9a2765fc768f9b392a0bd12f465d7d9e948eaaf07cfb1d0db25d5b67313f2e",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_TOP_000_Civilian",
+      "file": "Meshes/NPC/SM_NPC_TOP_000_Civilian.glb",
+      "triangles": 344,
+      "bytes": 21868,
+      "sha256": "1fc0e53933d4db597266d451483e93bb33da84a899ae489d59324cb67c88c9a7",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_TOP_001_WorkJacket",
+      "file": "Meshes/NPC/SM_NPC_TOP_001_WorkJacket.glb",
+      "triangles": 356,
+      "bytes": 22520,
+      "sha256": "6ca28c1542a1a5299905e29f83762dd6d59cb07a3bf738ae24a4fecd46cc891c",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_TOP_002_Armor",
+      "file": "Meshes/NPC/SM_NPC_TOP_002_Armor.glb",
+      "triangles": 508,
+      "bytes": 30232,
+      "sha256": "0fea13fbb4a8834e052a5bc439b4826067a631106b3eb1f0fffd7ab92cfead7b",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_TOP_003_Military",
+      "file": "Meshes/NPC/SM_NPC_TOP_003_Military.glb",
+      "triangles": 508,
+      "bytes": 30036,
+      "sha256": "35b93d5f1dc14845e2c7147d93df2a84064591d145438c19d0e0196e91582f2d",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_TOP_004_PilotCoat",
+      "file": "Meshes/NPC/SM_NPC_TOP_004_PilotCoat.glb",
+      "triangles": 476,
+      "bytes": 29188,
+      "sha256": "b4d1e8fe97d7539324f9d6b8914d32bbe53ab71970ca234cd885308cbc336398",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_TOP_005_Expedition",
+      "file": "Meshes/NPC/SM_NPC_TOP_005_Expedition.glb",
+      "triangles": 364,
+      "bytes": 22856,
+      "sha256": "578384732f7b3c9c410d796357dcb9ea958f9c02655dab2569b45211ae697245",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_000_Trousers",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_000_Trousers.glb",
+      "triangles": 148,
+      "bytes": 9636,
+      "sha256": "6dc90a226a86069b7f5d158c0cd38e266ed0d230803c382063f323a88b4a1d84",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_001_CargoPants",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_001_CargoPants.glb",
+      "triangles": 268,
+      "bytes": 15744,
+      "sha256": "b36339bcac7b5f4252a56a5898f56e7d210594c6fca11157d8aa2e4b7133c425",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_002_ArmoredPants",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_002_ArmoredPants.glb",
+      "triangles": 388,
+      "bytes": 23460,
+      "sha256": "c2fb6499fc6a05859815ead062a140de0509e48e4ae779b0091b0c988ffbe535",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_000_AnkleBoots",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_000_AnkleBoots.glb",
+      "triangles": 280,
+      "bytes": 16208,
+      "sha256": "4eb9267072bdb8ecd78534eb68abb2e08d7225f9506f140ae3bb9e5a874e8dbc",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_001_WorkBoots",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_001_WorkBoots.glb",
+      "triangles": 400,
+      "bytes": 23112,
+      "sha256": "f1f6065e1283dd4e89cfe2b841a0c57a55920e4f324fc22acc0311d229bc193f",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_002_CombatBoots",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_002_CombatBoots.glb",
+      "triangles": 400,
+      "bytes": 23096,
+      "sha256": "b4d643f60b1d502cd9288daf9237726a46940a40016c1414ea2ecb6548489efc",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_000_Scarf",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_000_Scarf.glb",
+      "triangles": 88,
+      "bytes": 6416,
+      "sha256": "c9c3126c887193207998c6e50974e9d854be6a7f3663944386d5950f43b339cd",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_001_Respirator",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_001_Respirator.glb",
+      "triangles": 100,
+      "bytes": 7876,
+      "sha256": "b179347fbe6a2f9421a6cc29ed469bce605e28c3be40e4679c852240c441a659",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_002_Goggles",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_002_Goggles.glb",
+      "triangles": 252,
+      "bytes": 15648,
+      "sha256": "e712efb8985b54f4039550de431293016817c6d182a876cd58ea569afab87125",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_003_Satchel",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_003_Satchel.glb",
+      "triangles": 132,
+      "bytes": 9896,
+      "sha256": "23cb480a5810957ac06cacb712775d125040c1d5c30e0ad9742541ea1b81e7ee",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_004_Backpack",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_004_Backpack.glb",
+      "triangles": 144,
+      "bytes": 10536,
+      "sha256": "1fe57474bb274d697462559182065e489da69ed2aab428c1d136cb9c20934b78",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HEADGEAR_000_PatrolCap",
+      "file": "Meshes/NPC/SM_NPC_HEADGEAR_000_PatrolCap.glb",
+      "triangles": 104,
+      "bytes": 8072,
+      "sha256": "6f64110a69c316aca8ffa14e61c79bab5f8b1e1d0a7a1d155dcace2cc2c9c388",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_NPC_HEADGEAR_001_MilitaryHelmet",
+      "file": "Meshes/NPC/SM_NPC_HEADGEAR_001_MilitaryHelmet.glb",
+      "triangles": 224,
+      "bytes": 14200,
+      "sha256": "50501894ea8fa0361ac2f9bffbd1c271946c38ab97ba4e9371e38ff92726db49",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_BLD_000_Habitat",
+      "file": "Meshes/ELY/SM_ELY_BLD_000_Habitat.glb",
+      "triangles": 608,
+      "bytes": 38312,
+      "sha256": "19fe27f0fb453cf97c8410235a52bd57506b2285cfda0c3ba3e1ff7e5fac47e1",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_BLD_001_Workshop",
+      "file": "Meshes/ELY/SM_ELY_BLD_001_Workshop.glb",
+      "triangles": 656,
+      "bytes": 40108,
+      "sha256": "045d69cba0f11525ee0f33642a32604d1073487110db9020ef824e705f22c84a",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_BLD_002_Archive",
+      "file": "Meshes/ELY/SM_ELY_BLD_002_Archive.glb",
+      "triangles": 828,
+      "bytes": 48708,
+      "sha256": "37f966418d4797d83b2f505f7962babb6ca6c959fade08e756b56cad18cecde2",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_BLD_003_ControlSpire",
+      "file": "Meshes/ELY/SM_ELY_BLD_003_ControlSpire.glb",
+      "triangles": 204,
+      "bytes": 14888,
+      "sha256": "84f57a3c1d5ac6fc7cf9a7e5dd2b19916d81d742abcfbc9b9783fee7b2c38355",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_BLD_004_CheckpointGate",
+      "file": "Meshes/ELY/SM_ELY_BLD_004_CheckpointGate.glb",
+      "triangles": 204,
+      "bytes": 14180,
+      "sha256": "8b83d4164d655243e52d8aa83691eb1841dfcdba177c8ece9f2472691e29a9b3",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_MOD_000_Wall2m",
+      "file": "Meshes/ELY/SM_ELY_MOD_000_Wall2m.glb",
+      "triangles": 144,
+      "bytes": 10396,
+      "sha256": "c626bf375db5face064db0f33320b291b85c74aa0283a8c2f9def09d366cd20b",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_MOD_001_Floor2m",
+      "file": "Meshes/ELY/SM_ELY_MOD_001_Floor2m.glb",
+      "triangles": 108,
+      "bytes": 8352,
+      "sha256": "a8b2215fd6527d59860bbfc72b3545cd051cce71567b8d11361bd9ddcbfc53b9",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_PROP_000_Planter",
+      "file": "Meshes/ELY/SM_ELY_PROP_000_Planter.glb",
+      "triangles": 152,
+      "bytes": 11296,
+      "sha256": "f4e04c37f9a486e8d64370c124dbc60d2c9ae7398cbec06d95e7dac766a81da8",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_PROP_001_StreetLamp",
+      "file": "Meshes/ELY/SM_ELY_PROP_001_StreetLamp.glb",
+      "triangles": 152,
+      "bytes": 11800,
+      "sha256": "982c660ffe267a7088085f35559b10d63b322fe2be6e550a03e16911578c951b",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_PROP_002_Relay",
+      "file": "Meshes/ELY/SM_ELY_PROP_002_Relay.glb",
+      "triangles": 216,
+      "bytes": 15348,
+      "sha256": "0b74709b6ddc6399bfe02d1a123e8d4f5138f07f3ff6b0dc1ad790112e1afcca",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_PROP_003_OracleTerminal",
+      "file": "Meshes/ELY/SM_ELY_PROP_003_OracleTerminal.glb",
+      "triangles": 216,
+      "bytes": 15188,
+      "sha256": "5120af6af31e1576180d66b36368501e8485c1ca666d42d713bcc6e9fd5209ae",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_NAT_000_RockTall",
+      "file": "Meshes/ELY/SM_ELY_NAT_000_RockTall.glb",
+      "triangles": 20,
+      "bytes": 3512,
+      "sha256": "7c7626e8b30e4f7adc53e7459fa74c56da22efcf5de1ea8f70296253ace78cb6",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_NAT_001_RockFlat",
+      "file": "Meshes/ELY/SM_ELY_NAT_001_RockFlat.glb",
+      "triangles": 20,
+      "bytes": 3512,
+      "sha256": "367f7c509f065e5204f0d0fdfc934c12e1f0ddbb188b3d72b239b30885e5dca7",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_NAT_002_DryGrass",
+      "file": "Meshes/ELY/SM_ELY_NAT_002_DryGrass.glb",
+      "triangles": 64,
+      "bytes": 5824,
+      "sha256": "0415d7ca014675cdac7f3813b526aa6919604cd3313222ad81331c94951e2dd4",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_NAT_003_PrunedTree",
+      "file": "Meshes/ELY/SM_ELY_NAT_003_PrunedTree.glb",
+      "triangles": 168,
+      "bytes": 13428,
+      "sha256": "e3de62a866024a956dcee6bee498bb1117f48410ca63609ca892aad1befe05f0",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_UNIT_000_SecurityDrone",
+      "file": "Meshes/ELY/SM_ELY_UNIT_000_SecurityDrone.glb",
+      "triangles": 232,
+      "bytes": 16484,
+      "sha256": "bec78921132ebbc07dfffc0943d97f18d305eeb4bbfba974c4200230a97faec2",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_ELY_UNIT_001_RangedSentry",
+      "file": "Meshes/ELY/SM_ELY_UNIT_001_RangedSentry.glb",
+      "triangles": 180,
+      "bytes": 13116,
+      "sha256": "e94ac6d30e85f78ee5c9220fb786e9a85d2a2d7fe2d2556be509a3d19b94d24a",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_BLD_000_MemorySanctum",
+      "file": "Meshes/RUI/SM_RUI_BLD_000_MemorySanctum.glb",
+      "triangles": 572,
+      "bytes": 33848,
+      "sha256": "66ce828717ebc5d5632c1e93fe8735d36ce81a06614ea8753b253e90bb1237c5",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_BLD_001_AncientGate",
+      "file": "Meshes/RUI/SM_RUI_BLD_001_AncientGate.glb",
+      "triangles": 360,
+      "bytes": 22436,
+      "sha256": "80bdc2759ec9f5711dc4d149504ab6871d3fa607362efc4748d4c44cea7e59d7",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_MOD_000_IntactPillar",
+      "file": "Meshes/RUI/SM_RUI_MOD_000_IntactPillar.glb",
+      "triangles": 164,
+      "bytes": 12396,
+      "sha256": "556ed9bc0ed572ee2384eae2e3cff79321d20d97edc9b41e11f5d60a698c0f65",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_MOD_001_BrokenPillar",
+      "file": "Meshes/RUI/SM_RUI_MOD_001_BrokenPillar.glb",
+      "triangles": 112,
+      "bytes": 9764,
+      "sha256": "48c0dd7dab629aeb8f18a005e1f7e20502d127b3814075f150c0fae41758ff1e",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_MOD_002_Wall2m",
+      "file": "Meshes/RUI/SM_RUI_MOD_002_Wall2m.glb",
+      "triangles": 240,
+      "bytes": 14900,
+      "sha256": "598fbe9875739df93908c078d2d06a469017b32620f7469793c85c198410582c",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_MOD_003_Floor2m",
+      "file": "Meshes/RUI/SM_RUI_MOD_003_Floor2m.glb",
+      "triangles": 300,
+      "bytes": 17908,
+      "sha256": "59334d3729db4bb1b5f62edf645b04885a997a93cb12bd932991e0f63ad24918",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_PROP_000_MemoryPlinth",
+      "file": "Meshes/RUI/SM_RUI_PROP_000_MemoryPlinth.glb",
+      "triangles": 200,
+      "bytes": 13660,
+      "sha256": "bc74bd9eac3522a5dbc2a74ad5e75f2276c5d93d2142a428a5a1e4de3ae13c0c",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_PROP_001_RuneMonolith",
+      "file": "Meshes/RUI/SM_RUI_PROP_001_RuneMonolith.glb",
+      "triangles": 84,
+      "bytes": 7432,
+      "sha256": "d56e778159f913c03125aa77024c143ee1cffacb84380e5f7ed9a629afea7642",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_PROP_002_AncientConsole",
+      "file": "Meshes/RUI/SM_RUI_PROP_002_AncientConsole.glb",
+      "triangles": 96,
+      "bytes": 9132,
+      "sha256": "1c60f001433bf4ef195b515af6954a5f1ef5f6627622f8075a54052c49585ebd",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_000_CrystalCluster",
+      "file": "Meshes/RUI/SM_RUI_NAT_000_CrystalCluster.glb",
+      "triangles": 130,
+      "bytes": 8856,
+      "sha256": "61a5e7a89b206b1f04721685f807625417f471c9a4f154da47400227eed21136",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_001_LuminousTree",
+      "file": "Meshes/RUI/SM_RUI_NAT_001_LuminousTree.glb",
+      "triangles": 304,
+      "bytes": 25392,
+      "sha256": "c5a628dd573a84b66beacca6d4efb0a6948a9cd622ec27cc5927248fc359fd17",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_002_FossilTree",
+      "file": "Meshes/RUI/SM_RUI_NAT_002_FossilTree.glb",
+      "triangles": 84,
+      "bytes": 6996,
+      "sha256": "3d669640e2821e0247511df3eebbcc06936fdedb11a1ae5c9ee219e99dd1a585",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_003_Fern",
+      "file": "Meshes/RUI/SM_RUI_NAT_003_Fern.glb",
+      "triangles": 448,
+      "bytes": 28644,
+      "sha256": "72fbea5a648102ea60577a5fead76a230ef6a1e3bb336d220b007e46adc91ad6",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_004_LuminousGrass",
+      "file": "Meshes/RUI/SM_RUI_NAT_004_LuminousGrass.glb",
+      "triangles": 124,
+      "bytes": 11512,
+      "sha256": "3e809db05fd603816ebef71158c573d87d7c9e2b0cbbd4bd81767190dbf503f6",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_005_Boulder",
+      "file": "Meshes/RUI/SM_RUI_NAT_005_Boulder.glb",
+      "triangles": 20,
+      "bytes": 3504,
+      "sha256": "f28f2e02717eb1cd7e90ccb71766ee46aa5478435a23a497db76660b6db67947",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_006_MossBoulder",
+      "file": "Meshes/RUI/SM_RUI_NAT_006_MossBoulder.glb",
+      "triangles": 100,
+      "bytes": 10540,
+      "sha256": "9e4112f61f126291dd43953d4602f38e16b1611e8944d09404615e6cd9df5e63",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_RUI_NAT_007_Rubble",
+      "file": "Meshes/RUI/SM_RUI_NAT_007_Rubble.glb",
+      "triangles": 120,
+      "bytes": 12100,
+      "sha256": "bde685f62c947db0c3ba94c7eaf5583c572d6b328f6affa176039faa3623c40d",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_COM_PROP_000_CargoCrate",
+      "file": "Meshes/COM/SM_COM_PROP_000_CargoCrate.glb",
+      "triangles": 144,
+      "bytes": 10456,
+      "sha256": "869d42a9a9efe0d625b269ba91216ebfff30be3ebe0d1315ebeb25449caac96f",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_COM_PROP_001_Barrel",
+      "file": "Meshes/COM/SM_COM_PROP_001_Barrel.glb",
+      "triangles": 148,
+      "bytes": 9896,
+      "sha256": "3ea6301b9d7c03279353533a40efc398bca666e45997ba41c6d7280f6d679be2",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_COM_PROP_002_Bench",
+      "file": "Meshes/COM/SM_COM_PROP_002_Bench.glb",
+      "triangles": 240,
+      "bytes": 15272,
+      "sha256": "de638c66c18e3b5ca26167de747f3a579e3c4ba8cda2115afee88795c3cbdcf2",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_COM_PROP_003_Antenna",
+      "file": "Meshes/COM/SM_COM_PROP_003_Antenna.glb",
+      "triangles": 88,
+      "bytes": 8404,
+      "sha256": "3c02325723cbb568467ebf39678e477ab16806301d3273022d2c4ea2a3efe4af",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_COM_MOD_000_LandingPad",
+      "file": "Meshes/COM/SM_COM_MOD_000_LandingPad.glb",
+      "triangles": 508,
+      "bytes": 28680,
+      "sha256": "e49e8cac5375861048592c27259b9c82e4e55ace6b1998f250aa18da0291c484",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    },
+    {
+      "asset_id": "SM_COM_SHIP_000_Nomad",
+      "file": "Meshes/COM/SM_COM_SHIP_000_Nomad.glb",
+      "triangles": 688,
+      "bytes": 40464,
+      "sha256": "471857432cbc29c716b64a21d6cd12a5bddb7cc385a6c8229bb06b37e95fa0fc",
+      "mesh_name_matches": true,
+      "bounds_match_axis_conversion": true
+    }
+  ]
+}

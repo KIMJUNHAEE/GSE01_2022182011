@@ -1,0 +1,63 @@
+{
+  "all_passed": true,
+  "triangles": 19994,
+  "named_meshes": 21,
+  "bones": 33,
+  "clips": 10,
+  "max_skin_influences": 4,
+  "loop_errors": [],
+  "face_uv_max_error": 4.334883274559331e-08,
+  "face_primitives": 3,
+  "embedded_images": [
+    {
+      "name": "T_PLAYER_Stelle_Clean_Albedo",
+      "size": [
+        4096,
+        4096
+      ],
+      "pixels_match_delivery_texture": true
+    },
+    {
+      "name": "T_PLAYER_Stelle_Tripo_Normal",
+      "size": [
+        4096,
+        4096
+      ],
+      "pixels_match_delivery_texture": true
+    },
+    {
+      "name": "T_PLAYER_Stelle_Clean_ORM",
+      "size": [
+        4096,
+        4096
+      ],
+      "pixels_match_delivery_texture": true
+    },
+    {
+      "name": "T_PLAYER_Stelle_Face_Detail_2K",
+      "size": [
+        2048,
+        2048
+      ],
+      "pixels_match_delivery_texture": true
+    }
+  ],
+  "bytes": 18506900,
+  "sha256": "3ff30cd29ee1804641efa5aa14f3c443c4eb6089cedc41609ba167bedbad0f2d",
+  "checks": [
+    "GLB v2 layout and binary accessor bounds",
+    "All semantic part mesh names",
+    "33 joint names and inverse bind matrices",
+    "NPC core bone name compatibility",
+    "Normalized skin weights and valid joint indices",
+    "Source and exported triangle count agreement",
+    "Embedded clean 4K albedo, 4K ORM, 4K normal and 2K face match delivery pixels",
+    "Face UV projection matches 3D coordinates",
+    "Dense part indices and exported node/mesh/joint index mapping",
+    "Download source unchanged",
+    "No leftover vertex-colour mask in exported material",
+    "Ten expected animation clips",
+    "Finite values and normalized rotations",
+    "Loop endpoint continuity"
+  ]
+}

@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <algorithm>
 
+void VerifyLowPolyModels(Renderer& renderer);
+
 namespace
 {
     void Require(bool ok, const char* message)
@@ -216,7 +218,7 @@ namespace
         std::string json = BuildMonitoringSnapshot(world, 1);
         Require(json.find("\"type\":\"world_snapshot\"") != std::string::npos &&
                     json.find("\"sequence\":\"1\"") != std::string::npos &&
-                    json.find("\"npcs\":2") != std::string::npos,
+                    json.find("\"npcs\":151") != std::string::npos,
                 "Monitoring snapshot is missing its schema or resident/companion count");
         world.monitoring.Record(world.time, "murder_rumor", L"quote \" slash \\ newline\n", 1,
                                 InvalidActor, "warning", false);
@@ -233,6 +235,68 @@ namespace
         GameWorld restarted(42);
         Require(world.monitoring.sessionId != restarted.monitoring.sessionId,
                 "Restart reused monitoring session identity");
+    }
+
+    void VerifyPlanetSimulation()
+    {
+        GameWorld world(42);
+        Require(world.ValidatePlanet(), "Planet ownership or scale validation failed");
+        for (const auto& village : world.planet.villages)
+        {
+            int population = 0;
+            for (const auto& entry : world.planet.residents)
+            {
+                population += entry.second.village == village.id;
+                const auto& resident = entry.second;
+                for (const auto& report : resident.knowledge)
+                {
+                    Require(!report.revision || report.village == resident.village,
+                            "Resident knows remote news before a carrier arrives");
+                }
+            }
+            Require(population == 30, "A village did not start with 30 residents");
+        }
+        world.Start();
+        world.scene.Clear<Enemy>();
+        world.bossDefeated = true;
+        world.Update(.05f);
+        for (auto& entry : world.planet.residents)
+        {
+            if (entry.second.courier)
+            {
+                entry.second.actionTimer = 0;
+            }
+        }
+        world.Update(.05f);
+        Require(world.planet.lettersDelivered == 0, "Letter arrived without physical travel");
+        for (int frame = 0; frame < 1600; ++frame)
+        {
+            world.Update(.1f);
+            if (frame % 100 == 0)
+            {
+                Require(world.ValidatePlanet(), "Migration broke exclusive house ownership");
+                for (const auto& entry : world.planet.homes)
+                {
+                    const auto& home = entry.second;
+                    Require(!home.reservedBy || !home.occupant,
+                            "Occupied home was reserved by a second resident");
+                }
+            }
+        }
+        Require(world.planet.lettersDelivered > 0, "Couriers did not deliver real letters");
+        Require(world.planet.migrationsCompleted > 0, "Delivered news did not cause migration");
+        for (const auto& village : world.planet.villages)
+        {
+            int count = 0;
+            for (const auto& entry : world.planet.residents)
+            {
+                count += entry.second.village == village.id;
+                const Actor* actor = world.scene.Find(entry.first);
+                Require(actor && world.Walkable(actor->Position()), "Resident crossed a collider");
+            }
+            Require(count >= PlanetRules::MinimumResidents && count <= PlanetRules::HomesPerVillage,
+                    "Migration drained a village or overfilled its homes");
+        }
     }
 
     void Capture(Game& game, int width, int height, const std::filesystem::path& file)
@@ -316,6 +380,67 @@ namespace
                 "Canvas instance attributes leaked into post-processing");
     }
 
+    void VerifyCompanionFollowing()
+    {
+        GameWorld world(42);
+        world.scene.Clear<Enemy>();
+        // An empty extension isolates follow movement from combat and existing town buildings.
+        world.Spawn(Terrain({0, 30}, 6, 100, 40));
+        world.SetPlayerPosition({3, 60});
+        world.SetCaptainPosition({1.6f, 60});
+        world.Start();
+        int stationaryFrames = 0;
+        for (int frame = 0; frame < 280; ++frame)
+        {
+            const float dt = frame < 120 ? 1 / 60.f : frame < 200 ? 1 / 30.f : .05f;
+            const Vec2 previous = world.CaptainPosition();
+            world.Move({1, 0}, dt, frame >= 200);
+            world.Update(dt);
+            const float traveled =
+                GameWorld::Distance(GameWorld::Project(world.CaptainPosition() - previous), {});
+            if (frame > 30 && traveled < .001f)
+            {
+                ++stationaryFrames;
+            }
+            Require(traveled <= world.stats.MoveSpeed() * 1.8f * dt + .01f,
+                    "Companion exceeded its follow speed budget");
+            Require(world.Walkable(world.CaptainPosition(), .15f),
+                    "Companion left the collision-tested floor");
+        }
+        Require(stationaryFrames == 0, "Companion stopped for a frame between path waypoints");
+        for (int i = 0; i < 180; ++i)
+        {
+            world.Move({}, 1 / 60.f, false);
+            world.Update(1 / 60.f);
+        }
+        const float gap = GameWorld::Distance(
+            GameWorld::Project(world.PlayerPosition() - world.CaptainPosition()), {});
+        Require(gap >= 43.9f && gap < 65, "Companion did not settle at its following distance");
+        const Vec2 stopped = world.CaptainPosition();
+        for (int i = 0; i < 30; ++i)
+        {
+            world.Update(1 / 60.f);
+        }
+        Require(GameWorld::Distance(world.CaptainPosition(), stopped) < .001f,
+                "Companion oscillated after the player stopped");
+        world.Spawn(Prop(PropKind::Crate, {6, 60}, 1.2f, 2, 40));
+        world.SetCaptainPosition({3, 60});
+        world.SetPlayerPosition({10, 60});
+        const auto route = world.FindRoute(world.CaptainPosition(), world.PlayerPosition());
+        Require(!route.empty(), "Companion collision fixture is unreachable");
+        world.trail.assign(route.begin(), route.end());
+        for (int i = 0; i < 300; ++i)
+        {
+            world.Move({}, .05f, false);
+            world.Update(.05f);
+            // A frame may contain several legs around a corner, rather than one straight chord.
+            Require(world.Walkable(world.CaptainPosition(), .15f),
+                    "Companion cut through a solid prop while consuming waypoints");
+        }
+        Require(GameWorld::Distance(world.CaptainPosition(), world.PlayerPosition()) < 2,
+                "Companion failed to follow a route around an obstacle");
+    }
+
     void FinishDialogue(GameWorld& w)
     {
         for (int n = 0; n < 20 && !w.dialogue.empty(); ++n)
@@ -327,63 +452,35 @@ namespace
     // Routes use the same collision-tested movement function as keyboard input.
     void WalkTo(GameWorld& w, Vec2 target, float reach = 1.3f)
     {
-        const int nx = 129, ny = 97;
-        const float x0 = -11, y0 = -18, step = .25f;
-        auto point = [&](int n)
+        std::vector<Vec2> path;
+        float best = 1e9f;
+        for (int i = 0; i < 16; ++i)
         {
-            return Vec2{x0 + (n % nx) * step, y0 + (n / nx) * step};
-        };
-        auto index = [&](Vec2 p)
-        {
-            return (int)std::round((p.y - y0) / step) * nx + (int)std::round((p.x - x0) / step);
-        };
-        std::vector<int> parent(nx * ny, -1);
-        std::queue<int> q;
-        int start = index(w.PlayerPosition()), end = -1;
-        Require(start >= 0 && start < nx * ny, "Invalid route start");
-        q.push(start);
-        parent[start] = start;
-        while (!q.empty())
-        {
-            int cur = q.front();
-            q.pop();
-            Vec2 p = point(cur);
-            if (GameWorld::Distance(p, target) < reach)
+            float angle = i * 6.283185f / 16;
+            Vec2 approach = target + Vec2{std::cos(angle), std::sin(angle)} * (reach * .9f);
+            auto candidate = w.FindRoute(w.PlayerPosition(), approach);
+            if (candidate.empty())
             {
-                end = cur;
-                break;
+                continue;
             }
-            for (int d : {1, -1, nx, -nx})
+            float length = 0;
+            Vec2 previous = w.PlayerPosition();
+            for (Vec2 point : candidate)
             {
-                int n = cur + d;
-                if (n < 0 || n >= nx * ny || parent[n] != -1)
-                {
-                    continue;
-                }
-                if (std::abs((n % nx) - (cur % nx)) + std::abs(n / nx - cur / nx) != 1)
-                {
-                    continue;
-                }
-                if (!w.ClearPath(point(cur), point(n), .27f))
-                {
-                    continue;
-                }
-                parent[n] = cur;
-                q.push(n);
+                length += GameWorld::Distance(GameWorld::Project(point - previous), {});
+                previous = point;
+            }
+            if (length < best)
+            {
+                best = length;
+                path = std::move(candidate);
             }
         }
-        Require(end >= 0, "A quest or memory target is unreachable");
-        std::vector<int> path;
-        for (int n = end; n != start; n = parent[n])
+        Require(!path.empty(), "A quest or memory target is unreachable");
+        for (Vec2 goal : path)
         {
-            path.push_back(n);
-        }
-        std::reverse(path.begin(), path.end());
-        for (int n : path)
-        {
-            Vec2 goal = point(n);
             int guard = 0;
-            while (GameWorld::Distance(w.PlayerPosition(), goal) > .025f && guard++ < 100)
+            while (GameWorld::Distance(w.PlayerPosition(), goal) > .025f && guard++ < 30000)
             {
                 Vec2 d = GameWorld::Project(goal) - GameWorld::Project(w.PlayerPosition());
                 float remaining = GameWorld::Distance(d, {});
@@ -392,7 +489,7 @@ namespace
                 w.Update(dt);
                 Require(w.Walkable(w.PlayerPosition()), "Player penetrated a collider");
             }
-            if (guard >= 100)
+            if (guard >= 30000)
             {
                 throw std::runtime_error("Movement stalled near target " +
                                          std::to_string(target.x) + "," + std::to_string(target.y) +
@@ -422,9 +519,18 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         // Opt-in only: this suite is run by the user with --verify, never at normal startup.
         VerifySceneGraph();
         VerifySpriteAnimation();
+        VerifyCompanionFollowing();
+        report << "PASS continuous companion following, variable frame times, stop distance and "
+                  "obstacle avoidance\n";
         report << "PASS sprite movement, all 32 walk frames, loop, idle, facing\n";
+        VerifyLowPolyModels(renderer);
+        report << "PASS GLB parsing, model caches, shared NPC skeleton, interpolation, clips and "
+                  "GPU draws\n";
         VerifyMonitoring();
         report << "PASS monitoring schema, JSON escaping, bounded events, session identity\n";
+        VerifyPlanetSimulation();
+        report
+            << "PASS five villages, 150 residents, home ownership, delayed letters and migration\n";
         VerifyActorWorld();
         report << "PASS actor hierarchy, reparenting, activity, lifetime, copy, render order, "
                   "collision\n";
@@ -435,6 +541,7 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         {
             GameWorld generated(seed);
             Require(generated.ValidateNavigation(), "Generated navigation is disconnected");
+            Require(generated.ValidatePlanet(), "Generated planet/home layout is invalid");
             Require(generated.scene.Actors<Enemy>().size() >= 12, "A farming camp failed to spawn");
             for (const auto& enemy : generated.scene.Actors<Enemy>())
             {
@@ -545,6 +652,32 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         auto& w = game.world;
         game.SnapCamera();
         game.ClearInput();
+        game.Tick(0);
+        for (const auto& prop : w.scene.Actors<Prop>())
+        {
+            if (prop.kind == PropKind::Memory)
+            {
+                continue;
+            }
+            bool bound = false;
+            for (ActorId child : prop.Children())
+            {
+                const auto* model = w.scene.Find<ModelActor>(child);
+                bound = bound || (model && model->IsVisible());
+            }
+            Require(bound, "Default model presentation missed a prop or resident after reset");
+        }
+        const size_t modelCount = w.scene.Actors<ModelActor>().size();
+        Require(modelCount >= 331, "Completed world models are not enabled by default");
+        game.Arrow(GLUT_KEY_F8, true);
+        Require(w.scene.Actors<ModelActor>().empty(), "F8 did not disable model presentation");
+        game.Arrow(GLUT_KEY_F8, true);
+        Require(w.scene.Actors<ModelActor>().size() == modelCount,
+                "F8 duplicated or failed to restore model actors");
+        game.Arrow(GLUT_KEY_F7, true);
+        Require(w.scene.Actors<ModelActor>().size() == modelCount && w.ValidatePlanet(),
+                "Model reload lost attachments or changed home ownership");
+        report << "PASS default LowPoly presentation, reset binding, F8 fallback and F7 reload\n";
         Capture(game, width, height, output / "01-title.bmp");
         game.MouseButton(200, 610, true);
         game.MouseButton(200, 610, false);

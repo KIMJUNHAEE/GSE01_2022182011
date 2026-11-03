@@ -1,0 +1,97 @@
+{
+  "geometry_changed": false,
+  "uv_changed": false,
+  "rig_changed": false,
+  "animation_changed": false,
+  "skin_linear_rgba": [
+    0.72,
+    0.52,
+    0.4,
+    1
+  ],
+  "face_and_leg_skin_base_color_identical": true,
+  "modified_materials": [
+    "M_PLAYER_Stelle_Tripo_Hair__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Skin__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Cloth__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Coat__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Leather__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Gold__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Eyes__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Face_Repaint__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Skin_Clean__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Clean__Clean_White_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Earring_Clean__Clean_White_L__FaceMatchedS",
+    "M_PLAYER_Stelle_Tripo_Hair__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Skin__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Cloth__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Coat__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Leather__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Gold__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Eyes__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Face_Repaint__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Skin_Clean__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Clean__Clean_White_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Earring_Clean__Clean_White_R__FaceMatchedS",
+    "M_PLAYER_Stelle_Tripo_Hair__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Skin__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Cloth__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Coat__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Leather__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Gold__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Eyes__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Face_Repaint__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Skin_Clean__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Clean__White_Ankle_L__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Earring_Clean__White_Ankle_L__FaceMatchedS",
+    "M_PLAYER_Stelle_Tripo_Hair__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Skin__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Cloth__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Coat__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Leather__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Gold__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Tripo_Eyes__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Face_Repaint__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Skin_Clean__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Clean__White_Ankle_R__FaceMatchedSkin",
+    "M_PLAYER_Stelle_Hair_Earring_Clean__White_Ankle_R__FaceMatchedS"
+  ],
+  "eye_alignment": {
+    "u_model_x_min": -0.29,
+    "u_model_x_range": 0.44,
+    "v_model_z_min": 1.17,
+    "v_model_z_range": 0.44,
+    "skin_linear_rgba": [
+      0.72,
+      0.52,
+      0.4,
+      1
+    ],
+    "iris_target_centers": [
+      [
+        -0.17777620271571204,
+        1.3129917988685973
+      ],
+      [
+        0.03733810927779413,
+        1.3128329579703024
+      ]
+    ],
+    "brow_target_height": 1.37638,
+    "eye_vertical_shift_m": -0.027,
+    "eyebrow_vertical_shift_m": -0.035,
+    "upper_lid_ridge_height_range": [
+      1.35,
+      1.367
+    ],
+    "mouth_center": [
+      -0.07,
+      1.248
+    ]
+  },
+  "user_correction": "Raised eye artwork by 0.012 m and brows by 0.008 m from the first preview so the black upper lash edge overlaps the raised mesh ridge",
+  "pixel_measured_upper_lash_height": [
+    1.3594921875,
+    1.3594921875
+  ]
+}

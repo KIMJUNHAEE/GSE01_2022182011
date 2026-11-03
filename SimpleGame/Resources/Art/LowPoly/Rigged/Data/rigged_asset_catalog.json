@@ -1,0 +1,308 @@
+{
+  "schema_version": "2.1.0",
+  "units": "meters",
+  "fps": 30,
+  "blender_axes": {
+    "up": "+Z",
+    "front": "-Y"
+  },
+  "glb_axes": {
+    "up": "+Y",
+    "front": "+Z"
+  },
+  "npc_shared_rig": "SK_NPC_Common",
+  "npc_index_source": "../Data/npc_presets.json",
+  "npc_parts": [
+    {
+      "asset_id": "SM_NPC_BODY_000_Male",
+      "slot": "body",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_BODY_000_Male.glb"
+    },
+    {
+      "asset_id": "SM_NPC_BODY_001_Female",
+      "slot": "body",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_BODY_001_Female.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_000_ShortCrop",
+      "slot": "hair",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HAIR_000_ShortCrop.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_001_ShortBob",
+      "slot": "hair",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HAIR_001_ShortBob.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_002_LongStraight",
+      "slot": "hair",
+      "part_index": 2,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HAIR_002_LongStraight.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_003_LongPonytail",
+      "slot": "hair",
+      "part_index": 3,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HAIR_003_LongPonytail.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HAIR_004_ShortSwept",
+      "slot": "hair",
+      "part_index": 4,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HAIR_004_ShortSwept.glb"
+    },
+    {
+      "asset_id": "SM_NPC_TOP_000_Civilian",
+      "slot": "top",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_TOP_000_Civilian.glb"
+    },
+    {
+      "asset_id": "SM_NPC_TOP_001_WorkJacket",
+      "slot": "top",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_TOP_001_WorkJacket.glb"
+    },
+    {
+      "asset_id": "SM_NPC_TOP_002_Armor",
+      "slot": "top",
+      "part_index": 2,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_TOP_002_Armor.glb"
+    },
+    {
+      "asset_id": "SM_NPC_TOP_003_Military",
+      "slot": "top",
+      "part_index": 3,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_TOP_003_Military.glb"
+    },
+    {
+      "asset_id": "SM_NPC_TOP_004_PilotCoat",
+      "slot": "top",
+      "part_index": 4,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_TOP_004_PilotCoat.glb"
+    },
+    {
+      "asset_id": "SM_NPC_TOP_005_Expedition",
+      "slot": "top",
+      "part_index": 5,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_TOP_005_Expedition.glb"
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_000_Trousers",
+      "slot": "bottom",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_000_Trousers.glb"
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_001_CargoPants",
+      "slot": "bottom",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_001_CargoPants.glb"
+    },
+    {
+      "asset_id": "SM_NPC_BOTTOM_002_ArmoredPants",
+      "slot": "bottom",
+      "part_index": 2,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_BOTTOM_002_ArmoredPants.glb"
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_000_AnkleBoots",
+      "slot": "footwear",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_000_AnkleBoots.glb"
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_001_WorkBoots",
+      "slot": "footwear",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_001_WorkBoots.glb"
+    },
+    {
+      "asset_id": "SM_NPC_FOOTWEAR_002_CombatBoots",
+      "slot": "footwear",
+      "part_index": 2,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_FOOTWEAR_002_CombatBoots.glb"
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_000_Scarf",
+      "slot": "accessory",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_000_Scarf.glb"
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_001_Respirator",
+      "slot": "accessory",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_001_Respirator.glb"
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_002_Goggles",
+      "slot": "accessory",
+      "part_index": 2,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_002_Goggles.glb"
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_003_Satchel",
+      "slot": "accessory",
+      "part_index": 3,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_003_Satchel.glb"
+    },
+    {
+      "asset_id": "SM_NPC_ACCESSORY_004_Backpack",
+      "slot": "accessory",
+      "part_index": 4,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_ACCESSORY_004_Backpack.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HEADGEAR_000_PatrolCap",
+      "slot": "headgear",
+      "part_index": 0,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HEADGEAR_000_PatrolCap.glb"
+    },
+    {
+      "asset_id": "SM_NPC_HEADGEAR_001_MilitaryHelmet",
+      "slot": "headgear",
+      "part_index": 1,
+      "rig_id": "SK_NPC_Common",
+      "file": "Meshes/NPC/SM_NPC_HEADGEAR_001_MilitaryHelmet.glb"
+    }
+  ],
+  "mobs": [
+    {
+      "mob_index": 0,
+      "mob_id": "MOB_ELY_000_ScrapRunner",
+      "label_ko": "고철 수거 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "biped",
+      "mesh_name": "SM_MOB_ELY_000_ScrapRunner",
+      "rig_name": "SK_MOB_ELY_000_ScrapRunner",
+      "file": "Meshes/Mobs/SM_MOB_ELY_000_ScrapRunner.glb",
+      "triangles": 1812,
+      "bone_count": 20
+    },
+    {
+      "mob_index": 1,
+      "mob_id": "MOB_ELY_001_PatrolSentinel",
+      "label_ko": "통제 순찰 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "biped",
+      "mesh_name": "SM_MOB_ELY_001_PatrolSentinel",
+      "rig_name": "SK_MOB_ELY_001_PatrolSentinel",
+      "file": "Meshes/Mobs/SM_MOB_ELY_001_PatrolSentinel.glb",
+      "triangles": 1896,
+      "bone_count": 20
+    },
+    {
+      "mob_index": 2,
+      "mob_id": "MOB_ELY_002_RiotEnforcer",
+      "label_ko": "중장갑 진압 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "biped",
+      "mesh_name": "SM_MOB_ELY_002_RiotEnforcer",
+      "rig_name": "SK_MOB_ELY_002_RiotEnforcer",
+      "file": "Meshes/Mobs/SM_MOB_ELY_002_RiotEnforcer.glb",
+      "triangles": 1976,
+      "bone_count": 20
+    },
+    {
+      "mob_index": 3,
+      "mob_id": "MOB_ELY_003_OracleWarden",
+      "label_ko": "ORACLE 수호 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "biped",
+      "mesh_name": "SM_MOB_ELY_003_OracleWarden",
+      "rig_name": "SK_MOB_ELY_003_OracleWarden",
+      "file": "Meshes/Mobs/SM_MOB_ELY_003_OracleWarden.glb",
+      "triangles": 2084,
+      "bone_count": 20
+    },
+    {
+      "mob_index": 4,
+      "mob_id": "MOB_ELY_004_TraceHound",
+      "label_ko": "추적 사냥 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "quadruped",
+      "mesh_name": "SM_MOB_ELY_004_TraceHound",
+      "rig_name": "SK_MOB_ELY_004_TraceHound",
+      "file": "Meshes/Mobs/SM_MOB_ELY_004_TraceHound.glb",
+      "triangles": 2288,
+      "bone_count": 22,
+      "hindleg_anatomy": "digitigrade",
+      "asset_version": "2.1.0"
+    },
+    {
+      "mob_index": 5,
+      "mob_id": "MOB_ELY_005_CargoMite",
+      "label_ko": "화물 회수 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "quadruped",
+      "mesh_name": "SM_MOB_ELY_005_CargoMite",
+      "rig_name": "SK_MOB_ELY_005_CargoMite",
+      "file": "Meshes/Mobs/SM_MOB_ELY_005_CargoMite.glb",
+      "triangles": 2312,
+      "bone_count": 22,
+      "hindleg_anatomy": "digitigrade",
+      "asset_version": "2.1.0"
+    },
+    {
+      "mob_index": 6,
+      "mob_id": "MOB_ELY_006_SiegeCrawler",
+      "label_ko": "사족 경계 기계",
+      "planet": "ELY",
+      "design_status": "modeling_concept_not_runtime_spawn_definition",
+      "locomotion": "quadruped",
+      "mesh_name": "SM_MOB_ELY_006_SiegeCrawler",
+      "rig_name": "SK_MOB_ELY_006_SiegeCrawler",
+      "file": "Meshes/Mobs/SM_MOB_ELY_006_SiegeCrawler.glb",
+      "triangles": 2192,
+      "bone_count": 22,
+      "hindleg_anatomy": "digitigrade",
+      "asset_version": "2.1.0"
+    }
+  ],
+  "clips_per_rig": 10,
+  "total_rigs": 8,
+  "total_authored_actions": 80,
+  "notes": [
+    "No runtime or game source changes",
+    "GLB files contain baked keyframes and skins; no runtime IK is required",
+    "NPC part files each repeat the common skeleton and clips for portable independent import. Reuse one runtime skeleton by joint names.",
+    "The Sera example is an assembled demonstration; it is not a new NPC part index.",
+    "Quadruped revision 2.1.0: raised hocks, added metatarsal joints, low animal paws; bone count is 22 on quadrupeds."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "all_passed": true,
+  "scope": "Three representative exported GLBs imported into fresh Blender sessions; evaluated skin deformation compared at two walk phases. This is not a game runtime test.",
+  "files": [
+    {
+      "file": "Meshes/NPC/NPC_001_Sera_Example.glb",
+      "imported_armatures": 1,
+      "imported_bones": 20,
+      "imported_actions": 10,
+      "mesh_count": 6,
+      "walk_deformation_max_m": 0.2101504328039187
+    },
+    {
+      "file": "Meshes/Mobs/SM_MOB_ELY_003_OracleWarden.glb",
+      "imported_armatures": 1,
+      "imported_bones": 20,
+      "imported_actions": 10,
+      "mesh_count": 1,
+      "walk_deformation_max_m": 0.2553690184223658
+    },
+    {
+      "file": "Meshes/Mobs/SM_MOB_ELY_004_TraceHound.glb",
+      "imported_armatures": 1,
+      "imported_bones": 22,
+      "imported_actions": 10,
+      "mesh_count": 1,
+      "walk_deformation_max_m": 0.3915154602905547
+    }
+  ]
+}

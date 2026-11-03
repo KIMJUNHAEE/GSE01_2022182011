@@ -1,0 +1,95 @@
+{
+  "schema_version": 2,
+  "bindings": {
+    "Prop.Habitat": {
+      "assets": ["SM_ELY_BLD_000_Habitat"],
+      "fit_footprint": true
+    },
+    "Prop.Archive": {
+      "assets": ["SM_ELY_BLD_002_Archive"],
+      "fit_footprint": true
+    },
+    "Prop.Tree": {
+      "assets": ["SM_ELY_NAT_003_PrunedTree", "SM_ELY_NAT_000_RockTall", "SM_ELY_NAT_001_RockFlat", "SM_ELY_NAT_002_DryGrass"],
+      "scale": 0.85
+    },
+    "Prop.Crate": {
+      "assets": ["SM_COM_PROP_000_CargoCrate"],
+      "fit_footprint": true
+    },
+    "Prop.Lamp": {
+      "assets": ["SM_ELY_PROP_001_StreetLamp"],
+      "scale": 0.8
+    },
+    "Prop.Relay": {
+      "assets": ["SM_ELY_PROP_002_Relay"],
+      "scale": 0.9
+    },
+    "Prop.Core": {
+      "assets": ["SM_ELY_PROP_003_OracleTerminal"],
+      "fit_footprint": true
+    },
+    "Prop.Ship": {
+      "assets": ["SM_COM_SHIP_000_Nomad"],
+      "fit_footprint": true
+    },
+    "Environment.Workshop": {
+      "assets": ["SM_ELY_BLD_001_Workshop"],
+      "fit_footprint": true
+    },
+    "Environment.ControlSpire": {
+      "assets": ["SM_ELY_BLD_003_ControlSpire"],
+      "fit_footprint": true
+    },
+    "Environment.Checkpoint": {
+      "assets": ["SM_ELY_BLD_004_CheckpointGate"],
+      "fit_footprint": true
+    },
+    "Environment.Planter": {
+      "assets": ["SM_ELY_PROP_000_Planter"]
+    },
+    "Environment.Barrel": {
+      "assets": ["SM_COM_PROP_001_Barrel"],
+      "fit_footprint": true
+    },
+    "Environment.Bench": {
+      "assets": ["SM_COM_PROP_002_Bench"],
+      "fit_footprint": true
+    },
+    "Environment.Antenna": {
+      "assets": ["SM_COM_PROP_003_Antenna"],
+      "fit_footprint": true
+    },
+    "Effect.LandingPad": {
+      "assets": ["SM_COM_MOD_000_LandingPad"],
+      "scale": 0.65
+    },
+    "Enemy.Drone": {
+      "assets": ["SM_MOB_ELY_000_ScrapRunner", "SM_MOB_ELY_004_TraceHound", "SM_MOB_ELY_005_CargoMite"],
+      "fit_footprint": true
+    },
+    "Enemy.Sentry": {
+      "assets": ["SM_MOB_ELY_001_PatrolSentinel", "SM_MOB_ELY_002_RiotEnforcer", "SM_MOB_ELY_006_SiegeCrawler"],
+      "fit_footprint": true
+    },
+    "Enemy.Boss": {
+      "assets": ["SM_MOB_ELY_003_OracleWarden"],
+      "fit_footprint": true
+    },
+    "NPC.Captain": {
+      "assets": ["NPC_000_Kael"]
+    },
+    "NPC.Story": {
+      "assets": ["NPC_001_Sera"],
+      "scale": 0.95
+    },
+    "NPC.Courier": {
+      "assets": ["NPC_010_ScoutF", "NPC_011_ScoutM"],
+      "scale": 0.95
+    },
+    "NPC.Resident": {
+      "assets": ["NPC_002_Mechanic", "NPC_003_Archivist", "NPC_004_ResidentM", "NPC_005_ResidentF", "NPC_006_PatrolM", "NPC_007_PatrolF", "NPC_008_GuardM", "NPC_009_GuardF", "NPC_012_ScholarF", "NPC_013_ScholarM", "NPC_014_SalvagerF", "NPC_015_GuardianM"],
+      "scale": 0.95
+    }
+  }
+}

@@ -45,6 +45,8 @@ Game::Game(Renderer& r) : renderer(r)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     }
     SnapCamera();
+    // Completed LowPoly art is the default presentation; F8 keeps the legacy fallback available.
+    ToggleModels();
 }
 
 void Game::SnapCamera()
@@ -102,6 +104,10 @@ void Game::Tick(float dt)
                    !(mouse.x > 1180 && mouse.y < 226);
     shotPressed = false;
     world.Update(dt);
+    if (modelsEnabled)
+    {
+        UpdateModelBindings();
+    }
     if (world.view != View::Explore)
     {
         ClearInput();
@@ -232,6 +238,18 @@ void Game::Key(unsigned char key, bool down)
 
 void Game::Arrow(int key, bool down)
 {
+    if (down && key == GLUT_KEY_F8)
+    {
+        ClearInput();
+        ToggleModels();
+        return;
+    }
+    if (down && key == GLUT_KEY_F7)
+    {
+        ClearInput();
+        ReloadModels();
+        return;
+    }
     if (key == GLUT_KEY_UP)
     {
         arrows[0] = down;
@@ -341,9 +359,41 @@ void Game::Box(Vec2 p, float w, float d, float z, float h, Color top, Color left
 
 void Game::Draw(const Terrain& actor)
 {
-    int x = (int)std::round(actor.Position().x), y = (int)std::round(actor.Position().y);
-    int tile = actor.kind;
-    Vec2 p = actor.Position(), s = P(p);
+    for (int y = 0; y < actor.depth; ++y)
+    {
+        for (int x = 0; x < actor.width; ++x)
+        {
+            DrawTile(actor.Position() + Vec2{(float)x, (float)y}, actor.kind);
+        }
+    }
+}
+
+bool Game::InView(const Actor& actor) const
+{
+    if (const auto* effect = dynamic_cast<const SceneEffect*>(&actor))
+    {
+        if (effect->kind == EffectKind::AmbientDust || effect->kind == EffectKind::Scan)
+        {
+            return true;
+        }
+    }
+    if (const auto* terrain = dynamic_cast<const Terrain*>(&actor))
+    {
+        Vec2 center =
+            P(actor.Position() + Vec2{(terrain->width - 1) * .5f, (terrain->depth - 1) * .5f});
+        float rx = (terrain->width + terrain->depth) * 21.f * zoom + 12;
+        float ry = (terrain->width + terrain->depth) * 10.5f * zoom + 70;
+        return center.x + rx >= 0 && center.x - rx <= 1440 && center.y + ry >= 0 &&
+               center.y - ry <= 900;
+    }
+    Vec2 p = P(actor.Position());
+    return p.x >= -350 && p.x <= 1790 && p.y >= -350 && p.y <= 1250;
+}
+
+void Game::DrawTile(Vec2 p, int tile)
+{
+    int x = (int)std::round(p.x), y = (int)std::round(p.y);
+    Vec2 s = P(p);
     if (s.x < -160 || s.x > 1600 || s.y < -180 || s.y > 1080)
     {
         return;
@@ -356,6 +406,10 @@ void Game::Draw(const Terrain& actor)
     if (tile == 5)
     {
         floor = Color(0x435056);
+    }
+    else if (tile == 6)
+    {
+        floor = Color(hash % 5 == 0 ? 0x303d39 : 0x27332f);
     }
     Vec2 a = P(p + Vec2{-.5f, -.5f}), b = P(p + Vec2{.5f, -.5f}), c = P(p + Vec2{.5f, .5f}),
          d = P(p + Vec2{-.5f, .5f});
@@ -381,14 +435,14 @@ void Game::Draw(const Terrain& actor)
     canvas.Quad(a, b, c, d, floor);
     canvas.Line(a, b, Color(0xa8b4b0, .09f), .65f * zoom);
     canvas.Line(a, d, Color(0x111f26, .55f), .8f * zoom);
-    if (tile != 2 && hash % 3 == 0)
+    if (tile != 2 && tile != 6 && hash % 3 == 0)
     {
         canvas.Line(P(p + Vec2{-.32f, -.32f}), P(p + Vec2{.30f, -.32f}), Color(0x71858a, .25f),
                     .6f * zoom);
         canvas.Line(P(p + Vec2{.30f, -.32f}), P(p + Vec2{.30f, .3f}), Color(0x172c33, .6f),
                     .7f * zoom);
     }
-    if (tile != 2 && hash % 7 == 0)
+    if (tile != 2 && tile != 6 && hash % 7 == 0)
     {
         for (int i = 0; i < 5; ++i)
         {
@@ -402,7 +456,7 @@ void Game::Draw(const Terrain& actor)
         canvas.Line(P(p + Vec2{-.28f, -.1f}), P(p + Vec2{.26f, -.1f}), Gold.Fade(.55f), 2 * zoom);
         canvas.Line(P(p + Vec2{-.28f, .08f}), P(p + Vec2{.26f, .08f}), Gold.Fade(.3f), 1.5f * zoom);
     }
-    if (tile == 2)
+    if (tile == 2 || tile == 6)
     {
         for (int i = 0; i < 5; ++i)
         {
@@ -566,6 +620,10 @@ void Game::Portrait(float x, float y, float w, float h, int kind)
 
 void Game::DrawProp(const Prop& o)
 {
+    if (HasModel(o.Id()))
+    {
+        return;
+    }
     Vec2 s = P(o.Position());
     if (s.x < -350 || s.x > 1800 || s.y < -300 || s.y > 1300)
     {
@@ -677,11 +735,10 @@ void Game::DrawProp(const Prop& o)
     }
     else if (o.kind == PropKind::Citizen)
     {
-        Person(s, 2, zoom * .92f, false, (float)o.variant);
-        if (world.quest == 0 && o.variant == 0)
-        {
-            Marker(P(o.Position(), 85 + std::sin(world.time * 2) * 4), Gold, 6 * zoom);
-        }
+        auto resident = world.planet.residents.find(o.Id());
+        bool moving = resident != world.planet.residents.end() && resident->second.moving;
+        Person(s, 2, zoom * .92f, moving, (float)o.variant);
+        DrawCitizenIndicators(o);
     }
     else if (o.kind == PropKind::Memory && !world.found[o.variant])
     {
@@ -691,6 +748,24 @@ void Game::DrawProp(const Prop& o)
         canvas.Ellipse(s, 13 * zoom, 6 * zoom, Gold.Fade(.35f), false);
     }
     objectAlpha = 1;
+}
+
+void Game::DrawCitizenIndicators(const Prop& prop)
+{
+    auto resident = world.planet.residents.find(prop.Id());
+    if (resident == world.planet.residents.end())
+    {
+        return;
+    }
+    const Vec2 foot = P(prop.Position());
+    if (resident->second.courier)
+    {
+        CenterText(foot.x, foot.y - 84 * zoom, L"편지 배달부", 11, Teal);
+    }
+    if (resident->second.storyResident && world.quest < 3)
+    {
+        Marker(P(prop.Position(), 88 + std::sin(world.time * 2) * 4), Gold, 6 * zoom);
+    }
 }
 
 void Game::WorldScene()
@@ -775,28 +850,43 @@ void Game::Paragraph(float x, float y, const std::wstring& text, float width, in
 
 void Game::Map(float x, float y, float w, float h, bool full)
 {
+    Vec2 minimum = {1e9f, 1e9f}, maximum = {-1e9f, -1e9f};
+    for (const auto& district : world.districts)
+    {
+        for (float gx : {district.x0 - .5f, district.x1 + .5f})
+        {
+            for (float gy : {district.y0 - .5f, district.y1 + .5f})
+            {
+                Vec2 p = GameWorld::Project({gx, gy});
+                minimum.x = (std::min)(minimum.x, p.x);
+                minimum.y = (std::min)(minimum.y, p.y);
+                maximum.x = (std::max)(maximum.x, p.x);
+                maximum.y = (std::max)(maximum.y, p.y);
+            }
+        }
+    }
+    float margin = full ? 28.f : 7.f;
+    float scale = (std::min)((w - margin * 2) / (maximum.x - minimum.x),
+                             (h - margin * 2) / (maximum.y - minimum.y));
+    Vec2 center = (minimum + maximum) * .5f;
     auto point = [&](Vec2 g)
     {
-        Vec2 p = GameWorld::Project(g);
-        return Vec2{x + w * .31f + p.x * w / 2450.f, y + h * .40f + p.y * h / 1050.f};
+        Vec2 p = (GameWorld::Project(g) - center) * scale;
+        return Vec2{x + w * .5f + p.x, y + h * .5f + p.y};
     };
-    for (int gx = -10; gx <= 20; ++gx)
+    for (const auto& district : world.districts)
     {
-        for (int gy = -17; gy <= 5; ++gy)
-        {
-            int tile = world.Tile(gx, gy);
-            if (tile < 0)
-            {
-                continue;
-            }
-            Vec2 p = {(float)gx, (float)gy};
-            canvas.Quad(point(p + Vec2{-.45f, -.45f}), point(p + Vec2{.45f, -.45f}),
-                        point(p + Vec2{.45f, .45f}), point(p + Vec2{-.45f, .45f}),
-                        Color(tile == 2   ? 0x46665b
-                              : tile == 5 ? 0x677571
-                                          : 0x42565e,
-                              .9f));
-        }
+        int tile = district.kind;
+        Color color(tile == 6   ? 0x273c35
+                    : tile == 2 ? 0x46665b
+                    : tile == 5 ? 0x677571
+                    : tile == 3 ? 0x665054
+                                : 0x42565e,
+                    .9f);
+        canvas.Quad(point({district.x0 - .5f, district.y0 - .5f}),
+                    point({district.x1 + .5f, district.y0 - .5f}),
+                    point({district.x1 + .5f, district.y1 + .5f}),
+                    point({district.x0 - .5f, district.y1 + .5f}), color);
     }
     for (int i = 0; i < 3; ++i)
     {
@@ -823,22 +913,22 @@ void Game::Map(float x, float y, float w, float h, bool full)
     canvas.Triangle(p + Vec2{0, -6}, p + Vec2{4, 4}, p + Vec2{-4, 4}, White);
     if (full)
     {
-        struct Label
+        for (const auto& village : world.planet.villages)
         {
-            Vec2 p;
-            const wchar_t* text;
-        };
-
-        for (const auto& label :
-             std::vector<Label>{{world.rooms[0] + Vec2{0, 4}, L"01  노마드 착륙장"},
-                                {world.rooms[1] + Vec2{0, 4}, L"02  제7 주거구역"},
-                                {world.rooms[2] + Vec2{0, -4}, L"03  기억의 정원"},
-                                {world.rooms[3] + Vec2{0, 4}, L"04  기록보관소"},
-                                {world.rooms[4] + Vec2{0, -4}, L"05  ORACLE"}})
-        {
-            Vec2 v = point(label.p);
-            CenterText(v.x, v.y, label.text, 13, White);
+            int population = 0;
+            for (const auto& entry : world.planet.residents)
+            {
+                population += entry.second.village == village.id;
+            }
+            Vec2 v = point(village.center + Vec2{0, 17});
+            CenterText(v.x, v.y,
+                       world.monitoring.villages[village.id].name + L" · " +
+                           std::to_wstring(population) + L"명",
+                       12, White);
         }
+        CenterText(x + w * .5f, y + h + 12,
+                   L"이웃 마을 중심 간 도보 약 30초 · 편지는 배달부가 도착한 뒤 전달됩니다.", 12,
+                   Gold);
     }
 }
 
@@ -1121,7 +1211,9 @@ void Game::Render()
             CenterText(720, 332, L"잠시, 별을 바라보며", 27, White, true);
             CenterText(720, 398, L"ENTER / ESC    여정 계속", 17, Gold);
             CenterText(720, 447, L"T    타이틀로 돌아가기", 16, Muted);
-            CenterText(720, 528, L"지도와 일지를 열면 탐험 시간이 멈춥니다.", 12, Muted);
+            CenterText(720, 499, L"F11 / Alt+Enter   전체화면 전환", 13, Gold);
+            CenterText(720, 531, L"F7 에셋 다시 읽기  ·  F8 기존 그래픽과 비교", 12, Muted);
+            CenterText(720, 565, L"지도와 일지를 열면 탐험 시간이 멈춥니다.", 12, Muted);
         }
     }
     canvas.Flush();

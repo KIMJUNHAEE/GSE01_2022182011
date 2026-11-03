@@ -1,0 +1,23 @@
+{
+  "asset_version": "2.1.0",
+  "all_passed": true,
+  "updated_meshes": [
+    "SM_MOB_ELY_004_TraceHound",
+    "SM_MOB_ELY_005_CargoMite",
+    "SM_MOB_ELY_006_SiegeCrawler"
+  ],
+  "updated_rigs": 3,
+  "actions_rebaked": 30,
+  "bones_per_quadruped": 22,
+  "new_bones": [
+    "hind_metatarsal.L",
+    "hind_metatarsal.R"
+  ],
+  "hip_stifle_hock_paw_chain": true,
+  "min_hock_above_paw_m": 0.15399909019470215,
+  "min_stifle_ahead_hock_m": 0.11277997493743896,
+  "max_metatarsal_length_error_m": 1.3059628442557702e-07,
+  "reach_errors": [],
+  "anatomy_errors": [],
+  "frames_and_legs_checked": 5104
+}

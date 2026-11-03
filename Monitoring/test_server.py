@@ -41,6 +41,37 @@ def report(session="test-session"):
 
 
 class StateTests(unittest.TestCase):
+    def test_large_planet_snapshot_remains_compatible(self):
+        data = snapshot()
+        prototype = data["villages"][0]
+        data["villages"] = []
+        for index in range(5):
+            village = copy.deepcopy(prototype)
+            village.update(id=index, name=f"마을 {index}", npcCount=30, residentCount=30,
+                           homeCount=36, vacantHomes=6, reservedHomes=0, knownVillages=1)
+            data["villages"].append(village)
+        prototype = data["npcs"][0]
+        data["npcs"] = []
+        for index in range(150):
+            resident = copy.deepcopy(prototype)
+            resident.update(id=str(1000+index), villageId=index//30, residentVillageId=index//30,
+                            homeId=str(2000+index), disposition="peaceful", knownNews=[],
+                            role="courier" if index % 30 == 1 else "resident")
+            data["npcs"].append(resident)
+        data["counts"].update(npcs=150, npcsIncludingInactive=150, actors=2200)
+        data.update(planet={"residents": 150, "homes": 180, "targetWalkingSeconds": 30,
+                            "lettersDelivered": 1, "migrationsCompleted": 0},
+                    homes=[{"id": "2000", "villageId": 0, "occupantId": "1000",
+                            "reservedBy": "0", "position": {"x": -20, "y": 5}}],
+                    roads=[{"from": 0, "to": 1, "walkingSeconds": 30}],
+                    letters=[{"carrierId": "1001", "destinationVillageId": 1}])
+        state = State()
+        state.publish(json.loads(json.dumps(data, ensure_ascii=False)))
+        result = state.read()["snapshot"]
+        self.assertEqual(len(result["npcs"]), 150)
+        self.assertEqual(result["planet"]["homes"], 180)
+        self.assertEqual(result["homes"][0]["occupantId"], "1000")
+
     def test_snapshot_unicode_and_counts(self):
         data = snapshot()
         self.assertEqual(validate_snapshot(data)["npcs"][0]["name"], "주민")

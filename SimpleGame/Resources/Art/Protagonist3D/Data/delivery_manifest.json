@@ -1,0 +1,214 @@
+{
+  "all_passed": true,
+  "version": "eye-ridge-alignment-skin-match-3",
+  "completed_utc": "2026-10-21T13:34:00.914398+00:00",
+  "source_original_unchanged": true,
+  "game_applied": false,
+  "triangles": 19994,
+  "meshes": 21,
+  "bones": 33,
+  "clips": 10,
+  "glb_sha256": "3ff30cd29ee1804641efa5aa14f3c443c4eb6089cedc41609ba167bedbad0f2d",
+  "geometry_changed_in_this_pass": false,
+  "eye_shift_m": -0.027,
+  "eyebrow_shift_m": -0.035,
+  "skin_linear_rgba": [
+    0.72,
+    0.52,
+    0.4,
+    1
+  ],
+  "checks": [
+    "texture_preservation_validation.json",
+    "glb_validation.json",
+    "roundtrip_validation.json",
+    "eye_anchor_skin_validation.json"
+  ],
+  "files": [
+    {
+      "file": "Data/animation_clips.json",
+      "bytes": 3088,
+      "sha256": "4344f9339880df72c677bc903d42f3149a93801f67465bd4fb2b2d26670f56ca"
+    },
+    {
+      "file": "Data/animation_validation.json",
+      "bytes": 1589,
+      "sha256": "742a4cdf101d0a23d6853ee08797231287a10a9c78279eb893cb60ee788ed643"
+    },
+    {
+      "file": "Data/eye_alignment_report.json",
+      "bytes": 4164,
+      "sha256": "4c9627f7397d9715fe9d0730b2722f2e34b67f0ea41acaeaa7f6104a9087ce34"
+    },
+    {
+      "file": "Data/eye_anchor_skin_validation.json",
+      "bytes": 971,
+      "sha256": "41a447ff9da3c6ea9147c08c476ff0d3aa29e6118d4cea68ba7d63acc6943dc5"
+    },
+    {
+      "file": "Data/glb_validation.json",
+      "bytes": 1732,
+      "sha256": "4509c4b4ab3e657c601198d452a632912f83bea480cf925edd0866f31369c6e3"
+    },
+    {
+      "file": "Data/player_asset.json",
+      "bytes": 20960,
+      "sha256": "44ddb7b8bd4252dd10fdd8a1972bb6dad15c3f52194df5868c688fc1b56759b5"
+    },
+    {
+      "file": "Data/refinement_report.json",
+      "bytes": 798,
+      "sha256": "6e10c46abe843b91ccfa88208550718ae0e71c828584b8b8978a5b6de1e8f498"
+    },
+    {
+      "file": "Data/roundtrip_validation.json",
+      "bytes": 439,
+      "sha256": "fd6cdbe9c6eb898bd54b7fcd423ad39a4e9cc79ccf942b268437b5668c9e63a9"
+    },
+    {
+      "file": "Data/skin_seam_validation.json",
+      "bytes": 473,
+      "sha256": "611c7794bf0c6135a730cb59a7f48b4e96c0f9a11c5bfb924d9499a79f99a173"
+    },
+    {
+      "file": "Data/texture_preservation_validation.json",
+      "bytes": 2762,
+      "sha256": "9e98d8566ebca53b3975af4dc1647a9d45fd91b21e04914ba87fcf63e9c8c68f"
+    },
+    {
+      "file": "Data/texture_repaint_report.json",
+      "bytes": 1022,
+      "sha256": "63d24a9cf3b18013226cbfe81d3fd797ba09808e4785b8401f9be726b1f73e58"
+    },
+    {
+      "file": "Data/texturing_prompt.md",
+      "bytes": 2385,
+      "sha256": "7a580b2110fbcb8dd7b9690d14b59cfa2986b500b651af5364b60684b37ff864"
+    },
+    {
+      "file": "Data/touchup_report.json",
+      "bytes": 32034,
+      "sha256": "1f5c0bc240be709a70d651ada80fe6a138b93bcc56ad34f44e263e7de126ce85"
+    },
+    {
+      "file": "Meshes/PLAYER_Stelle_Tripo_20k.glb",
+      "bytes": 18506900,
+      "sha256": "3ff30cd29ee1804641efa5aa14f3c443c4eb6089cedc41609ba167bedbad0f2d"
+    },
+    {
+      "file": "Previews/Player_Back.png",
+      "bytes": 821317,
+      "sha256": "ae07bf04ca8e0b4500507a7f1c00dffec770f07a8cfbbe13f25cd6f93b7f85f9"
+    },
+    {
+      "file": "Previews/Player_Beauty.png",
+      "bytes": 884575,
+      "sha256": "04cc71ec3c80714d6bd59ea8d639ad9d7f9a5055458d3e0c3f02a7cd9a80cc1f"
+    },
+    {
+      "file": "Previews/Player_Comparison.png",
+      "bytes": 771415,
+      "sha256": "fc1224d65f1554c9abb7322466dcb01c4b52b896c33f26ef130cb3ddab095d0e"
+    },
+    {
+      "file": "Previews/Player_Detail_Comparison.png",
+      "bytes": 795355,
+      "sha256": "b89eed6b18f985c75ebd5963cd8c27c220e7b89d1f1bae027e7302e90b8b6aaf"
+    },
+    {
+      "file": "Previews/Player_Eye_Alignment_Review.png",
+      "bytes": 662567,
+      "sha256": "7f39b1159d6e690b883d45ee151e9be51ea6a48df1950227e02937a92567f865"
+    },
+    {
+      "file": "Previews/Player_Face.png",
+      "bytes": 907980,
+      "sha256": "a21f59fb164c6a5db8ff859bffd1128947879a3f2873a04ba30aa9894cdf6c46"
+    },
+    {
+      "file": "Previews/Player_Face_ThreeQuarter.png",
+      "bytes": 906646,
+      "sha256": "013c23fe776f4959cce1e68e5680d1f15d91277c08a153d7ee25012259a96430"
+    },
+    {
+      "file": "Previews/Player_Front.png",
+      "bytes": 865746,
+      "sha256": "b5e1999ab38bfc22df63828f75b5354ed80bec3ab0ba9c5b36f06810b04ac5b2"
+    },
+    {
+      "file": "Previews/Player_GLB_Reimport.png",
+      "bytes": 929948,
+      "sha256": "f13857f97c4852292c02332173bb9dd5860e8939c4fcc39682b37cdb2218a483"
+    },
+    {
+      "file": "Previews/Player_Jump.gif",
+      "bytes": 743137,
+      "sha256": "926534b22428dc06867df06d798af6ffa7abcc07bfd573383b0873165422b8d5"
+    },
+    {
+      "file": "Previews/Player_Motion_Review.png",
+      "bytes": 1015243,
+      "sha256": "f0e1155f1f843f26b78ad1f4f58f0428d7c28ca334df5a2bce5872d0c6aa9a17"
+    },
+    {
+      "file": "Previews/Player_Run.gif",
+      "bytes": 561104,
+      "sha256": "b17038c7d98c2f641254a38f8a6438f369009ddb662acfbc64131ba690d35565"
+    },
+    {
+      "file": "Previews/Player_Touchup_Review.png",
+      "bytes": 662567,
+      "sha256": "7f39b1159d6e690b883d45ee151e9be51ea6a48df1950227e02937a92567f865"
+    },
+    {
+      "file": "Previews/Player_Walk.gif",
+      "bytes": 683474,
+      "sha256": "7ff7a5c04e26fef54f850c5970318664908add0bbd616b9fa4cfd029a8ab7c33"
+    },
+    {
+      "file": "README.md",
+      "bytes": 5124,
+      "sha256": "79b51d5155d74b26624f6dad22e6b2214c5da81eda4085cf1b8fd7a014247640"
+    },
+    {
+      "file": "Stelle_Tripo_20k_Rigged.blend",
+      "bytes": 68170018,
+      "sha256": "12d06a7e38eb1abc4407d6abf57c1fbb64fe9a3f42ca7ec4ba9cdee1f1c2f805"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Clean_BaseColor_4K.png",
+      "bytes": 7474359,
+      "sha256": "cfa6278aa8a890d432cca8ecc8b39266bc7f41e13244611ec265e9887bb73598"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Clean_ORM_4K.png",
+      "bytes": 4311787,
+      "sha256": "c33e97ecf79b47d2194b20409c7aa83b0c7504906129adbcbf06091ba32bdcd5"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Eyes_Clean.png",
+      "bytes": 541430,
+      "sha256": "a3eb55a39be250e7f811bc2754a283e299d4034ec112143f333292fc113d6b0b"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Face_Detail_2K.png",
+      "bytes": 3458786,
+      "sha256": "638e0893242a6460f7eb9559dba9261ae31be036b438d3e8e0b50de1cec878c1"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Tripo_BaseColor.jpg",
+      "bytes": 2120567,
+      "sha256": "b7b579c184e89ff89fe060b14a4cc0a1bb8968a61517853c7d9dd27c0c6fd56b"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Tripo_MetallicRoughness.jpg",
+      "bytes": 1912900,
+      "sha256": "1fec9670ff2e5569d2fbe30af13b076f8a095a534163b33c08e112210929d1f0"
+    },
+    {
+      "file": "Textures/T_PLAYER_Stelle_Tripo_Normal.png",
+      "bytes": 1677709,
+      "sha256": "078d507fb9fe9cb00b5ccf27d657562241ba23250fc8432613391ed66eed37d5"
+    }
+  ]
+}

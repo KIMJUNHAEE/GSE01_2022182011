@@ -3,6 +3,7 @@
 #include "SceneGraph.h"
 #include "NavigationGrid.h"
 #include "Monitoring.h"
+#include "Planet.h"
 #include <array>
 #include <deque>
 #include <cstdint>
@@ -37,6 +38,7 @@ public:
     View view = View::Title;
     SceneGraph scene;
     MonitoringState monitoring;
+    PlanetState planet;
     Vec2 facing = {1, 0};
     std::vector<District> districts;
     std::array<ActorId, 3> relays = {};
@@ -122,6 +124,11 @@ public:
     void BeginBoss();
     bool ValidateNavigation() const;
     bool ClearPath(Vec2 from, Vec2 to, float radius = .22f) const;
+    std::vector<Vec2> FindRoute(Vec2 from, Vec2 to) const;
+    bool ValidatePlanet() const;
+    void RefreshVillageNews();
+    void SpreadNews(int village, const NewsBundle& news, ActorId carrier, bool letter);
+    bool ConsiderMigration(ActorId resident);
     std::wstring TutorialText() const;
 
     static Vec2 Unproject(Vec2 screen)
@@ -156,7 +163,15 @@ private:
 
     void Say(std::initializer_list<DialogueLine> lines);
     void UpdateNearby();
+    void UpdateCompanion(float dt);
     void GenerateLevel();
+    void GeneratePlanet();
+    void GenerateVillagers();
+    void UpdatePlanet(float dt);
+    bool BeginResidentRoute(ResidentProfile& resident, Vec2 target, ResidentActivity activity,
+                            int destination);
+    void FinishResidentRoute(ResidentProfile& resident);
+    void CancelResidentRoute(ResidentProfile& resident);
     void BuildNavigation() const;
     void EnsureNavigation() const;
     void BuildFlow();
@@ -177,7 +192,8 @@ private:
     mutable NavigationGrid navigation;
     mutable uint64_t navigationRevision = 0;
     mutable uint64_t collisionRevision = 0;
-    mutable std::map<std::pair<int, int>, int> floorTiles;
+    mutable std::vector<int> floorTiles;
+    mutable int floorX = 0, floorY = 0, floorWidth = 0, floorHeight = 0;
 
     struct Obstacle
     {
@@ -186,10 +202,14 @@ private:
     };
 
     mutable std::vector<Obstacle> obstacles;
+    mutable std::map<std::pair<int, int>, std::vector<size_t>> obstacleBuckets;
     void EnsureCollision() const;
     ActorId playerId = 0, captainId = 0, shipId = 0, coreId = 0, residentId = 0;
     ActorId scanEffectId = 0;
     std::array<float, 3> respawn = {25, 25, 25};
     std::mt19937 random;
+    float playerMoveSpeed = 0, captainFollowSpeed = 0, captainBlockedTime = 0;
+    float captainRepathCooldown = 0;
+    bool captainFollowing = false;
     bool runStarted = false, metResident = false;
 };

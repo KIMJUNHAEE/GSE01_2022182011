@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SceneGraph.h"
+#include "ActorRenderer.h"
 #include <algorithm>
 #include <stdexcept>
 
@@ -184,7 +185,7 @@ void SceneGraph::Draw(ActorRenderer& renderer) const
     std::vector<std::shared_ptr<Actor>> snapshot;
     for (const auto& entry : nodes)
     {
-        if (entry.second->IsVisible())
+        if (entry.second->IsVisible() && renderer.InView(*entry.second))
         {
             snapshot.push_back(entry.second);
         }

@@ -1,0 +1,35 @@
+{
+  "all_passed": true,
+  "mesh_count": 21,
+  "vertex_positions_and_topology_unchanged": true,
+  "skin_weights_unchanged": true,
+  "bone_rest_transforms_unchanged": true,
+  "animation_keyframes_unchanged": true,
+  "preservation_hashes": {
+    "meshes": {
+      "SM_PLAYER_STELLE_TRIPO_Head_Face": "74757ab9d844298a93d6fe10e4857b7a803dd5a337dd10f074c2b5a7ad4d3896",
+      "SM_PLAYER_STELLE_TRIPO_Hair_Crown": "25b4b0cb1666cc21f956037cb5af5c34dc100cb9e57475676f54daa68b3a8339",
+      "SM_PLAYER_STELLE_TRIPO_Hair_L": "e2ceb7e850d008345cc6d2da48b750c93d123464f02950f16a234e8659fc5c45",
+      "SM_PLAYER_STELLE_TRIPO_Hair_R": "d835d29d25c9e179502ad3d52bb9546c6849ac436a0af524097682689b2d1a55",
+      "SM_PLAYER_STELLE_TRIPO_Hair_Back": "6af77348d3fddeb43623df359aec83a9e5b3f93b084c7172a30d51c401f99701",
+      "SM_PLAYER_STELLE_TRIPO_Torso_Outfit": "86181eee8fc8578afc4163e14f81621a18bd90959af3130cbe20d1a56d210e6e",
+      "SM_PLAYER_STELLE_TRIPO_JacketSleeve_L": "f3d9ca0d3a0dee6f6514eb970d326999d0f6d3b8249267fb8d6ed823fc7671ce",
+      "SM_PLAYER_STELLE_TRIPO_JacketSleeve_R": "aae4cb1d35c0b06b137804572a5c1780e453ba0a6a1ec40dfeb82f62dc9d0365",
+      "SM_PLAYER_STELLE_TRIPO_Arm_L": "05950b6d58ef7635bc988ac64388b7a7f776906e8857569c49f98d492ccaecd7",
+      "SM_PLAYER_STELLE_TRIPO_Arm_R": "ac06515edf92dc29838bb8f988eb5016f9fce24884cf8756eb500c1310c16947",
+      "SM_PLAYER_STELLE_TRIPO_Glove_L": "64efece27cfbb14c85fbc3f4669b19488c457925cd4ef436964deb5954bc4e2e",
+      "SM_PLAYER_STELLE_TRIPO_Glove_R": "e31b082d8b9e7078f517581910dee7c29a3eb356caa758ee856eeb87fd485533",
+      "SM_PLAYER_STELLE_TRIPO_Skirt_Belts": "2c65687704a7b9eef5e05b5555fced23da22d1afb4bf9b0201e5952d355fed38",
+      "SM_PLAYER_STELLE_TRIPO_CoatTail_L": "80aef6b1408b35b38d15d3a1ab5b7d73a90687cfefa6eef66dc029f5abf9f8f3",
+      "SM_PLAYER_STELLE_TRIPO_CoatTail_R": "62252ab4ecec70f8241e2a3612e239552d152ca4a09260d776a5a577e7289e48",
+      "SM_PLAYER_STELLE_TRIPO_Leg_L": "8fb0bb838bf2bfc976a5d3650df650cf72871bd676c78f16414f130b5f0060f9",
+      "SM_PLAYER_STELLE_TRIPO_Leg_R": "b2d209963106a6d114b5f7b7b3ef3af65e2828b867bdedf690f9ccecffeb0b54",
+      "SM_PLAYER_STELLE_TRIPO_Boots_L": "d3d9ca72f00c016c0edd83d0adc31d8a2ea345c33317c094d79bd8f6eeb6875d",
+      "SM_PLAYER_STELLE_TRIPO_Boots_R": "a0c882e202232577df1c20b0d52d64fe58938265356fc57602f764cf2718776a",
+      "SM_PLAYER_STELLE_TRIPO_Ribbon_L": "26b7f2453fecf457cc50fe74735d90cf44afa8cb798f0f8882b36722825287bd",
+      "SM_PLAYER_STELLE_TRIPO_Ribbon_R": "f1ecad3a18d294bc318d56f2eb1485d42754aa295b8c9a102b1324c1e7d25797"
+    },
+    "bones": "c338c68ebee8c380aa667059eca9ea29dfe934a5152317178b0b0593c94491ac",
+    "animations": "c99139b9b9a53ff923f387464a5a538e9238ff050dd02f912caeefbce41662db"
+  }
+}

@@ -1,0 +1,315 @@
+{
+  "all_passed": true,
+  "tested_with": "forward world translation equals suggested_speed_mps; only consecutive stance frames compared",
+  "max_world_ankle_y_drift_per_frame_m": 1.430511474609375e-06,
+  "results": [
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Walk",
+      "foot": "foot.L",
+      "stance_frame_pairs": 20,
+      "max_world_ankle_y_drift_per_frame_m": 3.8743019104003906e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Walk",
+      "foot": "foot.R",
+      "stance_frame_pairs": 20,
+      "max_world_ankle_y_drift_per_frame_m": 3.8743019104003906e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Run",
+      "foot": "foot.L",
+      "stance_frame_pairs": 7,
+      "max_world_ankle_y_drift_per_frame_m": 1.0728836059570312e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_000_ScrapRunner",
+      "clip": "Run",
+      "foot": "foot.R",
+      "stance_frame_pairs": 8,
+      "max_world_ankle_y_drift_per_frame_m": 1.0728836059570312e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Walk",
+      "foot": "foot.L",
+      "stance_frame_pairs": 21,
+      "max_world_ankle_y_drift_per_frame_m": 5.811452865600586e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Walk",
+      "foot": "foot.R",
+      "stance_frame_pairs": 21,
+      "max_world_ankle_y_drift_per_frame_m": 5.960464477539062e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Run",
+      "foot": "foot.L",
+      "stance_frame_pairs": 8,
+      "max_world_ankle_y_drift_per_frame_m": 1.2218952178955078e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_001_PatrolSentinel",
+      "clip": "Run",
+      "foot": "foot.R",
+      "stance_frame_pairs": 8,
+      "max_world_ankle_y_drift_per_frame_m": 1.1920928955078125e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Walk",
+      "foot": "foot.L",
+      "stance_frame_pairs": 23,
+      "max_world_ankle_y_drift_per_frame_m": 5.21540641784668e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Walk",
+      "foot": "foot.R",
+      "stance_frame_pairs": 23,
+      "max_world_ankle_y_drift_per_frame_m": 5.364418029785156e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Run",
+      "foot": "foot.L",
+      "stance_frame_pairs": 9,
+      "max_world_ankle_y_drift_per_frame_m": 1.2516975402832031e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_002_RiotEnforcer",
+      "clip": "Run",
+      "foot": "foot.R",
+      "stance_frame_pairs": 9,
+      "max_world_ankle_y_drift_per_frame_m": 1.3113021850585938e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Walk",
+      "foot": "foot.L",
+      "stance_frame_pairs": 24,
+      "max_world_ankle_y_drift_per_frame_m": 5.662441253662109e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Walk",
+      "foot": "foot.R",
+      "stance_frame_pairs": 24,
+      "max_world_ankle_y_drift_per_frame_m": 5.364418029785156e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Run",
+      "foot": "foot.L",
+      "stance_frame_pairs": 10,
+      "max_world_ankle_y_drift_per_frame_m": 1.4007091522216797e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_003_OracleWarden",
+      "clip": "Run",
+      "foot": "foot.R",
+      "stance_frame_pairs": 10,
+      "max_world_ankle_y_drift_per_frame_m": 1.430511474609375e-06
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Walk",
+      "foot": "fore_foot.L",
+      "stance_frame_pairs": 27,
+      "max_world_ankle_y_drift_per_frame_m": 3.5762786865234375e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Walk",
+      "foot": "fore_foot.R",
+      "stance_frame_pairs": 27,
+      "max_world_ankle_y_drift_per_frame_m": 3.5762786865234375e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Walk",
+      "foot": "hind_foot.L",
+      "stance_frame_pairs": 27,
+      "max_world_ankle_y_drift_per_frame_m": 3.2782554626464844e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Walk",
+      "foot": "hind_foot.R",
+      "stance_frame_pairs": 27,
+      "max_world_ankle_y_drift_per_frame_m": 3.296881914138794e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Run",
+      "foot": "fore_foot.L",
+      "stance_frame_pairs": 9,
+      "max_world_ankle_y_drift_per_frame_m": 2.980232238769531e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Run",
+      "foot": "fore_foot.R",
+      "stance_frame_pairs": 9,
+      "max_world_ankle_y_drift_per_frame_m": 2.384185791015625e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Run",
+      "foot": "hind_foot.L",
+      "stance_frame_pairs": 9,
+      "max_world_ankle_y_drift_per_frame_m": 1.1920928955078125e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_004_TraceHound",
+      "clip": "Run",
+      "foot": "hind_foot.R",
+      "stance_frame_pairs": 9,
+      "max_world_ankle_y_drift_per_frame_m": 1.043081283569336e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Walk",
+      "foot": "fore_foot.L",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 1.4901161193847656e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Walk",
+      "foot": "fore_foot.R",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 1.1920928955078125e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Walk",
+      "foot": "hind_foot.L",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 2.980232238769531e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Walk",
+      "foot": "hind_foot.R",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 3.045424818992615e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Run",
+      "foot": "fore_foot.L",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 1.7881393432617188e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Run",
+      "foot": "fore_foot.R",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 2.384185791015625e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Run",
+      "foot": "hind_foot.L",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 2.384185791015625e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_005_CargoMite",
+      "clip": "Run",
+      "foot": "hind_foot.R",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 2.384185791015625e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Walk",
+      "foot": "fore_foot.L",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 4.172325134277344e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Walk",
+      "foot": "fore_foot.R",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 4.76837158203125e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Walk",
+      "foot": "hind_foot.L",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 6.258487701416016e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Walk",
+      "foot": "hind_foot.R",
+      "stance_frame_pairs": 30,
+      "max_world_ankle_y_drift_per_frame_m": 5.960464477539062e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Run",
+      "foot": "fore_foot.L",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 5.960464477539062e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Run",
+      "foot": "fore_foot.R",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 5.960464477539062e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Run",
+      "foot": "hind_foot.L",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 3.5762786865234375e-07
+    },
+    {
+      "rig": "SK_MOB_ELY_006_SiegeCrawler",
+      "clip": "Run",
+      "foot": "hind_foot.R",
+      "stance_frame_pairs": 14,
+      "max_world_ankle_y_drift_per_frame_m": 3.5762786865234375e-07
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Walk",
+      "foot": "foot.L",
+      "stance_frame_pairs": 20,
+      "max_world_ankle_y_drift_per_frame_m": 4.917383193969727e-07
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Walk",
+      "foot": "foot.R",
+      "stance_frame_pairs": 20,
+      "max_world_ankle_y_drift_per_frame_m": 4.917383193969727e-07
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Run",
+      "foot": "foot.L",
+      "stance_frame_pairs": 7,
+      "max_world_ankle_y_drift_per_frame_m": 1.341104507446289e-06
+    },
+    {
+      "rig": "SK_NPC_Common",
+      "clip": "Run",
+      "foot": "foot.R",
+      "stance_frame_pairs": 8,
+      "max_world_ankle_y_drift_per_frame_m": 1.3709068298339844e-06
+    }
+  ]
+}

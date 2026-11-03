@@ -16,6 +16,7 @@ public:
     bool Connected(Vec2 start, const PathTest& path) const;
     void BuildFlow(Vec2 target, const PathTest& path);
     Vec2 NextTarget(Vec2 position, Vec2 target, const PathTest& path) const;
+    std::vector<Vec2> FindPath(Vec2 from, Vec2 to, const PathTest& path) const;
     Vec2 Position(int index) const;
     bool IsOpen(int index) const;
     int Count() const;
