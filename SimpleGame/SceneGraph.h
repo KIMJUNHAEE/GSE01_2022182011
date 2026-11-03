@@ -157,6 +157,7 @@ public:
     void Draw(ActorRenderer& renderer) const;
     uint64_t NavigationRevision() const;
     size_t Size() const;
+    uint64_t StructureRevision() const;
 
 private:
 
@@ -164,5 +165,6 @@ private:
     std::map<std::type_index, std::vector<ActorId>> types;
     std::shared_ptr<SceneState> state;
     ActorId nextId = 1;
+    uint64_t structureRevision = 0;
     void Attach(const std::shared_ptr<Actor>& actor, ActorId parent);
 };

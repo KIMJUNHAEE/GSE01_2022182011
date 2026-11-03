@@ -13,13 +13,13 @@ Canvas::Canvas()
 {
     static_assert(std::is_standard_layout_v<MeshVertex> && std::is_standard_layout_v<Instance>);
     static_assert(sizeof(Vec2) == 2 * sizeof(float) && sizeof(Color) == 4 * sizeof(float));
-    static_assert(offsetof(MeshVertex, alpha) == offsetof(MeshVertex, stroke) + sizeof(float));
     try
     {
         program = LoadShaderProgram("Shaders/Canvas.vs", "Shaders/Canvas.fs");
         glUseProgram(program);
         glUniform1i(glGetUniformLocation(program, "u_Image"), 0);
-        glUniform2f(glGetUniformLocation(program, "u_CanvasSize"), Width, Height);
+        sizeUniform = glGetUniformLocation(program, "u_CanvasSize");
+        originUniform = glGetUniformLocation(program, "u_CanvasOrigin");
         glGenBuffers(1, &instanceBuffer);
         unsigned char pixel[] = {255, 255, 255, 255};
         glGenTextures(1, &white);
@@ -49,8 +49,8 @@ void Canvas::Release()
 {
     for (const auto& item : meshes)
     {
-        glDeleteVertexArrays(1, &item.second.vao);
-        glDeleteBuffers(1, &item.second.vbo);
+        glDeleteVertexArrays(1, &item.vao);
+        glDeleteBuffers(1, &item.vbo);
     }
     meshes.clear();
     for (const auto& item : textCache)
@@ -64,63 +64,23 @@ void Canvas::Release()
     program = instanceBuffer = white = 0;
 }
 
-const Canvas::CachedMesh& Canvas::GetMesh(MeshKind kind)
+const Canvas::CachedMesh& Canvas::GetMesh()
 {
-    auto found = meshes.find(kind);
-    if (found != meshes.end())
+    if (!meshes.empty())
     {
-        return found->second;
+        return meshes.front();
     }
-
-    // Unit-space topology is generated and uploaded only on the first request for each kind.
-    std::vector<MeshVertex> vertices;
-    if (kind == MeshKind::Triangle || kind == MeshKind::Quad)
-    {
-        vertices = {{{0, 0}}, {{1, 0}}, {{1, 1}}};
-        if (kind == MeshKind::Quad)
-        {
-            vertices.insert(vertices.end(), {{{0, 0}}, {{1, 1}}, {{0, 1}}});
-        }
-    }
-    else
-    {
-        constexpr int Segments = 48;
-        vertices.reserve(Segments * (kind == MeshKind::Ring ? 6 : 3));
-        for (int i = 0; i < Segments; ++i)
-        {
-            float a = i * 6.2831853f / Segments;
-            float b = (i + 1) * 6.2831853f / Segments;
-            Vec2 u = {.5f + std::cos(a) * .5f, .5f + std::sin(a) * .5f};
-            Vec2 v = {.5f + std::cos(b) * .5f, .5f + std::sin(b) * .5f};
-            if (kind == MeshKind::Ring)
-            {
-                Vec2 edge = v - u;
-                vertices.push_back({u, edge, .5f, 1});
-                vertices.push_back({v, edge, .5f, 1});
-                vertices.push_back({v, edge, -.5f, 1});
-                vertices.push_back({u, edge, .5f, 1});
-                vertices.push_back({v, edge, -.5f, 1});
-                vertices.push_back({u, edge, -.5f, 1});
-            }
-            else
-            {
-                float alpha = kind == MeshKind::Glow ? 0.f : 1.f;
-                vertices.push_back({{.5f, .5f}, {}, 0, 1});
-                vertices.push_back({u, {}, 0, alpha});
-                vertices.push_back({v, {}, 0, alpha});
-            }
-        }
-    }
-
-    auto entry = meshes.emplace(kind, CachedMesh{}).first;
-    CachedMesh& mesh = entry->second;
+    const std::vector<MeshVertex> vertices = {{{0, 0}}, {{1, 0}}, {{1, 1}},
+                                              {{0, 0}}, {{1, 1}}, {{0, 1}}};
+    meshes.emplace_back();
+    CachedMesh& mesh = meshes.back();
     glGenVertexArrays(1, &mesh.vao);
     glGenBuffers(1, &mesh.vbo);
     if (!mesh.vao || !mesh.vbo)
     {
         glDeleteVertexArrays(1, &mesh.vao);
         glDeleteBuffers(1, &mesh.vbo);
-        meshes.erase(entry);
+        meshes.clear();
         throw std::runtime_error("Canvas mesh cache allocation failed");
     }
     mesh.count = (GLsizei)vertices.size();
@@ -128,23 +88,17 @@ const Canvas::CachedMesh& Canvas::GetMesh(MeshKind kind)
     glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(MeshVertex), vertices.data(),
                  GL_STATIC_DRAW);
-    const size_t vertexOffsets[] = {offsetof(MeshVertex, p), offsetof(MeshVertex, edge),
-                                    offsetof(MeshVertex, stroke)};
-    for (GLuint i = 0; i < 3; ++i)
-    {
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex),
-                              reinterpret_cast<const void*>(vertexOffsets[i]));
-        glVertexAttribDivisor(i, 0);
-    }
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(MeshVertex), nullptr);
+    glVertexAttribDivisor(0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, instanceBuffer);
-    const size_t instanceOffsets[] = {offsetof(Instance, a),        offsetof(Instance, b),
-                                      offsetof(Instance, c),        offsetof(Instance, d),
-                                      offsetof(Instance, u0),       offsetof(Instance, color),
-                                      offsetof(Instance, thickness)};
-    const GLint components[] = {2, 2, 2, 2, 4, 4, 1};
-    for (GLuint i = 0; i < 7; ++i)
+    const size_t instanceOffsets[] = {
+        offsetof(Instance, a),         offsetof(Instance, b),     offsetof(Instance, c),
+        offsetof(Instance, d),         offsetof(Instance, u0),    offsetof(Instance, color),
+        offsetof(Instance, thickness), offsetof(Instance, shape), offsetof(Instance, radii)};
+    const GLint components[] = {2, 2, 2, 2, 4, 4, 1, 1, 2};
+    for (GLuint i = 0; i < 9; ++i)
     {
         GLuint attribute = 3 + i;
         glEnableVertexAttribArray(attribute);
@@ -156,27 +110,26 @@ const Canvas::CachedMesh& Canvas::GetMesh(MeshKind kind)
     return mesh;
 }
 
-void Canvas::Submit(MeshKind kind, GLuint texture, const Instance& instance)
+void Canvas::SetView(const CanvasView& value)
+{
+    Flush();
+    view = value;
+    fontScale = std::clamp(std::round(view.pixelScale * 4) / 4, .5f, 4.f);
+}
+
+void Canvas::Fill(Color color)
+{
+    Rect(view.origin.x, view.origin.y, view.width, view.height, color);
+}
+
+void Canvas::Submit(GLuint texture, const Instance& instance)
 {
     // Do not sort transparent geometry: only consecutive compatible draws may be batched.
-    if (kind != currentMesh || texture != currentTexture || instances.size() >= InstanceCapacity)
+    if (texture != currentTexture || instances.size() >= InstanceCapacity)
     {
-        RenderStats::FlushReason reason = RenderStats::FlushReason::Other;
-        if (kind != currentMesh)
-        {
-            reason = RenderStats::FlushReason::MeshKindChanged;
-        }
-        else if (texture != currentTexture)
-        {
-            reason = RenderStats::FlushReason::TextureChanged;
-        }
-        else
-        {
-            reason = RenderStats::FlushReason::CapacityReached;
-        }
-        Flush(reason);
+        Flush(texture != currentTexture ? RenderStats::FlushReason::TextureChanged
+                                        : RenderStats::FlushReason::CapacityReached);
     }
-    currentMesh = kind;
     currentTexture = texture;
     instances.push_back(instance);
 }
@@ -187,8 +140,10 @@ void Canvas::Flush(RenderStats::FlushReason reason)
     {
         return;
     }
-    const CachedMesh& mesh = GetMesh(currentMesh);
+    const CachedMesh& mesh = GetMesh();
     glUseProgram(program);
+    glUniform2f(sizeUniform, view.width, view.height);
+    glUniform2f(originUniform, view.origin.x, view.origin.y);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, currentTexture);
     glBindVertexArray(mesh.vao);
@@ -201,26 +156,7 @@ void Canvas::Flush(RenderStats::FlushReason reason)
     glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glDrawArraysInstanced(GL_TRIANGLES, 0, mesh.count, (GLsizei)instances.size());
 
-    const char* kindName = "Unknown";
-    switch (currentMesh)
-    {
-    case MeshKind::Triangle:
-        kindName = "Triangle";
-        break;
-    case MeshKind::Quad:
-        kindName = "Quad";
-        break;
-    case MeshKind::Disc:
-        kindName = "Disc";
-        break;
-    case MeshKind::Ring:
-        kindName = "Ring";
-        break;
-    case MeshKind::Glow:
-        kindName = "Glow";
-        break;
-    }
-    std::string category = std::string(kindName) + "/" +
+    std::string category = std::string("Canvas/") +
                            (currentTexture == white ? "white" : std::to_string(currentTexture));
     RenderStats::DrawCall(category, (int)instances.size(), reason);
 
@@ -230,12 +166,12 @@ void Canvas::Flush(RenderStats::FlushReason reason)
 
 void Canvas::Triangle(Vec2 a, Vec2 b, Vec2 c, Color color)
 {
-    Submit(MeshKind::Triangle, white, {a, b, c, c, 0, 0, 1, 1, color, 0});
+    Submit(white, {a, b, c, c, 0, 0, 1, 1, color, 0});
 }
 
 void Canvas::Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Color color)
 {
-    Submit(MeshKind::Quad, white, {a, b, c, d, 0, 0, 1, 1, color, 0});
+    Submit(white, {a, b, c, d, 0, 0, 1, 1, color, 0});
 }
 
 void Canvas::Rect(float x, float y, float w, float h, Color color)
@@ -260,9 +196,20 @@ void Canvas::Ellipse(Vec2 p, float rx, float ry, Color color, bool fill, float t
     {
         return;
     }
-    Submit(fill ? MeshKind::Disc : MeshKind::Ring, white,
-           {p + Vec2{-rx, -ry}, p + Vec2{rx, -ry}, p + Vec2{rx, ry}, p + Vec2{-rx, ry}, 0, 0, 1, 1,
-            color, thickness});
+    const float padding = fill ? 1 : thickness * .5f + 1;
+    const Vec2 extent{rx + padding, ry + padding};
+    Submit(white, {p - extent,
+                   p + Vec2{extent.x, -extent.y},
+                   p + extent,
+                   p + Vec2{-extent.x, extent.y},
+                   0,
+                   0,
+                   1,
+                   1,
+                   color,
+                   thickness,
+                   fill ? 1.f : 2.f,
+                   {rx, ry}});
 }
 
 void Canvas::Glow(Vec2 p, float rx, float ry, Color color)
@@ -271,9 +218,18 @@ void Canvas::Glow(Vec2 p, float rx, float ry, Color color)
     {
         return;
     }
-    Submit(MeshKind::Glow, white,
-           {p + Vec2{-rx, -ry}, p + Vec2{rx, -ry}, p + Vec2{rx, ry}, p + Vec2{-rx, ry}, 0, 0, 1, 1,
-            color, 0});
+    Submit(white, {p + Vec2{-rx, -ry},
+                   p + Vec2{rx, -ry},
+                   p + Vec2{rx, ry},
+                   p + Vec2{-rx, ry},
+                   0,
+                   0,
+                   1,
+                   1,
+                   color,
+                   0,
+                   3,
+                   {rx, ry}});
 }
 
 void Canvas::QueueGlow(Vec2 p, float rx, float ry, Color color)
@@ -306,27 +262,33 @@ void Canvas::TextureRegion(GLuint texture, float x, float y, float w, float h, f
     {
         return;
     }
-    Submit(MeshKind::Quad, texture,
-           {{x, y}, {x + w, y}, {x + w, y + h}, {x, y + h}, u0, v1, u1, v0, color, 0});
+    Submit(texture, {{x, y}, {x + w, y}, {x + w, y + h}, {x, y + h}, u0, v1, u1, v0, color, 0});
 }
 
 const Canvas::TextImage& Canvas::GetText(const std::wstring& text, int size, bool bold)
 {
+    size = (std::max)(1, int(std::round(size * fontScale)));
     const std::wstring key = std::to_wstring(size) + (bold ? L"b:" : L"r:") + text;
     auto it = textCache.find(key);
     if (it != textCache.end())
     {
+        it->second.lastUse = ++textUse;
         return it->second;
     }
-    // Bounded text cache: dynamic distance labels must never grow GPU memory indefinitely.
+    // Evict only the least recently used label. Changing distance/HP must not discard the HUD.
     if (textCache.size() >= 384)
     {
-        Flush(RenderStats::FlushReason::Other);
-        for (const auto& item : textCache)
+        auto oldest = std::min_element(textCache.begin(), textCache.end(),
+                                       [](const auto& a, const auto& b)
+                                       {
+                                           return a.second.lastUse < b.second.lastUse;
+                                       });
+        if (oldest->second.texture == currentTexture)
         {
-            glDeleteTextures(1, &item.second.texture);
+            Flush(RenderStats::FlushReason::Other);
         }
-        textCache.clear();
+        glDeleteTextures(1, &oldest->second.texture);
+        textCache.erase(oldest);
     }
     HDC dc = CreateCompatibleDC(nullptr);
     HFONT font = CreateFontW(-size, 0, 0, 0, bold ? FW_SEMIBOLD : FW_NORMAL, FALSE, FALSE, FALSE,
@@ -377,6 +339,7 @@ const Canvas::TextImage& Canvas::GetText(const std::wstring& text, int size, boo
     TextImage result;
     result.width = w;
     result.height = h;
+    result.lastUse = ++textUse;
     glGenTextures(1, &result.texture);
     glBindTexture(GL_TEXTURE_2D, result.texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba.data());
@@ -394,11 +357,12 @@ float Canvas::Text(float x, float y, const std::wstring& text, int size, Color c
         return 0;
     }
     const auto& image = GetText(text, size, bold);
-    Texture(image.texture, x - 2, y - 1, (float)image.width, (float)image.height, color);
-    return (float)image.width - 4;
+    Texture(image.texture, x - 2 / fontScale, y - 1 / fontScale, image.width / fontScale,
+            image.height / fontScale, color);
+    return (image.width - 4) / fontScale;
 }
 
 float Canvas::Measure(const std::wstring& text, int size, bool bold)
 {
-    return (float)GetText(text, size, bold).width - 4;
+    return (GetText(text, size, bold).width - 4) / fontScale;
 }

@@ -3,48 +3,30 @@
 #include "ShaderLoader.h"
 #include <cstddef>
 #include <stdexcept>
+#include <limits>
+#include <cstring>
 
 namespace
 {
     struct ModelDrawState
     {
-        GLint program = 0, vao = 0, array = 0, uniformBuffer = 0, boneBinding = 0,
-              depthFunction = 0;
-        GLboolean depthMask = GL_TRUE;
-        bool depth = false, cull = false;
-
-        ModelDrawState()
-        {
-            glGetIntegerv(GL_CURRENT_PROGRAM, &program);
-            glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &vao);
-            glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &array);
-            glGetIntegerv(GL_UNIFORM_BUFFER_BINDING, &uniformBuffer);
-            glGetIntegeri_v(GL_UNIFORM_BUFFER_BINDING, 2, &boneBinding);
-            glGetIntegerv(GL_DEPTH_FUNC, &depthFunction);
-            glGetBooleanv(GL_DEPTH_WRITEMASK, &depthMask);
-            depth = glIsEnabled(GL_DEPTH_TEST) != 0;
-            cull = glIsEnabled(GL_CULL_FACE) != 0;
-        }
-
         ~ModelDrawState()
         {
-            glBindVertexArray(vao);
-            glBindBuffer(GL_ARRAY_BUFFER, array);
-            glBindBufferBase(GL_UNIFORM_BUFFER, 2, boneBinding);
-            glBindBuffer(GL_UNIFORM_BUFFER, uniformBuffer);
-            glUseProgram(program);
-            glDepthMask(depthMask);
-            glDepthFunc(depthFunction);
-            if (!depth)
-            {
-                glDisable(GL_DEPTH_TEST);
-            }
-            if (cull)
-            {
-                glEnable(GL_CULL_FACE);
-            }
+            // Explicit contract with Canvas: no per-actor glGet* driver round trips.
+            // Both renderers bind their own program, VAO, buffers and textures before drawing.
+            glBindVertexArray(0);
+            glDepthMask(GL_TRUE);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
         }
     };
+
+    bool SameShading(const ModelMaterial& a, const ModelMaterial& b)
+    {
+        return a.emissive.x == b.emissive.x && a.emissive.y == b.emissive.y &&
+               a.emissive.z == b.emissive.z && a.alphaCutoff == b.alphaCutoff &&
+               a.blend == b.blend && a.unlit == b.unlit;
+    }
 } // namespace
 
 ModelRenderer::ModelRenderer()
@@ -67,6 +49,8 @@ ModelRenderer::ModelRenderer()
     emissiveUniform = glGetUniformLocation(program, "u_Emissive");
     cutoffUniform = glGetUniformLocation(program, "u_AlphaCutoff");
     unlitUniform = glGetUniformLocation(program, "u_Unlit");
+    viewSizeUniform = glGetUniformLocation(program, "u_CanvasSize");
+    viewOriginUniform = glGetUniformLocation(program, "u_CanvasOrigin");
     glUniformBlockBinding(program, glGetUniformBlockIndex(program, "SkinBlock"), 2);
     glGenBuffers(1, &bones);
     if (!bones)
@@ -102,6 +86,164 @@ void ModelRenderer::ClearCache()
         }
     }
     cache.clear();
+    assemblies.clear();
+}
+
+void ModelRenderer::SetView(const CanvasView& value)
+{
+    view = value;
+}
+
+std::shared_ptr<const ModelAsset> ModelRenderer::MergeAssembly(const ModelActor& actor)
+{
+    if (actor.parts.size() < 2)
+    {
+        return {};
+    }
+    std::vector<uintptr_t> key;
+    key.reserve(actor.parts.size());
+    for (const auto& part : actor.parts)
+    {
+        key.push_back(reinterpret_cast<uintptr_t>(part.asset.get()));
+    }
+    key.push_back(0);
+    // Include exact palette values, not just the preset's mesh list or a collision-prone hash.
+    for (const auto& entry : actor.materialOverrides)
+    {
+        key.push_back(entry.first.size());
+        for (unsigned char character : entry.first)
+        {
+            key.push_back(character);
+        }
+        for (float component : {entry.second.x, entry.second.y, entry.second.z, entry.second.w})
+        {
+            uint32_t bits = 0;
+            static_assert(sizeof(bits) == sizeof(component));
+            std::memcpy(&bits, &component, sizeof(bits));
+            key.push_back(bits);
+        }
+    }
+    auto found = assemblies.find(key);
+    if (found != assemblies.end())
+    {
+        return found->second.merged;
+    }
+    Assembly entry;
+    for (const auto& part : actor.parts)
+    {
+        entry.owners.push_back(part.asset);
+    }
+    auto merged = std::make_shared<ModelAsset>();
+    merged->meshes.emplace_back();
+    int sharedSkin = -1;
+    bool compatible = true;
+    for (const auto& part : actor.parts)
+    {
+        if (part.pose != actor.parts.front().pose)
+        {
+            compatible = false;
+            break;
+        }
+        for (const auto& node : part.asset->nodes)
+        {
+            if (node.mesh < 0 || !node.inScene)
+            {
+                continue;
+            }
+            if (node.skin < 0 || part.sharedSkins.at(node.skin) < 0)
+            {
+                compatible = false;
+                break;
+            }
+            const int palette = part.sharedSkins[node.skin];
+            if (sharedSkin < 0)
+            {
+                sharedSkin = palette;
+            }
+            if (palette != sharedSkin)
+            {
+                compatible = false;
+                break;
+            }
+            for (const auto& primitive : part.asset->meshes[node.mesh].primitives)
+            {
+                const auto& material = part.asset->materials[primitive.material];
+                // Transparent primitives retain their authored order through the original path.
+                if (material.blend || material.baseColor.w < .999f ||
+                    std::any_of(
+                        primitive.vertices.begin(), primitive.vertices.end(),
+                        [](const auto& vertex)
+                        {
+                            return vertex.color.w < .999f;
+                        }))
+                {
+                    compatible = false;
+                    break;
+                }
+                size_t bucket = 0;
+                for (; bucket < merged->materials.size(); ++bucket)
+                {
+                    if (SameShading(material, merged->materials[bucket]))
+                    {
+                        break;
+                    }
+                }
+                if (bucket == merged->materials.size())
+                {
+                    auto bakedMaterial = material;
+                    bakedMaterial.baseColor = {1, 1, 1, 1};
+                    bakedMaterial.name = "NPC_Batch_" + std::to_string(bucket);
+                    merged->materials.push_back(bakedMaterial);
+                    merged->meshes.front().primitives.emplace_back();
+                    merged->meshes.front().primitives.back().material = bucket;
+                }
+                auto& target = merged->meshes.front().primitives[bucket];
+                if (target.vertices.size() + primitive.vertices.size() >
+                    (std::numeric_limits<uint32_t>::max)())
+                {
+                    throw std::runtime_error("Merged NPC mesh exceeds index range");
+                }
+                const auto offset = uint32_t(target.vertices.size());
+                target.vertices.insert(target.vertices.end(), primitive.vertices.begin(),
+                                       primitive.vertices.end());
+                const auto override = actor.materialOverrides.find(material.name);
+                const auto color = override == actor.materialOverrides.end() ? material.baseColor
+                                                                             : override->second;
+                // Flat material colors become vertex colors, so compatible materials share a draw.
+                // The immutable source assets and each actor's animated pose remain separate.
+                for (size_t i = offset; i < target.vertices.size(); ++i)
+                {
+                    auto& value = target.vertices[i].color;
+                    value = {value.x * color.x, value.y * color.y, value.z * color.z,
+                             value.w * color.w};
+                }
+                for (uint32_t index : primitive.indices)
+                {
+                    target.indices.push_back(index + offset);
+                }
+            }
+            if (!compatible)
+            {
+                break;
+            }
+        }
+        if (!compatible)
+        {
+            break;
+        }
+    }
+    if (compatible && sharedSkin >= 0 && !merged->materials.empty())
+    {
+        ModelNode node;
+        node.mesh = 0;
+        node.skin = sharedSkin;
+        node.inScene = true;
+        merged->nodes.push_back(node);
+        entry.merged = merged;
+    }
+    auto result = entry.merged;
+    assemblies.emplace(std::move(key), std::move(entry));
+    return result;
 }
 
 size_t ModelRenderer::CachedAssetCount() const
@@ -181,7 +323,7 @@ const ModelRenderer::GpuAsset& ModelRenderer::Upload(
 }
 
 void ModelRenderer::Draw(const ModelActor& actor, Vec2 foot, float zoom, Canvas& canvas,
-                         float opacity)
+                         float opacity, bool batchParts)
 {
     canvas.Flush(RenderStats::FlushReason::Other);
     const ModelDrawState previousState;
@@ -199,18 +341,40 @@ void ModelRenderer::Draw(const ModelActor& actor, Vec2 foot, float zoom, Canvas&
     glUniformMatrix4fv(rootUniform, 1, GL_FALSE, root.values.data());
     glUniform2f(footUniform, foot.x, foot.y);
     glUniform1f(zoomUniform, zoom);
+    glUniform2f(viewSizeUniform, view.width, view.height);
+    glUniform2f(viewOriginUniform, view.origin.x, view.origin.y);
+    const bool opaque = actor.opacity * opacity >= .999f &&
+                        std::none_of(actor.materialOverrides.begin(), actor.materialOverrides.end(),
+                                     [](const auto& entry)
+                                     {
+                                         return entry.second.w < .999f;
+                                     });
+    const auto merged = batchParts && opaque ? MergeAssembly(actor) : nullptr;
+    const void* lastPalette = nullptr;
     for (int pass = 0; pass < 2; ++pass)
     {
         glDepthMask(pass == 0 ? GL_TRUE : GL_FALSE);
-        const void* lastPalette = nullptr;
-        for (const auto& part : actor.parts)
+        const size_t partCount = merged ? 1 : actor.parts.size();
+        for (size_t partIndex = 0; partIndex < partCount; ++partIndex)
         {
-            const auto& asset = *part.asset;
-            const auto& gpu = Upload(part.asset);
+            const auto& part = actor.parts[partIndex];
+            const auto& source = merged ? merged : part.asset;
+            const auto& asset = *source;
+            const auto& gpu = Upload(source);
             for (size_t nodeIndex = 0; nodeIndex < asset.nodes.size(); ++nodeIndex)
             {
                 const auto& node = asset.nodes[nodeIndex];
                 if (node.mesh < 0 || !node.inScene)
+                {
+                    continue;
+                }
+                const auto& primitives = asset.meshes[node.mesh].primitives;
+                if (std::none_of(primitives.begin(), primitives.end(),
+                                 [&](const auto& primitive)
+                                 {
+                                     return asset.materials[primitive.material].blend ==
+                                            (pass == 1);
+                                 }))
                 {
                     continue;
                 }
@@ -221,10 +385,14 @@ void ModelRenderer::Draw(const ModelActor& actor, Vec2 foot, float zoom, Canvas&
                 glUniform1i(skinUniform, node.skin >= 0 ? 1 : 0);
                 if (node.skin >= 0)
                 {
-                    const auto& palette = part.SkinMatrices(node.skin);
+                    const auto& palette =
+                        merged ? part.pose->SkinMatrices(node.skin) : part.SkinMatrices(node.skin);
                     if (lastPalette != palette.data())
                     {
                         glBindBuffer(GL_UNIFORM_BUFFER, bones);
+                        // A previous actor may still be using this buffer on the GPU.
+                        glBufferData(GL_UNIFORM_BUFFER, ModelJointLimit * sizeof(ModelMatrix),
+                                     nullptr, GL_STREAM_DRAW);
                         glBufferSubData(GL_UNIFORM_BUFFER, 0, palette.size() * sizeof(ModelMatrix),
                                         palette.data());
                         lastPalette = palette.data();
@@ -238,7 +406,8 @@ void ModelRenderer::Draw(const ModelActor& actor, Vec2 foot, float zoom, Canvas&
                     {
                         continue;
                     }
-                    auto override = actor.materialOverrides.find(material.name);
+                    auto override = merged ? actor.materialOverrides.end()
+                                           : actor.materialOverrides.find(material.name);
                     auto color = override == actor.materialOverrides.end() ? material.baseColor
                                                                            : override->second;
                     glUniform4f(colorUniform, color.x, color.y, color.z,

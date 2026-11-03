@@ -253,15 +253,44 @@ void VerifyLowPolyModels(Renderer& renderer)
     Canvas canvas;
     ModelRenderer models;
     renderer.BeginSceneCapture();
+    canvas.SetView(renderer.View());
+    models.SetView(renderer.View());
     glDisable(GL_DEPTH_TEST);
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
+    std::vector<unsigned char> original(renderer.SceneWidth() * renderer.SceneHeight() * 4);
+    auto batched = original;
     int before = RenderStats::DrawCallCount();
+    models.Draw(actor, {650, 600}, 2.f, canvas, 1, false);
+    const int originalCalls = RenderStats::DrawCallCount() - before;
+    glReadPixels(0, 0, renderer.SceneWidth(), renderer.SceneHeight(), GL_RGBA, GL_UNSIGNED_BYTE,
+                 original.data());
+    glClear(GL_COLOR_BUFFER_BIT);
+    before = RenderStats::DrawCallCount();
     models.Draw(actor, {650, 600}, 2.f, canvas);
+    Check(RenderStats::DrawCallCount() - before < originalCalls,
+          "Shared-skeleton NPC batching did not reduce actual glDraw calls");
+    glReadPixels(0, 0, renderer.SceneWidth(), renderer.SceneHeight(), GL_RGBA, GL_UNSIGNED_BYTE,
+                 batched.data());
+    size_t covered = 0, changed = 0;
+    for (size_t i = 0; i < original.size(); i += 4)
+    {
+        covered += original[i] || original[i + 1] || original[i + 2];
+        changed += std::abs(int(original[i]) - batched[i]) > 2 ||
+                   std::abs(int(original[i + 1]) - batched[i + 1]) > 2 ||
+                   std::abs(int(original[i + 2]) - batched[i + 2]) > 2;
+    }
+    Check(covered > 100 && changed <= 2 + covered / 200,
+          "NPC color batching changed appearance or depth ordering");
     size_t cache = models.CachedAssetCount();
     models.Draw(copy, {850, 600}, 2.f, canvas);
     Check(cache > 0 && cache == models.CachedAssetCount(), "GPU model data was not reused");
     Check(RenderStats::DrawCallCount() > before && glGetError() == GL_NO_ERROR,
           "Model shader / skin buffer / indexed draw verification failed");
+    // Transparent actors must keep the ordered path, including palette alpha overrides.
+    before = RenderStats::DrawCallCount();
+    models.Draw(actor, {650, 600}, 2.f, canvas, .5f);
+    Check(RenderStats::DrawCallCount() - before == originalCalls,
+          "Transparent NPC was reordered by opaque batching");
     renderer.EndSceneCaptureAndComposite();
 }

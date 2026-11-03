@@ -51,6 +51,7 @@ private:
     std::map<ActorId, ActorId> modelAttachments;
     std::set<ActorId> failedModels;
     std::string modelSession;
+    uint64_t modelBindingRevision = uint64_t(-1);
     bool modelsEnabled = false, modelsFailed = false;
     GLuint sky = 0, portraits = 0;
     Vec2 camera;

@@ -11,6 +11,7 @@ SceneGraph::SceneGraph() : state(std::make_shared<SceneState>())
 SceneGraph::SceneGraph(const SceneGraph& other) : SceneGraph()
 {
     nextId = other.nextId;
+    structureRevision = other.structureRevision;
     state->navigationRevision = other.state->navigationRevision;
     for (const auto& entry : other.nodes)
     {
@@ -55,6 +56,7 @@ void SceneGraph::Attach(const std::shared_ptr<Actor>& actor, ActorId parent)
     actor->id = nextId++;
     actor->state = state;
     nodes.emplace(actor->id, actor);
+    ++structureRevision;
     types[typeid(*actor)].push_back(actor->id);
     if (parent != InvalidActor)
     {
@@ -115,6 +117,7 @@ bool SceneGraph::Reparent(ActorId child, ActorId parent, bool keepWorldPosition)
         actor->SetPosition(position);
     }
     actor->InvalidateNavigation();
+    ++structureRevision;
     return true;
 }
 
@@ -154,6 +157,7 @@ void SceneGraph::CollectDestroyed()
         if (it->second->IsPendingDestroy())
         {
             it = nodes.erase(it);
+            ++structureRevision;
         }
         else
         {
@@ -217,4 +221,9 @@ uint64_t SceneGraph::NavigationRevision() const
 size_t SceneGraph::Size() const
 {
     return nodes.size();
+}
+
+uint64_t SceneGraph::StructureRevision() const
+{
+    return structureRevision;
 }

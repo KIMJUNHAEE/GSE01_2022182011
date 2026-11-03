@@ -151,6 +151,7 @@ void Game::ReloadModels()
         world.scene.CollectDestroyed();
         modelAttachments.clear();
         failedModels.clear();
+        modelBindingRevision = uint64_t(-1);
         if (modelRenderer)
         {
             modelRenderer->ClearCache();
@@ -200,6 +201,11 @@ void Game::AttachModel(ActorId parent, const ModelAssembly& assembly, float scal
 void Game::UpdateModelBindings()
 {
     if (!modelsEnabled || !modelLibrary)
+    {
+        return;
+    }
+    if (modelSession == world.monitoring.sessionId &&
+        modelBindingRevision == world.scene.StructureRevision())
     {
         return;
     }
@@ -292,6 +298,7 @@ void Game::UpdateModelBindings()
             bind(effect, "Effect.LandingPad", 0, 0, 0);
         }
     }
+    modelBindingRevision = world.scene.StructureRevision();
 }
 
 void Game::Draw(const ModelActor& actor)

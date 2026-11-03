@@ -5,12 +5,12 @@
 //
 // Any code issuing a glDraw*/glDrawArraysInstanced call should call DrawCall()
 // once per call: `category` is a short human-readable batch key (e.g.
-// "Quad/white", "Disc/white", "Texture/<id>") and `reason` says why THIS
+// "Canvas/white", "Model/NPC_Batch_0") and `reason` says why THIS
 // particular draw was cut off from the previous one, so the log can tell
 // "many small batches because shapes keep alternating type" apart from
 // "one huge batch, correctly merged, that just happened to hit the size cap".
 //
-// Game::Render() resets the counters at the start of each frame (Reset) and
+// Game::Render() resets counters; Main records work/swap timing and then
 // reports them, throttled to about once a second, at the end (LogFrame) so
 // the console stays readable during play instead of scrolling at 60 lines/s.
 namespace RenderStats
@@ -21,6 +21,7 @@ namespace RenderStats
         float fps = 0, averageDrawCalls = 0, averageInstancesPerDraw = 0;
         int lastDrawCalls = 0;
         float averageFrameMs = 0, averageCpuMs = 0, averageSwapMs = 0;
+        float averageUpdateMs = 0, averageRenderMs = 0;
     };
 
     Snapshot Latest();
@@ -39,5 +40,6 @@ namespace RenderStats
     int DrawCallCount();
     void LogFrame();
     void RecordTiming(double frameMs, double cpuMs, double swapMs);
+    void RecordWork(double updateMs, double renderMs);
     void RestartWindow();
 } // namespace RenderStats

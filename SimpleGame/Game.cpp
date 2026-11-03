@@ -309,7 +309,9 @@ void Game::Click(float x, float y)
 void Game::Pointer(float x, float y)
 {
     mouse = {x, y};
-    mouseInside = x >= 0 && x <= 1440 && y >= 0 && y <= 900;
+    const auto view = renderer.View();
+    mouseInside = x >= view.origin.x && x <= view.origin.x + view.width && y >= view.origin.y &&
+                  y <= view.origin.y + view.height;
     if (!mouseInside)
     {
         mouseHeld = false;
@@ -369,6 +371,9 @@ void Game::Draw(const Terrain& actor)
 
 bool Game::InView(const Actor& actor) const
 {
+    const auto view = renderer.View();
+    const float left = view.origin.x, top = view.origin.y;
+    const float right = left + view.width, bottom = top + view.height;
     if (const auto* effect = dynamic_cast<const SceneEffect*>(&actor))
     {
         if (effect->kind == EffectKind::AmbientDust || effect->kind == EffectKind::Scan)
@@ -382,18 +387,33 @@ bool Game::InView(const Actor& actor) const
             P(actor.Position() + Vec2{(terrain->width - 1) * .5f, (terrain->depth - 1) * .5f});
         float rx = (terrain->width + terrain->depth) * 21.f * zoom + 12;
         float ry = (terrain->width + terrain->depth) * 10.5f * zoom + 70;
-        return center.x + rx >= 0 && center.x - rx <= 1440 && center.y + ry >= 0 &&
-               center.y - ry <= 900;
+        return center.x + rx >= left && center.x - rx <= right && center.y + ry >= top &&
+               center.y - ry <= bottom;
     }
     Vec2 p = P(actor.Position());
-    return p.x >= -350 && p.x <= 1790 && p.y >= -350 && p.y <= 1250;
+    if (const auto* model = dynamic_cast<const ModelActor*>(&actor))
+    {
+        const auto lo = model->minimum, hi = model->maximum;
+        const float x = (std::max)(std::abs(lo.x), std::abs(hi.x));
+        const float z = (std::max)(std::abs(lo.z), std::abs(hi.z));
+        const float radius = std::sqrt(x * x + z * z);
+        const float scale = model->scale * zoom;
+        // Rotation-independent bounds, with space for limbs moving beyond the bind pose.
+        const float rx = (radius * 59.4f + 35) * scale;
+        const float above = (radius * 29.7f + hi.y * 42 + 35) * scale;
+        const float below = (radius * 29.7f - lo.y * 42 + 35) * scale;
+        return p.x + rx >= left && p.x - rx <= right && p.y + below >= top && p.y - above <= bottom;
+    }
+    return p.x >= left - 350 && p.x <= right + 350 && p.y >= top - 350 && p.y <= bottom + 350;
 }
 
 void Game::DrawTile(Vec2 p, int tile)
 {
     int x = (int)std::round(p.x), y = (int)std::round(p.y);
     Vec2 s = P(p);
-    if (s.x < -160 || s.x > 1600 || s.y < -180 || s.y > 1080)
+    const auto view = renderer.View();
+    if (s.x < view.origin.x - 160 || s.x > view.origin.x + view.width + 160 ||
+        s.y < view.origin.y - 180 || s.y > view.origin.y + view.height + 180)
     {
         return;
     }
@@ -1019,7 +1039,7 @@ void Game::HUD()
 
 void Game::Dialogue()
 {
-    canvas.Rect(0, 0, 1440, 900, Ink.Fade(.20f));
+    canvas.Fill(Ink.Fade(.20f));
     Panel(80, 620, 1280, 237, .97f);
     if (world.dialogue.empty() && world.choicePending)
     {
@@ -1059,7 +1079,7 @@ void Game::Dialogue()
 
 void Game::Journal()
 {
-    canvas.Rect(0, 0, 1440, 900, Ink.Fade(.75f));
+    canvas.Fill(Ink.Fade(.75f));
     Panel(230, 106, 980, 685, .97f);
     canvas.Text(275, 137, L"J O U R N A L   /   항해 일지", 16, Gold);
     canvas.Text(274, 180, L"아직 꺼지지 않은 별", 32, White, true);
@@ -1118,7 +1138,7 @@ void Game::Title()
 
 void Game::Ending()
 {
-    canvas.Rect(0, 0, 1440, 900, Ink.Fade(.66f));
+    canvas.Fill(Ink.Fade(.66f));
     CenterText(720, 167, L"C H A P T E R   C O M P L E T E", 15, Gold);
     CenterText(720, 236, L"창문 너머의 별", 49, White, true);
     CenterText(720, 327,
@@ -1145,14 +1165,21 @@ void Game::Render()
 {
     RenderStats::Reset();
     renderer.BeginSceneCapture();
+    const auto view = renderer.View();
+    canvas.SetView(view);
+    if (modelRenderer)
+    {
+        modelRenderer->SetView(view);
+    }
     glDisable(GL_DEPTH_TEST);
     glClearColor(.025f, .045f, .06f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
     float parallaxX = std::sin(world.time * .025f) * 8 - camera.x * .018f;
-    canvas.Texture(sky, -80 + parallaxX, -65, 1600, 1000, Color(0xffffff, 1));
+    canvas.Texture(sky, view.origin.x - 80 + parallaxX, view.origin.y - 65, view.width + 160,
+                   view.height + 100, Color(0xffffff, 1));
     if (world.view != View::Title && world.view != View::Ending)
     {
-        canvas.Rect(0, 0, 1440, 900, Ink.Fade(.28f));
+        canvas.Fill(Ink.Fade(.28f));
         WorldScene();
         // Every glow queued while drawing the world (lamps, relays, enemies,
         // projectiles, ...) is submitted together here instead of interleaved
@@ -1181,7 +1208,7 @@ void Game::Render()
         }
         else if (world.view == View::Map)
         {
-            canvas.Rect(0, 0, 1440, 900, Ink.Fade(.72f));
+            canvas.Fill(Ink.Fade(.72f));
             Panel(175, 92, 1090, 715, .98f);
             canvas.Text(218, 123, L"E L Y S I U M   /   행성 지도", 22, White, true);
             canvas.Text(220, 170, world.ObjectiveText(), 16, Gold);
@@ -1205,7 +1232,7 @@ void Game::Render()
         }
         else if (world.view == View::Pause)
         {
-            canvas.Rect(0, 0, 1440, 900, Ink.Fade(.72f));
+            canvas.Fill(Ink.Fade(.72f));
             Panel(488, 298, 464, 303, .96f);
             CenterText(720, 332, L"잠시, 별을 바라보며", 27, White, true);
             CenterText(720, 398, L"ENTER / ESC    여정 계속", 17, Gold);
@@ -1216,5 +1243,4 @@ void Game::Render()
         }
     }
     canvas.Flush();
-    RenderStats::LogFrame();
 }

@@ -39,12 +39,34 @@ struct WindowMetrics
         {
             return {-1, -1};
         }
-        const auto viewport = OutputViewport::Fit(framebufferWidth, framebufferHeight);
         // GLFW cursor coordinates are window units, not necessarily framebuffer pixels.
         const double pixelX = x * framebufferWidth / width;
         const double pixelY = y * framebufferHeight / height;
-        const int top = framebufferHeight - viewport.y - viewport.height;
-        return {float((pixelX - viewport.x) * 1440 / viewport.width),
-                float((pixelY - top) * 900 / viewport.height)};
+        const double scale = (std::min)(framebufferWidth / 1440.0, framebufferHeight / 900.0);
+        return {float((pixelX - framebufferWidth * .5) / scale + 720),
+                float((pixelY - framebufferHeight * .5) / scale + 450)};
+    }
+};
+
+// The HUD retains its 1440x900 safe area; the world expands around it to fill any monitor.
+struct CanvasView
+{
+    float width = 1440, height = 900;
+    Vec2 origin;
+    float pixelScale = 1;
+
+    static CanvasView Fit(int width, int height)
+    {
+        if (width <= 0 || height <= 0)
+        {
+            return {};
+        }
+        const double scale = (std::min)(width / 1440.0, height / 900.0);
+        CanvasView view;
+        view.width = float(width / scale);
+        view.height = float(height / scale);
+        view.pixelScale = float(scale);
+        view.origin = {(1440 - view.width) * .5f, (900 - view.height) * .5f};
+        return view;
     }
 };

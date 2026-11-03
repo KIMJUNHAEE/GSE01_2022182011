@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Dependencies\glew.h"
+#include "WindowMetrics.h"
 
 class Renderer
 {
@@ -35,6 +36,9 @@ public:
     // player's world position keeps the player centered as the world scrolls.
     void SetCameraPosition(float x, float y);
     void SetOutputSize(int width, int height);
+    CanvasView View() const;
+    int SceneWidth() const;
+    int SceneHeight() const;
 
     // Post-processing: redirects DrawSolidRect/DrawSprite calls into an offscreen
     // scene texture instead of the screen. Call this, do the frame's normal world
@@ -56,6 +60,7 @@ private:
 
     void CreateFullscreenQuad();
     void CreateFramebuffers();
+    void ResizeSceneTarget();
     GLuint CreateRenderTexture(int width, int height);
     void DrawFullscreenQuad(GLuint shader);
 
@@ -81,6 +86,8 @@ private:
     GLuint m_SceneFBO = 0;
     GLuint m_SceneColorTex = 0;
     GLuint m_SceneDepth = 0;
+    int m_SceneWidth = 0, m_SceneHeight = 0;
+    GLint m_MaxTextureSize = 0;
 
     static const int BLUR_TEX_SIZE = 128;
     GLuint m_BlurFBO[2] = {0, 0};

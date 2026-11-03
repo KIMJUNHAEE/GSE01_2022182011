@@ -285,7 +285,7 @@ void Game::CombatHUD()
 
 void Game::Defeat()
 {
-    canvas.Rect(0, 0, 1440, 900, Ink.Fade(.82f));
+    canvas.Fill(Ink.Fade(.82f));
     Panel(412, 250, 616, 400, .97f);
     CenterText(720, 280, L"E X P E D I T I O N   I N T E R R U P T E D", 13, Red);
     CenterText(720, 322, L"여정은 아직 끝나지 않았다", 28, White, true);

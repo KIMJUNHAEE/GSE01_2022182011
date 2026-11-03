@@ -104,7 +104,7 @@ namespace
         glfwGetFramebufferSize(window, &metrics.framebufferWidth, &metrics.framebufferHeight);
         if (renderer && metrics.Drawable())
         {
-            // Only the output viewport changes; cached meshes and scene targets are untouched.
+            // Scene attachments resize once at the next frame boundary; mesh caches stay intact.
             renderer->SetOutputSize(metrics.framebufferWidth, metrics.framebufferHeight);
         }
         RefreshPointer();
@@ -172,8 +172,20 @@ namespace
         changingDisplay = false;
         UpdateMetrics();
         lastTime = glfwGetTime();
+        GLFWmonitor* current = glfwGetWindowMonitor(window);
+        if (!current)
+        {
+            int x = 0, y = 0;
+            glfwGetWindowPos(window, &x, &y);
+            current = BestMonitor(x, y, metrics.width, metrics.height);
+        }
+        const GLFWvidmode* currentMode = current ? glfwGetVideoMode(current) : nullptr;
+        float scaleX = 1, scaleY = 1;
+        glfwGetWindowContentScale(window, &scaleX, &scaleY);
         std::cout << "[Display] " << (glfwGetWindowMonitor(window) ? "fullscreen " : "windowed ")
-                  << metrics.framebufferWidth << "x" << metrics.framebufferHeight << '\n';
+                  << metrics.framebufferWidth << "x" << metrics.framebufferHeight << " / "
+                  << (currentMode ? currentMode->refreshRate : 0) << " Hz / DPI scale " << scaleX
+                  << 'x' << scaleY << '\n';
     }
 
     void Resize(GLFWwindow*, int, int)
@@ -186,6 +198,24 @@ namespace
     }
 
     void ContentScale(GLFWwindow*, float, float)
+    {
+        Callback(
+            []
+            {
+                UpdateMetrics();
+            });
+    }
+
+    void PositionChanged(GLFWwindow*, int, int)
+    {
+        Callback(
+            []
+            {
+                UpdateMetrics();
+            });
+    }
+
+    void MonitorChanged(GLFWmonitor*, int)
     {
         Callback(
             []
@@ -413,6 +443,7 @@ namespace
             const double now = glfwGetTime();
             const float dt = float((std::max)(0.0, now - lastTime));
             lastTime = now;
+            const double updateStart = glfwGetTime();
             game->Tick(dt);
             if (monitor)
             {
@@ -423,12 +454,16 @@ namespace
                 glfwSetWindowShouldClose(window, GLFW_TRUE);
                 continue;
             }
+            const double renderStart = glfwGetTime();
             game->Render();
             const double beforeSwap = glfwGetTime();
             glfwSwapBuffers(window);
             const double end = glfwGetTime();
             RenderStats::RecordTiming((end - frameStart) * 1000, (beforeSwap - frameStart) * 1000,
                                       (end - beforeSwap) * 1000);
+            RenderStats::RecordWork((renderStart - updateStart) * 1000,
+                                    (beforeSwap - renderStart) * 1000);
+            RenderStats::LogFrame();
         }
     }
 } // namespace
@@ -517,9 +552,8 @@ int main(int argc, char** argv)
         {
             int workWidth = 1280, workHeight = 800;
             glfwGetMonitorWorkarea(primary, &x, &y, &workWidth, &workHeight);
-            const double scale = (std::min)(workWidth * .85 / 1440, workHeight * .85 / 900);
-            width = (std::max)(1, int(1440 * scale));
-            height = (std::max)(1, int(900 * scale));
+            width = (std::max)(1, int(workWidth * .85));
+            height = (std::max)(1, int(workHeight * .85));
             x += (workWidth - width) / 2;
             y += (workHeight - height) / 2;
             if (mode)
@@ -560,6 +594,8 @@ int main(int argc, char** argv)
         glfwSetWindowSizeCallback(window, Resize);
         glfwSetFramebufferSizeCallback(window, Resize);
         glfwSetWindowContentScaleCallback(window, ContentScale);
+        glfwSetWindowPosCallback(window, PositionChanged);
+        glfwSetMonitorCallback(MonitorChanged);
         if (verify)
         {
             const int result = RunPrototypeVerification(*game, *renderer, metrics.framebufferWidth,
@@ -594,6 +630,11 @@ int main(int argc, char** argv)
         std::cout << "\nSTAR DRIFTER ready (GLFW " << glfwGetVersionString()
                   << "). WASD move, Shift run, E interact, Q scan, M map, J journal.\n"
                      "F11 / Alt+Enter fullscreen, F7 reload art, F8 compare graphics.\n";
+#ifdef _DEBUG
+        std::cout << "[Perf] Debug build (unoptimized). Use x64 Release for FPS comparisons.\n";
+#else
+        std::cout << "[Perf] Release build.\n";
+#endif
         Run();
         Close();
         return 0;

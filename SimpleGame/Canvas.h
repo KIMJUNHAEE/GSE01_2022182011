@@ -2,6 +2,7 @@
 #include "Dependencies/glew.h"
 #include "RenderStats.h"
 #include "WorldMath.h"
+#include "WindowMetrics.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -24,8 +25,8 @@ struct Color
     }
 };
 
-// Instanced, top-left-origin drawing in a resolution-independent 1440 x 900 canvas.
-// Five immutable GPU meshes are cached per Canvas; draw attributes stream separately.
+// One cached quad renders every shape, in submission order, without shape-change flushes.
+// The 1440x900 HUD safe area is centered inside a monitor-dependent world view.
 class Canvas
 {
 public:
@@ -47,6 +48,8 @@ public:
     }
 
     void Flush(RenderStats::FlushReason reason = RenderStats::FlushReason::EndOfFrame);
+    void SetView(const CanvasView& view);
+    void Fill(Color color);
     void Triangle(Vec2 a, Vec2 b, Vec2 c, Color color);
     void Quad(Vec2 a, Vec2 b, Vec2 c, Vec2 d, Color color);
     void Rect(float x, float y, float w, float h, Color color);
@@ -54,17 +57,8 @@ public:
     void Ellipse(Vec2 p, float rx, float ry, Color color, bool fill = true, float thickness = 1);
     void Glow(Vec2 p, float rx, float ry, Color color);
 
-    // Glow highlights (lamps, relays, engine trails, ...) are drawn between
-    // many other actors' opaque shapes, and being their own MeshKind, each one
-    // breaks the current instancing batch (see RenderStats logs: Glow draws
-    // were averaging ~1.0 instances/call - effectively never batching).
-    // QueueGlow defers the actual submission; call FlushQueuedGlows() once,
-    // after the opaque world geometry for the frame is done, to draw every
-    // queued glow together as a single batch. This does mean a glow can now
-    // render in front of an opaque object that would normally occlude it
-    // later in the same frame (e.g. a character walking in front of a lamp) -
-    // acceptable for soft, mostly-background light effects, but worth an eye
-    // on-screen after this change.
+    // Deferred soft lights keep their established overlay order above opaque world geometry.
+    // Flush once after the world. A queued light may cover an otherwise occluding object.
     void QueueGlow(Vec2 p, float rx, float ry, Color color);
     void FlushQueuedGlows();
     void Texture(GLuint texture, float x, float y, float w, float h, Color color = Color());
@@ -76,21 +70,9 @@ public:
 
 private:
 
-    enum class MeshKind
-    {
-        Triangle,
-        Quad,
-        Disc,
-        Ring,
-        Glow
-    };
-
     struct MeshVertex
     {
         Vec2 p;
-        Vec2 edge;
-        float stroke = 0;
-        float alpha = 1;
     };
 
     struct CachedMesh
@@ -105,12 +87,15 @@ private:
         float u0, v0, u1, v1;
         Color color;
         float thickness;
+        float shape = 0; // 0 quad/triangle/texture, 1 disc, 2 ring, 3 radial glow
+        Vec2 radii;
     };
 
     struct TextImage
     {
         GLuint texture = 0;
         int width = 0, height = 0;
+        uint64_t lastUse = 0;
     };
 
     struct QueuedGlow
@@ -121,14 +106,17 @@ private:
     };
 
     std::map<std::wstring, TextImage> textCache;
-    std::map<MeshKind, CachedMesh> meshes;
+    std::vector<CachedMesh> meshes;
     std::vector<Instance> instances;
     std::vector<QueuedGlow> queuedGlows;
     static constexpr size_t InstanceCapacity = 4096;
     GLuint program = 0, instanceBuffer = 0, white = 0, currentTexture = 0;
-    MeshKind currentMesh = MeshKind::Quad;
-    const CachedMesh& GetMesh(MeshKind kind);
-    void Submit(MeshKind kind, GLuint texture, const Instance& instance);
+    GLint sizeUniform = -1, originUniform = -1;
+    CanvasView view;
+    float fontScale = 1;
+    uint64_t textUse = 0;
+    const CachedMesh& GetMesh();
+    void Submit(GLuint texture, const Instance& instance);
     void Release();
     const TextImage& GetText(const std::wstring& text, int size, bool bold);
 };

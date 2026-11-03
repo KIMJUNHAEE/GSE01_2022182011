@@ -5,6 +5,7 @@
 #include "WindowMetrics.h"
 #include "Dependencies\stb_image.h"
 #include <algorithm>
+#include <cmath>
 #include <stdexcept>
 
 Renderer::Renderer(int windowSizeX, int windowSizeY)
@@ -134,6 +135,9 @@ void Renderer::CreateFramebuffers()
 {
     // Full-resolution target the normal scene gets drawn into.
     m_SceneColorTex = CreateRenderTexture(m_WindowSizeX, m_WindowSizeY);
+    m_SceneWidth = m_WindowSizeX;
+    m_SceneHeight = m_WindowSizeY;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_MaxTextureSize);
     glGenFramebuffers(1, &m_SceneFBO);
     glBindFramebuffer(GL_FRAMEBUFFER, m_SceneFBO);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_SceneColorTex, 0);
@@ -193,8 +197,54 @@ void Renderer::DrawFullscreenQuad(GLuint shader)
 
 void Renderer::BeginSceneCapture()
 {
+    ResizeSceneTarget();
     glBindFramebuffer(GL_FRAMEBUFFER, m_SceneFBO);
-    glViewport(0, 0, m_WindowSizeX, m_WindowSizeY);
+    glViewport(0, 0, m_SceneWidth, m_SceneHeight);
+}
+
+CanvasView Renderer::View() const
+{
+    return CanvasView::Fit(m_OutputX, m_OutputY);
+}
+
+int Renderer::SceneWidth() const
+{
+    return m_SceneWidth;
+}
+
+int Renderer::SceneHeight() const
+{
+    return m_SceneHeight;
+}
+
+void Renderer::ResizeSceneTarget()
+{
+    // Keep the monitor's aspect ratio, with a bounded 1440p scene budget on 4K/ultrawide.
+    // HUD rendering still uses the native framebuffer. Resize only at a frame boundary.
+    const double scale =
+        (std::min)({1.0, 2560.0 / m_OutputX, 1440.0 / m_OutputY,
+                    double(m_MaxTextureSize) / m_OutputX, double(m_MaxTextureSize) / m_OutputY});
+    const int width = (std::max)(1, int(std::round(m_OutputX * scale)));
+    const int height = (std::max)(1, int(std::round(m_OutputY * scale)));
+    if (width == m_SceneWidth && height == m_SceneHeight)
+    {
+        return;
+    }
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_SceneColorTex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_SceneDepth);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_SceneFBO);
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
+        throw std::runtime_error("Resized scene framebuffer is incomplete");
+    }
+    m_SceneWidth = width;
+    m_SceneHeight = height;
+    std::cout << "[Display] output " << m_OutputX << 'x' << m_OutputY << " / scene " << width << 'x'
+              << height << " / HUD native / adaptive aspect\n";
 }
 
 void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteStrength,
@@ -213,8 +263,8 @@ void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteS
     glBindFramebuffer(GL_FRAMEBUFFER, m_BlurFBO[0]);
     glViewport(0, 0, BLUR_TEX_SIZE, BLUR_TEX_SIZE);
     glBindTexture(GL_TEXTURE_2D, m_SceneColorTex);
-    glUniform2f(glGetUniformLocation(m_BlurShader, "u_TexelSize"), 1.f / m_WindowSizeX,
-                1.f / m_WindowSizeY);
+    glUniform2f(glGetUniformLocation(m_BlurShader, "u_TexelSize"), 1.f / m_SceneWidth,
+                1.f / m_SceneHeight);
     glUniform2f(glGetUniformLocation(m_BlurShader, "u_Direction"), 1.f, 0.f);
     DrawFullscreenQuad(m_BlurShader);
 
@@ -249,8 +299,6 @@ void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteS
     glViewport(0, 0, m_OutputX, m_OutputY);
     glClearColor(0.012f, 0.02f, 0.025f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-    const auto viewport = OutputViewport::Fit(m_OutputX, m_OutputY, m_WindowSizeX, m_WindowSizeY);
-    glViewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
     glUseProgram(m_CompositeShader);
     glActiveTexture(GL_TEXTURE0);

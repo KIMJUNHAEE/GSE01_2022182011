@@ -134,6 +134,10 @@ void ModelInstance::Update(float dt)
     {
         return;
     }
+    if (clip < 0 || dt == 0)
+    {
+        return;
+    }
     // Blend duration is real time, independent of the clip playback rate.
     blendElapsed = (std::min)(blendDuration, blendElapsed + dt);
     Seek(time + dt * speed);

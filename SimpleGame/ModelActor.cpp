@@ -43,6 +43,8 @@ ModelActor::ModelActor(const ModelAssembly& assembly, float scale, RenderLayer l
         throw std::invalid_argument("Empty model assembly");
     }
     auto driver = std::make_shared<ModelInstance>(assembly.parts.front());
+    minimum = assembly.parts.front()->minimum;
+    maximum = assembly.parts.front()->maximum;
     poses.push_back(driver);
     std::map<std::string, size_t> jointNames;
     for (const auto& skin : driver->Asset().skins)
@@ -54,6 +56,10 @@ ModelActor::ModelActor(const ModelAssembly& assembly, float scale, RenderLayer l
     }
     for (const auto& asset : assembly.parts)
     {
+        minimum = {(std::min)(minimum.x, asset->minimum.x), (std::min)(minimum.y, asset->minimum.y),
+                   (std::min)(minimum.z, asset->minimum.z)};
+        maximum = {(std::max)(maximum.x, asset->maximum.x), (std::max)(maximum.y, asset->maximum.y),
+                   (std::max)(maximum.z, asset->maximum.z)};
         ModelPart part;
         part.asset = asset;
         part.pose = driver;
@@ -122,11 +128,11 @@ ModelActor::ModelActor(const ModelAssembly& assembly, float scale, RenderLayer l
 ModelActor::ModelActor(const ModelActor& other)
     : Actor(other), parts(other.parts), materialOverrides(other.materialOverrides),
       scale(other.scale), yaw(other.yaw), opacity(other.opacity),
-      automaticLocomotion(other.automaticLocomotion), previous(other.previous),
-      positioned(other.positioned), locomotionMoving(other.locomotionMoving),
-      stoppedFor(other.stoppedFor), filteredSpeed(other.filteredSpeed),
-      playbackRate(other.playbackRate), action(other.action), motions(other.motions),
-      finishAction(other.finishAction)
+      automaticLocomotion(other.automaticLocomotion), minimum(other.minimum),
+      maximum(other.maximum), previous(other.previous), positioned(other.positioned),
+      locomotionMoving(other.locomotionMoving), stoppedFor(other.stoppedFor),
+      filteredSpeed(other.filteredSpeed), playbackRate(other.playbackRate), action(other.action),
+      motions(other.motions), finishAction(other.finishAction)
 {
     std::map<const ModelInstance*, std::shared_ptr<ModelInstance>> replacements;
     for (const auto& pose : other.poses)
@@ -158,7 +164,8 @@ void ModelActor::Update(float dt)
         return;
     }
     Vec2 position = Position();
-    if (automaticLocomotion && dt > 0)
+    if (automaticLocomotion && dt > 0 &&
+        (!motions.empty() || !poses.front()->Asset().clips.empty()))
     {
         UpdateLocomotion(dt, positioned ? position - previous : Vec2{});
     }

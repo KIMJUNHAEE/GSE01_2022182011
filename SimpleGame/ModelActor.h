@@ -31,6 +31,7 @@ public:
     std::map<std::string, ModelVec4> materialOverrides;
     float scale = 1, yaw = 0, opacity = 1;
     bool automaticLocomotion = true;
+    ModelVec3 minimum, maximum;
 
 private:
 

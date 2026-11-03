@@ -1,6 +1,6 @@
 """Read-only GLFW packaging/build-graph checks. Never invokes a compiler or CMake.
 
-Viewport tests are an independent mathematical model; use the game's --verify
+Display tests are an independent mathematical model; use the game's --verify
 after a user build for real C++ / OpenGL integration checks.
 """
 from pathlib import Path
@@ -34,23 +34,19 @@ def local(base, relative):
     return (base / relative.replace("\\", "/")).resolve()
 
 
-def viewport(width, height):
+def canvas_view(width, height):
     if width <= 0 or height <= 0:
-        return 0, 0, 0, 0
-    if width*900 <= height*1440:
-        w, h = width, max(1, width*900//1440)
-    else:
-        w, h = max(1, height*1440//900), height
-    return (width-w)//2, (height-h)//2, w, h
+        return 0, 0, 1440, 900
+    scale = min(width/1440, height/900)
+    w, h = width/scale, height/scale
+    return (1440-w)/2, (900-h)/2, w, h
 
 
 def to_canvas(x, y, width, height, fb_width, fb_height):
     if min(width, height, fb_width, fb_height) <= 0:
         return -1, -1
-    vx, vy, vw, vh = viewport(fb_width, fb_height)
-    top = fb_height-vy-vh
-    return ((x*fb_width/width-vx)*1440/vw,
-            (y*fb_height/height-top)*900/vh)
+    vx, vy, vw, vh = canvas_view(fb_width, fb_height)
+    return x*vw/width+vx, y*vh/height+vy
 
 
 class MigrationChecks(unittest.TestCase):
@@ -183,20 +179,29 @@ class MigrationChecks(unittest.TestCase):
 
     def test_viewport_math(self):
         for width, height in ((1280, 800), (1920, 1080), (2560, 1440), (3840, 2160),
-                              (3440, 1440), (1001, 741), (800, 1200), (1, 1)):
-            for sx, sy in ((1, 1), (2, 2), (1.5, 1.5), (2, 1.5)):
+                              (3440, 1440), (5120, 1440), (1001, 741), (800, 1200), (1, 1)):
+            for sx, sy in ((1, 1), (2, 2), (1.25, 1.25), (1.5, 1.5), (2, 1.5)):
                 fw, fh = round(width*sx), round(height*sy)
-                vx, vy, vw, vh = viewport(fw, fh)
-                self.assertLessEqual(vx+vw, fw)
-                self.assertLessEqual(vy+vh, fh)
-                top = fh-vy-vh
+                vx, vy, vw, vh = canvas_view(fw, fh)
+                self.assertLessEqual(vx, 0)
+                self.assertLessEqual(vy, 0)
+                self.assertGreaterEqual(vw, 1440)
+                self.assertGreaterEqual(vh, 900)
+                self.assertAlmostEqual(vw/vh, fw/fh)
+                self.assertAlmostEqual(fw/vw, fh/vh)  # circles remain circular
                 for x, y in ((0, 0), (720, 450), (1440, 900), (1300, 110)):
-                    actual = to_canvas((vx+x*vw/1440)*width/fw,
-                                       (top+y*vh/900)*height/fh, width, height, fw, fh)
+                    actual = to_canvas((x-vx)*width/vw, (y-vy)*height/vh,
+                                       width, height, fw, fh)
                     self.assertTrue(math.isclose(actual[0], x, abs_tol=1e-8))
                     self.assertTrue(math.isclose(actual[1], y, abs_tol=1e-8))
+                self.assertEqual(to_canvas(0, 0, width, height, fw, fh), (vx, vy))
+                scale = min(1, 2560/fw, 1440/fh)
+                sw, sh = max(1, round(fw*scale)), max(1, round(fh*scale))
+                self.assertLessEqual(sw, min(fw, 2560))
+                self.assertLessEqual(sh, min(fh, 1440))
+                self.assertLessEqual(abs(sw-sh*fw/fh), .5+fw/fh*.5+1e-8)
         self.assertEqual(to_canvas(1, 1, 0, 0, 0, 0), (-1, -1))
-        self.assertLess(to_canvas(0, 540, 1920, 1080, 3840, 2160)[0], 0)
+        self.assertAlmostEqual(to_canvas(0, 540, 1920, 1080, 3840, 2160)[0], -80)
 
 
 if __name__ == "__main__":

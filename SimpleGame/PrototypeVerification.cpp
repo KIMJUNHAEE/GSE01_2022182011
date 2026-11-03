@@ -46,24 +46,26 @@ namespace
             for (int dpi : {1, 2})
             {
                 WindowMetrics metrics{size.first, size.second, size.first * dpi, size.second * dpi};
-                const auto viewport =
-                    OutputViewport::Fit(metrics.framebufferWidth, metrics.framebufferHeight);
-                const int top = metrics.framebufferHeight - viewport.y - viewport.height;
+                const auto view =
+                    CanvasView::Fit(metrics.framebufferWidth, metrics.framebufferHeight);
                 for (Vec2 point : {Vec2{0, 0}, {720, 450}, {1440, 900}, {1300, 110}})
                 {
-                    const double x = (viewport.x + point.x * viewport.width / 1440.0) / dpi;
-                    const double y = (top + point.y * viewport.height / 900.0) / dpi;
+                    const double x = (point.x - view.origin.x) * size.first / view.width;
+                    const double y = (point.y - view.origin.y) * size.second / view.height;
                     const Vec2 mapped = metrics.ToCanvas(x, y);
                     Require(GameWorld::Distance(mapped, point) < .001f,
-                            "High-DPI/letterbox pointer coordinates diverged from the viewport");
+                            "High-DPI/adaptive-aspect pointer coordinates diverged from the world");
                 }
+                const auto corner = metrics.ToCanvas(0, 0);
+                Require(GameWorld::Distance(corner, view.origin) < .001f,
+                        "World corners do not fill the framebuffer");
             }
         }
         Require(!WindowMetrics{}.Drawable() && WindowMetrics{}.ToCanvas(1, 1).x < 0,
                 "Minimized/zero-size window accepted pointer input");
         WindowMetrics wide{1920, 1080, 3840, 2160};
-        Require(wide.ToCanvas(0, 540).x < 0,
-                "A click in a letterbox bar was mapped inside the game");
+        Require(std::abs(wide.ToCanvas(0, 540).x + 80) < .001f,
+                "16:9 monitor did not expose the world beside the HUD safe area");
     }
 
     class RecordingActorRenderer : public ActorRenderer
@@ -386,14 +388,21 @@ namespace
         Canvas canvas;
         Require(canvas.CachedMeshCount() == 0, "Canvas meshes should be created lazily");
         renderer.BeginSceneCapture();
+        canvas.SetView(renderer.View());
         glDisable(GL_DEPTH_TEST);
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT);
+        const int before = RenderStats::DrawCallCount();
         canvas.Rect(20, 20, 40, 40, Color(0xff0000, .5f));
         canvas.Ellipse({40, 40}, 12, 12, Color(0x0000ff, .5f));
         canvas.Flush();
+        Require(RenderStats::DrawCallCount() == before + 1,
+                "Alternating rectangles and discs still split the instance batch");
         unsigned char pixel[4] = {};
-        glReadPixels(40, (int)Canvas::Height - 41, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
+        const auto view = renderer.View();
+        const int px = int((40 - view.origin.x) * renderer.SceneWidth() / view.width);
+        const int py = int((40 - view.origin.y) * renderer.SceneHeight() / view.height);
+        glReadPixels(px, renderer.SceneHeight() - py - 1, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
         Require(std::abs((int)pixel[0] - 64) <= 3 && pixel[1] <= 3 &&
                     std::abs((int)pixel[2] - 128) <= 3,
                 "Mesh batching changed transparent draw order");
@@ -408,7 +417,7 @@ namespace
             canvas.Ellipse({280, 90}, 20 * scale, 7 * scale, Color(0x88ccff), false, 2);
             canvas.Glow({340, 50}, 22 * scale, 30, Color(0x88ffaa, .5f));
             canvas.Flush();
-            Require(canvas.CachedMeshCount() == 5,
+            Require(canvas.CachedMeshCount() == 1,
                     "Repeated shapes created size/color-dependent mesh cache entries");
         }
         // More than one instance-buffer batch must not create any new topology.
@@ -417,7 +426,7 @@ namespace
             canvas.Rect(400 + (i % 100) * 2.f, 20 + (i / 100) * 2.f, 1, 1, Color(0xffffff));
         }
         canvas.Flush();
-        Require(canvas.CachedMeshCount() == 5, "Instance batch overflow recreated mesh data");
+        Require(canvas.CachedMeshCount() == 1, "Instance batch overflow recreated mesh data");
         Require(glGetError() == GL_NO_ERROR,
                 "Cached mesh / instance rendering produced a GL error");
         renderer.EndSceneCaptureAndComposite();
@@ -564,7 +573,7 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         // Opt-in only: this suite is run by the user with --verify, never at normal startup.
         VerifySceneGraph();
         VerifyWindowInput();
-        report << "PASS GLFW control mapping, high-DPI, letterbox and zero-size input math\n";
+        report << "PASS GLFW control mapping, high-DPI, adaptive aspect and zero-size input math\n";
         VerifySpriteAnimation();
         VerifyCompanionFollowing();
         report << "PASS continuous companion following, variable frame times, stop distance and "

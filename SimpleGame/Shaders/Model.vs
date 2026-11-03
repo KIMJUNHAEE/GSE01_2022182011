@@ -17,6 +17,8 @@ uniform mat4 u_Node;
 uniform bool u_Skinned;
 uniform vec2 u_Foot;
 uniform float u_Zoom;
+uniform vec2 u_CanvasSize;
+uniform vec2 u_CanvasOrigin;
 out vec3 normal;
 out vec4 vertexColor;
 
@@ -33,7 +35,8 @@ void main()
     mat4 transform = u_Root * deformation;
     vec3 p = (transform * vec4(a_Position, 1.0)).xyz;
     vec2 pixel = u_Foot + vec2((p.x - p.z) * 42.0, (p.x + p.z) * 21.0 - p.y * 42.0) * u_Zoom;
-    gl_Position = vec4(pixel.x / 720.0 - 1.0, 1.0 - pixel.y / 450.0,
+    pixel -= u_CanvasOrigin;
+    gl_Position = vec4(pixel.x * 2.0 / u_CanvasSize.x - 1.0, 1.0 - pixel.y * 2.0 / u_CanvasSize.y,
                        clamp(-(p.x + p.z + p.y) * 0.002, -0.99, 0.99), 1.0);
     mat3 basis = mat3(transform);
     normal = abs(determinant(basis)) > 0.0000001 ? transpose(inverse(basis)) * a_Normal : a_Normal;

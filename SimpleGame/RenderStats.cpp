@@ -32,7 +32,9 @@ namespace RenderStats
         long long windowReasonCount[5] = {};
         std::map<std::string, CategoryStat> windowCategoryStats;
         double frameTimeSum = 0, cpuTimeSum = 0, swapTimeSum = 0;
+        double updateTimeSum = 0, renderTimeSum = 0;
         int timingSamples = 0;
+        int workSamples = 0;
 
         // Formats into its own local stream so it can never leak std::fixed/
         // setprecision/etc. state into whatever std::cout prints next - that
@@ -109,6 +111,8 @@ namespace RenderStats
         windowDrawCallSum = windowInstanceSum = 0;
         frameTimeSum = cpuTimeSum = swapTimeSum = 0;
         timingSamples = 0;
+        updateTimeSum = renderTimeSum = 0;
+        workSamples = 0;
         for (auto& count : windowReasonCount)
         {
             count = 0;
@@ -143,6 +147,11 @@ namespace RenderStats
             latest.averageCpuMs = float(cpuTimeSum / timingSamples);
             latest.averageSwapMs = float(swapTimeSum / timingSamples);
         }
+        if (workSamples > 0)
+        {
+            latest.averageUpdateMs = float(updateTimeSum / workSamples);
+            latest.averageRenderMs = float(renderTimeSum / workSamples);
+        }
 
         std::cout << "[Perf] FPS: " << FormatFixed(fps, 1)
                   << "  DrawCalls/frame(avg): " << FormatFixed(avgDrawCalls, 1)
@@ -150,6 +159,8 @@ namespace RenderStats
                   << "  AvgInstances/DrawCall: " << FormatFixed(avgInstancesPerDraw, 1)
                   << "  Frame(ms): " << FormatFixed(latest.averageFrameMs, 2)
                   << "  CPU(ms): " << FormatFixed(latest.averageCpuMs, 2)
+                  << "  Update(ms): " << FormatFixed(latest.averageUpdateMs, 2)
+                  << "  Render/submit(ms): " << FormatFixed(latest.averageRenderMs, 2)
                   << "  Swap/wait(ms): " << FormatFixed(latest.averageSwapMs, 2) << std::endl;
 
         long long reasonTotal = 0;
@@ -207,7 +218,20 @@ namespace RenderStats
         windowCategoryStats.clear();
         frameTimeSum = cpuTimeSum = swapTimeSum = 0;
         timingSamples = 0;
+        updateTimeSum = renderTimeSum = 0;
+        workSamples = 0;
         windowStart = now;
+    }
+
+    void RecordWork(double updateMs, double renderMs)
+    {
+        if (!std::isfinite(updateMs) || !std::isfinite(renderMs) || updateMs < 0 || renderMs < 0)
+        {
+            return;
+        }
+        updateTimeSum += updateMs;
+        renderTimeSum += renderMs;
+        ++workSamples;
     }
 
 } // namespace RenderStats
