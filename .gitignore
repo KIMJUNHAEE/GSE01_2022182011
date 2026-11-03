@@ -23,3 +23,13 @@
 debug_render_log.txt
 debug_readpixels.txt
 /output/
+/out/
+/CMakeUserPresets.json
+
+# Keep the complete vendored GLFW source, including files matched by global ignores.
+!/SimpleGame/Dependencies/GLFW/
+!/SimpleGame/Dependencies/GLFW/**
+
+# Only these architecture-checked runtime DLLs belong in source control.
+!/SimpleGame/Dependencies/GLEW/bin/Win32/glew32.dll
+!/SimpleGame/Dependencies/GLEW/bin/x64/glew32.dll

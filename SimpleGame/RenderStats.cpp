@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RenderStats.h"
-#include "Dependencies/freeglut.h"
+#include <chrono>
+#include <cmath>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -23,12 +24,15 @@ namespace RenderStats
 
         // Accumulated over a ~1 second window so the console gets one readable
         // report instead of one per frame.
-        int windowStartMs = -1;
+        using Clock = std::chrono::steady_clock;
+        Clock::time_point windowStart = Clock::now();
         int windowFrameCount = 0;
         long long windowDrawCallSum = 0;
         long long windowInstanceSum = 0;
         long long windowReasonCount[5] = {};
         std::map<std::string, CategoryStat> windowCategoryStats;
+        double frameTimeSum = 0, cpuTimeSum = 0, swapTimeSum = 0;
+        int timingSamples = 0;
 
         // Formats into its own local stream so it can never leak std::fixed/
         // setprecision/etc. state into whatever std::cout prints next - that
@@ -85,36 +89,68 @@ namespace RenderStats
         return drawCallsThisFrame;
     }
 
+    void RecordTiming(double frameMs, double cpuMs, double swapMs)
+    {
+        if (!std::isfinite(frameMs) || !std::isfinite(cpuMs) || !std::isfinite(swapMs) ||
+            frameMs < 0 || cpuMs < 0 || swapMs < 0)
+        {
+            return;
+        }
+        frameTimeSum += frameMs;
+        cpuTimeSum += cpuMs;
+        swapTimeSum += swapMs;
+        ++timingSamples;
+    }
+
+    void RestartWindow()
+    {
+        windowStart = Clock::now();
+        windowFrameCount = 0;
+        windowDrawCallSum = windowInstanceSum = 0;
+        frameTimeSum = cpuTimeSum = swapTimeSum = 0;
+        timingSamples = 0;
+        for (auto& count : windowReasonCount)
+        {
+            count = 0;
+        }
+        windowCategoryStats.clear();
+        latest.ready = false;
+    }
+
     void LogFrame()
     {
         latest.lastDrawCalls = drawCallsThisFrame;
-        int now = glutGet(GLUT_ELAPSED_TIME);
-        if (windowStartMs < 0)
-        {
-            windowStartMs = now;
-        }
+        const auto now = Clock::now();
 
         ++windowFrameCount;
         windowDrawCallSum += drawCallsThisFrame;
 
-        int elapsed = now - windowStartMs;
+        const double elapsed = std::chrono::duration<double, std::milli>(now - windowStart).count();
         if (elapsed < 1000)
         {
             return;
         }
 
-        float fps = windowFrameCount * 1000.f / elapsed;
+        float fps = float(windowFrameCount * 1000.0 / elapsed);
         float avgDrawCalls =
             windowFrameCount > 0 ? (float)windowDrawCallSum / windowFrameCount : 0.f;
         float avgInstancesPerDraw =
             windowDrawCallSum > 0 ? (float)windowInstanceSum / windowDrawCallSum : 0.f;
         latest = {true, fps, avgDrawCalls, avgInstancesPerDraw, drawCallsThisFrame};
+        if (timingSamples > 0)
+        {
+            latest.averageFrameMs = float(frameTimeSum / timingSamples);
+            latest.averageCpuMs = float(cpuTimeSum / timingSamples);
+            latest.averageSwapMs = float(swapTimeSum / timingSamples);
+        }
 
         std::cout << "[Perf] FPS: " << FormatFixed(fps, 1)
                   << "  DrawCalls/frame(avg): " << FormatFixed(avgDrawCalls, 1)
                   << "  DrawCalls(last frame): " << drawCallsThisFrame
                   << "  AvgInstances/DrawCall: " << FormatFixed(avgInstancesPerDraw, 1)
-                  << std::endl;
+                  << "  Frame(ms): " << FormatFixed(latest.averageFrameMs, 2)
+                  << "  CPU(ms): " << FormatFixed(latest.averageCpuMs, 2)
+                  << "  Swap/wait(ms): " << FormatFixed(latest.averageSwapMs, 2) << std::endl;
 
         long long reasonTotal = 0;
         for (long long count : windowReasonCount)
@@ -169,7 +205,9 @@ namespace RenderStats
             count = 0;
         }
         windowCategoryStats.clear();
-        windowStartMs = now;
+        frameTimeSum = cpuTimeSum = swapTimeSum = 0;
+        timingSamples = 0;
+        windowStart = now;
     }
 
 } // namespace RenderStats

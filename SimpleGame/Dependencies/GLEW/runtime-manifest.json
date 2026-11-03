@@ -1,0 +1,37 @@
+{
+    "schemaVersion": 1,
+    "provenance": "Existing repository-local GLEW runtimes; no new binary download",
+    "hashAlgorithm": "SHA256",
+    "architectures": {
+        "Win32": {
+            "peMachine": "0x014C",
+            "peMachineBytes": "4c01",
+            "runtime": {
+                "path": "bin/Win32/glew32.dll",
+                "size": 389632,
+                "sha256": "8C7805A05A321FAB37A31822EA2D2A6997DDFD130CF0A09A54A428D6E6995700",
+                "originalRepositoryPaths": ["Debug/glew32.dll", "Release/glew32.dll"]
+            },
+            "importLibrary": {
+                "path": "../glew32.lib",
+                "size": 712098,
+                "sha256": "79B338B7F54C7D41A12C735812B260115672E05C0917FD30EF61C739B6A1994C"
+            }
+        },
+        "x64": {
+            "peMachine": "0x8664",
+            "peMachineBytes": "6486",
+            "runtime": {
+                "path": "bin/x64/glew32.dll",
+                "size": 422912,
+                "sha256": "EABB3DFEC3A95F0282F10F5BA4B633E681AA5AFF19995CAD069E6E954A9CEA12",
+                "originalRepositoryPaths": ["x64/Debug/glew32.dll", "x64/Release/glew32.dll"]
+            },
+            "importLibrary": {
+                "path": "../x64/glew32.lib",
+                "size": 701288,
+                "sha256": "AD08E791F7320385FD00AD4889199280B26D2D1D91D625F4D1D930C9924E7D8F"
+            }
+        }
+    }
+}

@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "RenderStats.h"
 #include "ShaderLoader.h"
+#include "WindowMetrics.h"
 #include "Dependencies\stb_image.h"
 #include <algorithm>
 #include <stdexcept>
@@ -248,9 +249,8 @@ void Renderer::EndSceneCaptureAndComposite(float bloomIntensity, float vignetteS
     glViewport(0, 0, m_OutputX, m_OutputY);
     glClearColor(0.012f, 0.02f, 0.025f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
-    float scale = (std::min)((float)m_OutputX / m_WindowSizeX, (float)m_OutputY / m_WindowSizeY);
-    int vw = (int)(m_WindowSizeX * scale), vh = (int)(m_WindowSizeY * scale);
-    glViewport((m_OutputX - vw) / 2, (m_OutputY - vh) / 2, vw, vh);
+    const auto viewport = OutputViewport::Fit(m_OutputX, m_OutputY, m_WindowSizeX, m_WindowSizeY);
+    glViewport(viewport.x, viewport.y, viewport.width, viewport.height);
 
     glUseProgram(m_CompositeShader);
     glActiveTexture(GL_TEXTURE0);

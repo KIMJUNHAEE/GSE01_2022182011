@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "RenderStats.h"
-#include "Dependencies/freeglut.h"
 #include <cmath>
 #include <algorithm>
 #include <cwctype>
@@ -236,33 +235,33 @@ void Game::Key(unsigned char key, bool down)
     }
 }
 
-void Game::Arrow(int key, bool down)
+void Game::Arrow(SpecialKey key, bool down)
 {
-    if (down && key == GLUT_KEY_F8)
+    if (down && key == SpecialKey::ToggleModels)
     {
         ClearInput();
         ToggleModels();
         return;
     }
-    if (down && key == GLUT_KEY_F7)
+    if (down && key == SpecialKey::ReloadModels)
     {
         ClearInput();
         ReloadModels();
         return;
     }
-    if (key == GLUT_KEY_UP)
+    if (key == SpecialKey::Up)
     {
         arrows[0] = down;
     }
-    if (key == GLUT_KEY_DOWN)
+    if (key == SpecialKey::Down)
     {
         arrows[1] = down;
     }
-    if (key == GLUT_KEY_LEFT)
+    if (key == SpecialKey::Left)
     {
         arrows[2] = down;
     }
-    if (key == GLUT_KEY_RIGHT)
+    if (key == SpecialKey::Right)
     {
         arrows[3] = down;
     }

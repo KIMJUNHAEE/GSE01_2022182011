@@ -1,0 +1,11 @@
+# Preserve the downloaded upstream tree byte for byte, regardless of core.autocrlf.
+/SimpleGame/Dependencies/GLFW/** -text
+/SimpleGame/Dependencies/GLFW/Build/** text eol=crlf
+/SimpleGame/Dependencies/GLFW.UPSTREAM.json text eol=lf
+/SimpleGame/Dependencies/GLEW/** text eol=lf
+/SimpleGame/Dependencies/GLEW/bin/*/glew32.dll binary -eol
+/CMakeLists.txt text eol=lf
+/CMakePresets.json text eol=lf
+*.sln text eol=crlf
+*.vcxproj text eol=crlf
+*.vcxproj.filters text eol=crlf

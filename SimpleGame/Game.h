@@ -5,6 +5,7 @@
 #include "ActorRenderer.h"
 #include "SpriteSheet.h"
 #include "ModelRenderer.h"
+#include "Input.h"
 #include <set>
 
 class Game : public ActorRenderer
@@ -16,7 +17,7 @@ public:
     void Tick(float dt);
     void Render();
     void Key(unsigned char key, bool down);
-    void Arrow(int key, bool down);
+    void Arrow(SpecialKey key, bool down);
     void Click(float x, float y);
     void Pointer(float x, float y);
     void MouseButton(float x, float y, bool down);

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{04ACF110-7862-4E06-AD69-D34409805BD5}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>GLFW</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset Condition="'$(PlatformToolset)'==''">$(DefaultPlatformToolset)</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\PlatformToolsets\v145\Toolset.props')">v145</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\PlatformToolsets\v144\Toolset.props')">v144</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\PlatformToolsets\v143\Toolset.props')">v143</PlatformToolset>
+    <PlatformToolset Condition="'$(PlatformToolset)'=='' and Exists('$(VCTargetsPath)\Platforms\$(Platform)\PlatformToolsets\v142\Toolset.props')">v142</PlatformToolset>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Debug'">true</UseDebugLibraries>
+    <UseDebugLibraries Condition="'$(Configuration)'=='Release'">false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup>
+    <TargetName>glfw3</TargetName>
+    <OutDir>$(ProjectDir)..\..\..\..\out\msbuild\lib\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\..\..\..\out\msbuild\obj\$(Platform)\$(Configuration)\GLFW\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <CompileAs>CompileAsC</CompileAs>
+      <!-- GLFW is C99; MSVC exposes the required C99 features through /std:c11. -->
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include;$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_GLFW_WIN32;WIN32;_WINDOWS;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Match the common, Windows OS, and Win32 backend sets in ../src/CMakeLists.txt. -->
+  <ItemGroup>
+    <ClCompile Include="..\src\context.c" />
+    <ClCompile Include="..\src\init.c" />
+    <ClCompile Include="..\src\input.c" />
+    <ClCompile Include="..\src\monitor.c" />
+    <ClCompile Include="..\src\platform.c" />
+    <ClCompile Include="..\src\vulkan.c" />
+    <ClCompile Include="..\src\window.c" />
+    <ClCompile Include="..\src\egl_context.c" />
+    <ClCompile Include="..\src\osmesa_context.c" />
+    <ClCompile Include="..\src\null_init.c" />
+    <ClCompile Include="..\src\null_monitor.c" />
+    <ClCompile Include="..\src\null_window.c" />
+    <ClCompile Include="..\src\null_joystick.c" />
+    <ClCompile Include="..\src\win32_module.c" />
+    <ClCompile Include="..\src\win32_time.c" />
+    <ClCompile Include="..\src\win32_thread.c" />
+    <ClCompile Include="..\src\win32_init.c" />
+    <ClCompile Include="..\src\win32_joystick.c" />
+    <ClCompile Include="..\src\win32_monitor.c" />
+    <ClCompile Include="..\src\win32_window.c" />
+    <ClCompile Include="..\src\wgl_context.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\GLFW\glfw3.h" />
+    <ClInclude Include="..\include\GLFW\glfw3native.h" />
+    <ClInclude Include="..\src\internal.h" />
+    <ClInclude Include="..\src\platform.h" />
+    <ClInclude Include="..\src\mappings.h" />
+    <ClInclude Include="..\src\null_platform.h" />
+    <ClInclude Include="..\src\null_joystick.h" />
+    <ClInclude Include="..\src\win32_time.h" />
+    <ClInclude Include="..\src\win32_thread.h" />
+    <ClInclude Include="..\src\win32_platform.h" />
+    <ClInclude Include="..\src\win32_joystick.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.md" />
+    <None Include="..\src\CMakeLists.txt" />
+    <None Include="..\..\GLFW.UPSTREAM.json" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

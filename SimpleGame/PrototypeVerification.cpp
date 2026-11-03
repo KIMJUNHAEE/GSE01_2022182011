@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
-#include "Dependencies/freeglut.h"
+#include "GlfwInput.h"
+#include "WindowMetrics.h"
 #include <windows.h>
 #include <filesystem>
 #include <fstream>
@@ -19,6 +20,50 @@ namespace
         {
             throw std::runtime_error(message);
         }
+    }
+
+    void VerifyWindowInput()
+    {
+        Require(GlfwInput::Character(GLFW_KEY_W) == 'w' &&
+                    GlfwInput::Character(GLFW_KEY_1) == '1' &&
+                    GlfwInput::Character(GLFW_KEY_KP_2) == '2' &&
+                    GlfwInput::Character(GLFW_KEY_ENTER) == 13 &&
+                    GlfwInput::Character(GLFW_KEY_ESCAPE) == 27 &&
+                    GlfwInput::Character(GLFW_KEY_UNKNOWN) == 0,
+                "GLFW character/control-key mapping changed gameplay input");
+        Require(GlfwInput::Special(GLFW_KEY_UP) == SpecialKey::Up &&
+                    GlfwInput::Special(GLFW_KEY_F7) == SpecialKey::ReloadModels &&
+                    GlfwInput::Special(GLFW_KEY_F8) == SpecialKey::ToggleModels &&
+                    GlfwInput::Special(GLFW_KEY_F11) == SpecialKey::None,
+                "GLFW special keys leaked backend numeric constants into Game");
+        for (const auto size : {std::pair<int, int>{1280, 800},
+                                {1920, 1080},
+                                {2560, 1440},
+                                {3440, 1440},
+                                {1001, 741},
+                                {800, 1200}})
+        {
+            for (int dpi : {1, 2})
+            {
+                WindowMetrics metrics{size.first, size.second, size.first * dpi, size.second * dpi};
+                const auto viewport =
+                    OutputViewport::Fit(metrics.framebufferWidth, metrics.framebufferHeight);
+                const int top = metrics.framebufferHeight - viewport.y - viewport.height;
+                for (Vec2 point : {Vec2{0, 0}, {720, 450}, {1440, 900}, {1300, 110}})
+                {
+                    const double x = (viewport.x + point.x * viewport.width / 1440.0) / dpi;
+                    const double y = (top + point.y * viewport.height / 900.0) / dpi;
+                    const Vec2 mapped = metrics.ToCanvas(x, y);
+                    Require(GameWorld::Distance(mapped, point) < .001f,
+                            "High-DPI/letterbox pointer coordinates diverged from the viewport");
+                }
+            }
+        }
+        Require(!WindowMetrics{}.Drawable() && WindowMetrics{}.ToCanvas(1, 1).x < 0,
+                "Minimized/zero-size window accepted pointer input");
+        WindowMetrics wide{1920, 1080, 3840, 2160};
+        Require(wide.ToCanvas(0, 540).x < 0,
+                "A click in a letterbox bar was mapped inside the game");
     }
 
     class RecordingActorRenderer : public ActorRenderer
@@ -518,6 +563,8 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
     {
         // Opt-in only: this suite is run by the user with --verify, never at normal startup.
         VerifySceneGraph();
+        VerifyWindowInput();
+        report << "PASS GLFW control mapping, high-DPI, letterbox and zero-size input math\n";
         VerifySpriteAnimation();
         VerifyCompanionFollowing();
         report << "PASS continuous companion following, variable frame times, stop distance and "
@@ -669,12 +716,12 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
         }
         const size_t modelCount = w.scene.Actors<ModelActor>().size();
         Require(modelCount >= 331, "Completed world models are not enabled by default");
-        game.Arrow(GLUT_KEY_F8, true);
+        game.Arrow(SpecialKey::ToggleModels, true);
         Require(w.scene.Actors<ModelActor>().empty(), "F8 did not disable model presentation");
-        game.Arrow(GLUT_KEY_F8, true);
+        game.Arrow(SpecialKey::ToggleModels, true);
         Require(w.scene.Actors<ModelActor>().size() == modelCount,
                 "F8 duplicated or failed to restore model actors");
-        game.Arrow(GLUT_KEY_F7, true);
+        game.Arrow(SpecialKey::ReloadModels, true);
         Require(w.scene.Actors<ModelActor>().size() == modelCount && w.ValidatePlanet(),
                 "Model reload lost attachments or changed home ownership");
         report << "PASS default LowPoly presentation, reset binding, F8 fallback and F7 reload\n";
@@ -779,10 +826,15 @@ int RunPrototypeVerification(Game& game, Renderer& renderer, int width, int heig
                     w.stats.weaponTier == 0 && w.kills == 0 && !w.bossActive && !w.bossDefeated &&
                     w.scene.Actors<Loot>().empty() && w.scene.Actors<Projectile>().empty(),
                 "Retry leaked state or changed the requested seed");
-        glutReshapeWindow(1000, 740);
-        glutMainLoopEvent();
-        renderer.SetOutputSize(1000, 740);
-        Capture(game, 1000, 740, output / "08-resize.bmp");
+        GLFWwindow* window = glfwGetCurrentContext();
+        Require(window != nullptr, "Verification lost its GLFW OpenGL context");
+        glfwSetWindowSize(window, 1000, 740);
+        glfwPollEvents();
+        int framebufferWidth = 0, framebufferHeight = 0;
+        glfwGetFramebufferSize(window, &framebufferWidth, &framebufferHeight);
+        Require(framebufferWidth > 0 && framebufferHeight > 0, "Resized framebuffer is empty");
+        renderer.SetOutputSize(framebufferWidth, framebufferHeight);
+        Capture(game, framebufferWidth, framebufferHeight, output / "08-resize.bmp");
         report << "PASS defeat, same-seed clean retry, non-16:10 rendering\nALL CHECKS PASSED\n";
         return 0;
     }

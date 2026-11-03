@@ -20,6 +20,7 @@ namespace RenderStats
         bool ready = false;
         float fps = 0, averageDrawCalls = 0, averageInstancesPerDraw = 0;
         int lastDrawCalls = 0;
+        float averageFrameMs = 0, averageCpuMs = 0, averageSwapMs = 0;
     };
 
     Snapshot Latest();
@@ -37,4 +38,6 @@ namespace RenderStats
     void DrawCall(const std::string& category, int instanceCount, FlushReason reason);
     int DrawCallCount();
     void LogFrame();
+    void RecordTiming(double frameMs, double cpuMs, double swapMs);
+    void RestartWindow();
 } // namespace RenderStats

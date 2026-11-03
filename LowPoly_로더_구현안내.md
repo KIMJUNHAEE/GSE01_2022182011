@@ -94,4 +94,4 @@ NPC 파트는 재중앙화하거나 개별 확대하지 않는다. 공통 발바
 
 GLB 해석은 [cgltf](https://github.com/jkuhlmann/cgltf), 스킨·보간 규칙은 [glTF 2.0 명세](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html)를 기준으로 한다. 고정 버전·해시·MIT 라이선스는 `Dependencies/ModelLoader_NOTICES.md`에 기록했다.
 
-전체화면 전환과 창 복원은 [freeglut의 전체화면 API](https://freeglut.sourceforge.net/docs/api.php#Window)를 사용한다.
+전체화면 전환과 창 복원은 GLFW의 `glfwSetWindowMonitor`를 사용한다. GLFW 전환과 라이브러리 구성, 새 실행 경로는 루트의 `GLFW_전환_안내.md`를 참고한다.
